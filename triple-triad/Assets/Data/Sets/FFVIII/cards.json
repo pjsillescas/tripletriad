@@ -1,772 +1,774 @@
-[
+{
+  "cards": [
 	{
-		"name": "Geezard",
-		"elemental": "",
-		"level": 1,
-		"class": "monsters",
-		"values": "1415"
+	  "name": "Geezard",
+	  "elemental": null,
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "1415"
 	},
 	{
-		"name": "Funguar",
-		"elemental": "",
-		"level": 1,
-		"class": "monsters",
-		"values": "5113"
+	  "name": "Funguar",
+	  "elemental": null,
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "5113"
 	},
 	{
-		"name": "Bite Bug",
-		"elemental": "",
-		"level": 1,
-		"class": "monsters",
-		"values": "1335"
+	  "name": "Bite Bug",
+	  "elemental": null,
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "1335"
 	},
 	{
-		"name": "Red Bat",
-		"elemental": "",
-		"level": 1,
-		"class": "monsters",
-		"values": "6112"
+	  "name": "Red Bat",
+	  "elemental": null,
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "6112"
 	},
 	{
-		"name": "Blobra",
-		"elemental": "",
-		"level": 1,
-		"class": "monsters",
-		"values": "2315"
+	  "name": "Blobra",
+	  "elemental": null,
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "2315"
 	},
 	{
-		"name": "Gayla",
-		"elemental": "thunder",
-		"level": 1,
-		"class": "monsters",
-		"values": "2144"
+	  "name": "Gayla",
+	  "elemental": "thunder",
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "2144"
 	},
 	{
-		"name": "Gesper",
-		"elemental": "",
-		"level": 1,
-		"class": "monsters",
-		"values": "1541"
+	  "name": "Gesper",
+	  "elemental": null,
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "1541"
 	},
 	{
-		"name": "Fastitocalon-F",
-		"elemental": "earth",
-		"level": 1,
-		"class": "monsters",
-		"values": "3521"
+	  "name": "Fastitocalon-F",
+	  "elemental": "earth",
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "3521"
 	},
 	{
-		"name": "Blood Soul",
-		"elemental": "",
-		"level": 1,
-		"class": "monsters",
-		"values": "2161"
+	  "name": "Blood Soul",
+	  "elemental": null,
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "2161"
 	},
 	{
-		"name": "Caterchipillar",
-		"elemental": "",
-		"level": 1,
-		"class": "monsters",
-		"values": "4243"
+	  "name": "Caterchipillar",
+	  "elemental": null,
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "4243"
 	},
 	{
-		"name": "Cockatrice",
-		"elemental": "thunder",
-		"level": 1,
-		"class": "monsters",
-		"values": "2126"
+	  "name": "Cockatrice",
+	  "elemental": "thunder",
+	  "level": 1,
+	  "class": "monsters",
+	  "values": "2126"
 	},
 	{
-		"name": "Grat",
-		"elemental": "",
-		"level": 2,
-		"class": "monsters",
-		"values": "7131"
+	  "name": "Grat",
+	  "elemental": null,
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "7131"
 	},
 	{
-		"name": "Buel",
-		"elemental": "",
-		"level": 2,
-		"class": "monsters",
-		"values": "6223"
+	  "name": "Buel",
+	  "elemental": null,
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "6223"
 	},
 	{
-		"name": "Mesmerize",
-		"elemental": "",
-		"level": 2,
-		"class": "monsters",
-		"values": "5334"
+	  "name": "Mesmerize",
+	  "elemental": null,
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "5334"
 	},
 	{
-		"name": "Glacial Eye",
-		"elemental": "ice",
-		"level": 2,
-		"class": "monsters",
-		"values": "6143"
+	  "name": "Glacial Eye",
+	  "elemental": "ice",
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "6143"
 	},
 	{
-		"name": "Belhelmel",
-		"elemental": "",
-		"level": 2,
-		"class": "monsters",
-		"values": "3453"
+	  "name": "Belhelmel",
+	  "elemental": null,
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "3453"
 	},
 	{
-		"name": "Thrustaevis",
-		"elemental": "wind",
-		"level": 2,
-		"class": "monsters",
-		"values": "5325"
+	  "name": "Thrustaevis",
+	  "elemental": "wind",
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "5325"
 	},
 	{
-		"name": "Anacondaur",
-		"elemental": "poison",
-		"level": 2,
-		"class": "monsters",
-		"values": "5135"
+	  "name": "Anacondaur",
+	  "elemental": "poison",
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "5135"
 	},
 	{
-		"name": "Creeps",
-		"elemental": "thunder",
-		"level": 2,
-		"class": "monsters",
-		"values": "5252"
+	  "name": "Creeps",
+	  "elemental": "thunder",
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "5252"
 	},
 	{
-		"name": "Grendel",
-		"elemental": "thunder",
-		"level": 2,
-		"class": "monsters",
-		"values": "4452"
+	  "name": "Grendel",
+	  "elemental": "thunder",
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "4452"
 	},
 	{
-		"name": "Jelleye",
-		"elemental": "",
-		"level": 2,
-		"class": "monsters",
-		"values": "3217"
+	  "name": "Jelleye",
+	  "elemental": null,
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "3217"
 	},
 	{
-		"name": "Grand Mantis",
-		"elemental": "",
-		"level": 2,
-		"class": "monsters",
-		"values": "5253"
+	  "name": "Grand Mantis",
+	  "elemental": null,
+	  "level": 2,
+	  "class": "monsters",
+	  "values": "5253"
 	},
 	{
-		"name": "Forbidden",
-		"elemental": "",
-		"level": 3,
-		"class": "monsters",
-		"values": "6632"
+	  "name": "Forbidden",
+	  "elemental": null,
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "6632"
 	},
 	{
-		"name": "Armadodo",
-		"elemental": "earth",
-		"level": 3,
-		"class": "monsters",
-		"values": "6316"
+	  "name": "Armadodo",
+	  "elemental": "earth",
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "6316"
 	},
 	{
-		"name": "Tri-Face",
-		"elemental": "poison",
-		"level": 3,
-		"class": "monsters",
-		"values": "3555"
+	  "name": "Tri-Face",
+	  "elemental": "poison",
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "3555"
 	},
 	{
-		"name": "Fastitocalon",
-		"elemental": "earth",
-		"level": 3,
-		"class": "monsters",
-		"values": "7513"
+	  "name": "Fastitocalon",
+	  "elemental": "earth",
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "7513"
 	},
 	{
-		"name": "Snow Lion",
-		"elemental": "ice",
-		"level": 3,
-		"class": "monsters",
-		"values": "7153"
+	  "name": "Snow Lion",
+	  "elemental": "ice",
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "7153"
 	},
 	{
-		"name": "Ochu",
-		"elemental": "",
-		"level": 3,
-		"class": "monsters",
-		"values": "5633"
+	  "name": "Ochu",
+	  "elemental": null,
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "5633"
 	},
 	{
-		"name": "SAM08G",
-		"elemental": "fire",
-		"level": 3,
-		"class": "monsters",
-		"values": "5624"
+	  "name": "SAM08G",
+	  "elemental": "fire",
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "5624"
 	},
 	{
-		"name": "Death Claw",
-		"elemental": "fire",
-		"level": 3,
-		"class": "monsters",
-		"values": "4472"
+	  "name": "Death Claw",
+	  "elemental": "fire",
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "4472"
 	},
 	{
-		"name": "Cactuar",
-		"elemental": "",
-		"level": 3,
-		"class": "monsters",
-		"values": "6263"
+	  "name": "Cactuar",
+	  "elemental": null,
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "6263"
 	},
 	{
-		"name": "Tonberry",
-		"elemental": "",
-		"level": 3,
-		"class": "monsters",
-		"values": "3644"
+	  "name": "Tonberry",
+	  "elemental": null,
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "3644"
 	},
 	{
-		"name": "Abyss Worm",
-		"elemental": "earth",
-		"level": 3,
-		"class": "monsters",
-		"values": "7235"
+	  "name": "Abyss Worm",
+	  "elemental": "earth",
+	  "level": 3,
+	  "class": "monsters",
+	  "values": "7235"
 	},
 	{
-		"name": "Turtapod",
-		"elemental": "",
-		"level": 4,
-		"class": "monsters",
-		"values": "2367"
+	  "name": "Turtapod",
+	  "elemental": null,
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "2367"
 	},
 	{
-		"name": "Vysage",
-		"elemental": "",
-		"level": 4,
-		"class": "monsters",
-		"values": "6545"
+	  "name": "Vysage",
+	  "elemental": null,
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "6545"
 	},
 	{
-		"name": "T-Rexaur",
-		"elemental": "",
-		"level": 4,
-		"class": "monsters",
-		"values": "4627"
+	  "name": "T-Rexaur",
+	  "elemental": null,
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "4627"
 	},
 	{
-		"name": "Bomb",
-		"elemental": "fire",
-		"level": 4,
-		"class": "monsters",
-		"values": "2763"
+	  "name": "Bomb",
+	  "elemental": "fire",
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "2763"
 	},
 	{
-		"name": "Blitz",
-		"elemental": "thunder",
-		"level": 4,
-		"class": "monsters",
-		"values": "1647"
+	  "name": "Blitz",
+	  "elemental": "thunder",
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "1647"
 	},
 	{
-		"name": "Wendigo",
-		"elemental": "",
-		"level": 4,
-		"class": "monsters",
-		"values": "7316"
+	  "name": "Wendigo",
+	  "elemental": null,
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "7316"
 	},
 	{
-		"name": "Torama",
-		"elemental": "",
-		"level": 4,
-		"class": "monsters",
-		"values": "7444"
+	  "name": "Torama",
+	  "elemental": null,
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "7444"
 	},
 	{
-		"name": "Imp",
-		"elemental": "",
-		"level": 4,
-		"class": "monsters",
-		"values": "3736"
+	  "name": "Imp",
+	  "elemental": null,
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "3736"
 	},
 	{
-		"name": "Blue Dragon",
-		"elemental": "poison",
-		"level": 4,
-		"class": "monsters",
-		"values": "6273"
+	  "name": "Blue Dragon",
+	  "elemental": "poison",
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "6273"
 	},
 	{
-		"name": "Adamantoise",
-		"elemental": "earth",
-		"level": 4,
-		"class": "monsters",
-		"values": "4556"
+	  "name": "Adamantoise",
+	  "elemental": "earth",
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "4556"
 	},
 	{
-		"name": "Hexadragon",
-		"elemental": "fire",
-		"level": 4,
-		"class": "monsters",
-		"values": "7543"
+	  "name": "Hexadragon",
+	  "elemental": "fire",
+	  "level": 4,
+	  "class": "monsters",
+	  "values": "7543"
 	},
 	{
-		"name": "Iron Giant",
-		"elemental": "",
-		"level": 5,
-		"class": "monsters",
-		"values": "6565"
+	  "name": "Iron Giant",
+	  "elemental": null,
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "6565"
 	},
 	{
-		"name": "Behemoth",
-		"elemental": "",
-		"level": 5,
-		"class": "monsters",
-		"values": "3657"
+	  "name": "Behemoth",
+	  "elemental": null,
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "3657"
 	},
 	{
-		"name": "Chimera",
-		"elemental": "water",
-		"level": 5,
-		"class": "monsters",
-		"values": "7653"
+	  "name": "Chimera",
+	  "elemental": "water",
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "7653"
 	},
 	{
-		"name": "PuPu",
-		"elemental": "",
-		"level": 5,
-		"class": "monsters",
-		"values": "3A21"
+	  "name": "PuPu",
+	  "elemental": null,
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "3A21"
 	},
 	{
-		"name": "Elastoid",
-		"elemental": "",
-		"level": 5,
-		"class": "monsters",
-		"values": "7267"
+	  "name": "Elastoid",
+	  "elemental": null,
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "7267"
 	},
 	{
-		"name": "GIM47N",
-		"elemental": "",
-		"level": 5,
-		"class": "monsters",
-		"values": "5574"
+	  "name": "GIM47N",
+	  "elemental": null,
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "5574"
 	},
 	{
-		"name": "Malboro",
-		"elemental": "poison",
-		"level": 5,
-		"class": "monsters",
-		"values": "7742"
+	  "name": "Malboro",
+	  "elemental": "poison",
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "7742"
 	},
 	{
-		"name": "Ruby Dragon",
-		"elemental": "fire",
-		"level": 5,
-		"class": "monsters",
-		"values": "7274"
+	  "name": "Ruby Dragon",
+	  "elemental": "fire",
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "7274"
 	},
 	{
-		"name": "Elnoyle",
-		"elemental": "",
-		"level": 5,
-		"class": "monsters",
-		"values": "5376"
+	  "name": "Elnoyle",
+	  "elemental": null,
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "5376"
 	},
 	{
-		"name": "Tonberry King",
-		"elemental": "",
-		"level": 5,
-		"class": "monsters",
-		"values": "4674"
+	  "name": "Tonberry King",
+	  "elemental": null,
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "4674"
 	},
 	{
-		"name": "Wedge, Biggs",
-		"elemental": "",
-		"level": 5,
-		"class": "monsters",
-		"values": "6627"
+	  "name": "Wedge, Biggs",
+	  "elemental": null,
+	  "level": 5,
+	  "class": "monsters",
+	  "values": "6627"
 	},
 	{
-		"name": "Fujin, Raijin",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "2884"
+	  "name": "Fujin, Raijin",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "2884"
 	},
 	{
-		"name": "Elvoret",
-		"elemental": "wind",
-		"level": 6,
-		"class": "bosses",
-		"values": "7834"
+	  "name": "Elvoret",
+	  "elemental": "wind",
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "7834"
 	},
 	{
-		"name": "X-ATM092",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "4873"
+	  "name": "X-ATM092",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "4873"
 	},
 	{
-		"name": "Granaldo",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "7285"
+	  "name": "Granaldo",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "7285"
 	},
 	{
-		"name": "Gerogero",
-		"elemental": "poison",
-		"level": 6,
-		"class": "bosses",
-		"values": "1883"
+	  "name": "Gerogero",
+	  "elemental": "poison",
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "1883"
 	},
 	{
-		"name": "Iguion",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "8282"
+	  "name": "Iguion",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "8282"
 	},
 	{
-		"name": "Abadon",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "6845"
+	  "name": "Abadon",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "6845"
 	},
 	{
-		"name": "Trauma",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "4856"
+	  "name": "Trauma",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "4856"
 	},
 	{
-		"name": "Oilboyle",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "1848"
+	  "name": "Oilboyle",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "1848"
 	},
 	{
-		"name": "Shumi Tribe",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "6584"
+	  "name": "Shumi Tribe",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "6584"
 	},
 	{
-		"name": "Krysta",
-		"elemental": "",
-		"level": 6,
-		"class": "bosses",
-		"values": "7581"
+	  "name": "Krysta",
+	  "elemental": null,
+	  "level": 6,
+	  "class": "bosses",
+	  "values": "7581"
 	},
 	{
-		"name": "Propagator",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "8448"
+	  "name": "Propagator",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "8448"
 	},
 	{
-		"name": "Jumbo Cactuar",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "8844"
+	  "name": "Jumbo Cactuar",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "8844"
 	},
 	{
-		"name": "Tri-Point",
-		"elemental": "thunder",
-		"level": 7,
-		"class": "bosses",
-		"values": "8528"
+	  "name": "Tri-Point",
+	  "elemental": "thunder",
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "8528"
 	},
 	{
-		"name": "Gargantua",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "5668"
+	  "name": "Gargantua",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "5668"
 	},
 	{
-		"name": "Mobile Type 8",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "8673"
+	  "name": "Mobile Type 8",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "8673"
 	},
 	{
-		"name": "Sphinxara",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "8358"
+	  "name": "Sphinxara",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "8358"
 	},
 	{
-		"name": "Tiamat",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "8854"
+	  "name": "Tiamat",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "8854"
 	},
 	{
-		"name": "BGH251F2",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "5785"
+	  "name": "BGH251F2",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "5785"
 	},
 	{
-		"name": "Red Giant",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "6847"
+	  "name": "Red Giant",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "6847"
 	},
 	{
-		"name": "Catoblepas",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "1877"
+	  "name": "Catoblepas",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "1877"
 	},
 	{
-		"name": "Ultima Weapon",
-		"elemental": "",
-		"level": 7,
-		"class": "bosses",
-		"values": "7728"
+	  "name": "Ultima Weapon",
+	  "elemental": null,
+	  "level": 7,
+	  "class": "bosses",
+	  "values": "7728"
 	},
 	{
-		"name": "Chubby Chocobo",
-		"elemental": "",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "4489"
+	  "name": "Chubby Chocobo",
+	  "elemental": null,
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "4489"
 	},
 	{
-		"name": "Angelo",
-		"elemental": "",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "9673"
+	  "name": "Angelo",
+	  "elemental": null,
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "9673"
 	},
 	{
-		"name": "Gilgamesh",
-		"elemental": "",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "3796"
+	  "name": "Gilgamesh",
+	  "elemental": null,
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "3796"
 	},
 	{
-		"name": "MiniMog",
-		"elemental": "",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "9392"
+	  "name": "MiniMog",
+	  "elemental": null,
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "9392"
 	},
 	{
-		"name": "Chicobo",
-		"elemental": "",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "9484"
+	  "name": "Chicobo",
+	  "elemental": null,
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "9484"
 	},
 	{
-		"name": "Quezacotl",
-		"elemental": "thunder",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "2994"
+	  "name": "Quezacotl",
+	  "elemental": "thunder",
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "2994"
 	},
 	{
-		"name": "Shiva",
-		"elemental": "ice",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "6749"
+	  "name": "Shiva",
+	  "elemental": "ice",
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "6749"
 	},
 	{
-		"name": "Ifrit",
-		"elemental": "fire",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "9628"
+	  "name": "Ifrit",
+	  "elemental": "fire",
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "9628"
 	},
 	{
-		"name": "Siren",
-		"elemental": "",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "8962"
+	  "name": "Siren",
+	  "elemental": null,
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "8962"
 	},
 	{
-		"name": "Sacred",
-		"elemental": "earth",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "5199"
+	  "name": "Sacred",
+	  "elemental": "earth",
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "5199"
 	},
 	{
-		"name": "Minotaur",
-		"elemental": "earth",
-		"level": 8,
-		"class": "guardian-force",
-		"values": "9529"
+	  "name": "Minotaur",
+	  "elemental": "earth",
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "9529"
 	},
 	{
-		"name": "Carbuncle",
-		"elemental": "",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "84A4"
+	  "name": "Carbuncle",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "84A4"
 	},
 	{
-		"name": "Diablos",
-		"elemental": "",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "5A83"
+	  "name": "Diablos",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "5A83"
 	},
 	{
-		"name": "Leviathan",
-		"elemental": "water",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "7A17"
+	  "name": "Leviathan",
+	  "elemental": "water",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "7A17"
 	},
 	{
-		"name": "Odin",
-		"elemental": "",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "8A35"
+	  "name": "Odin",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "8A35"
 	},
 	{
-		"name": "Pandemona",
-		"elemental": "wind",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "A177"
+	  "name": "Pandemona",
+	  "elemental": "wind",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "A177"
 	},
 	{
-		"name": "Cerberus",
-		"elemental": "",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "746A"
+	  "name": "Cerberus",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "746A"
 	},
 	{
-		"name": "Alexander",
-		"elemental": "holy",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "9A42"
+	  "name": "Alexander",
+	  "elemental": "holy",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "9A42"
 	},
 	{
-		"name": "Phoenix",
-		"elemental": "fire",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "727A"
+	  "name": "Phoenix",
+	  "elemental": "fire",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "727A"
 	},
 	{
-		"name": "Bahamut",
-		"elemental": "",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "A826"
+	  "name": "Bahamut",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "A826"
 	},
 	{
-		"name": "Doomtrain",
-		"elemental": "poison",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "31AA"
+	  "name": "Doomtrain",
+	  "elemental": "poison",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "31AA"
 	},
 	{
-		"name": "Eden",
-		"elemental": "",
-		"level": 9,
-		"class": "guardian-force",
-		"values": "449A"
+	  "name": "Eden",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "449A"
 	},
 	{
-		"name": "Ward",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "A728"
+	  "name": "Ward",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "A728"
 	},
 	{
-		"name": "Kiros",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "676A"
+	  "name": "Kiros",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "676A"
 	},
 	{
-		"name": "Laguna",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "5A39"
+	  "name": "Laguna",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "5A39"
 	},
 	{
-		"name": "Selphie",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "A864"
+	  "name": "Selphie",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "A864"
 	},
 	{
-		"name": "Quistis",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "96A2"
+	  "name": "Quistis",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "96A2"
 	},
 	{
-		"name": "Irvine",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "269A"
+	  "name": "Irvine",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "269A"
 	},
 	{
-		"name": "Zell",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "85A6"
+	  "name": "Zell",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "85A6"
 	},
 	{
-		"name": "Rinoa",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "4A2A"
+	  "name": "Rinoa",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "4A2A"
 	},
 	{
-		"name": "Edea",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "AA33"
+	  "name": "Edea",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "AA33"
 	},
 	{
-		"name": "Seifer",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "69A4"
+	  "name": "Seifer",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "69A4"
 	},
 	{
-		"name": "Squall",
-		"elemental": "",
-		"level": 10,
-		"class": "player",
-		"values": "A469"
+	  "name": "Squall",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "A469"
 	}
-]
+  ]
+}
