@@ -5,7 +5,7 @@ namespace cards
 	[Serializable]
 	public class Card
 	{
-		public enum Element { earth, fire, holy, ice, poison, thunder, water, wind, };
+		public enum Element { none, earth, fire, holy, ice, poison, thunder, water, wind, };
 
 		public string name;
 		public Element element;
