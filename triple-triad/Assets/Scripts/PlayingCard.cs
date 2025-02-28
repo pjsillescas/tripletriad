@@ -21,6 +21,15 @@ public class PlayingCard : MonoBehaviour
 	[SerializeField]
 	private TextMeshPro WestText;
 
+	[SerializeField]
+	private TextMeshPro NorthBackText;
+	[SerializeField]
+	private TextMeshPro EastBackText;
+	[SerializeField]
+	private TextMeshPro SouthBackText;
+	[SerializeField]
+	private TextMeshPro WestBackText;
+	
 	private Material sideMat1;
 	private Material sideMat2;
 
@@ -74,6 +83,11 @@ public class PlayingCard : MonoBehaviour
 		EastText.text = $"{chars[1]}";
 		SouthText.text = $"{chars[2]}";
 		WestText.text = $"{chars[3]}";
+
+		NorthBackText.text = $"{chars[0]}";
+		EastBackText.text = $"{chars[1]}";
+		SouthBackText.text = $"{chars[2]}";
+		WestBackText.text = $"{chars[3]}";
 	}
 
 	private string ToFileName(string name)
