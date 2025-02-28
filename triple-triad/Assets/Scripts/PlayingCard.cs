@@ -1,6 +1,8 @@
 using cards;
 using NUnit.Framework;
+using System.IO;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class PlayingCard : MonoBehaviour
@@ -9,6 +11,15 @@ public class PlayingCard : MonoBehaviour
 	private Transform Side1;
 	[SerializeField]
 	private Transform Side2;
+
+	[SerializeField]
+	private TextMeshPro NorthText;
+	[SerializeField]
+	private TextMeshPro EastText;
+	[SerializeField]
+	private TextMeshPro SouthText;
+	[SerializeField]
+	private TextMeshPro WestText;
 
 	private Material sideMat1;
 	private Material sideMat2;
@@ -49,11 +60,36 @@ public class PlayingCard : MonoBehaviour
 		cardName = card.name;
 		element = card.element;
 
-		var values = card.values.ToCharArray().Select(c => c == 'A' ? 10 : c - '0').ToList();
+		var chars = card.values.ToCharArray();
+		var values = chars.Select(c => c == 'A' ? 10 : c - '0').ToList();
 		north = values[0];
 		east = values[1];
 		south = values[2];
 		west = values[3];
+
+		LoadImage("FFVIII", ToFileName(cardName), sideMat1);
+		LoadImage("FFVIII", ToFileName(cardName), sideMat2);
+
+		NorthText.text = $"{chars[0]}";
+		EastText.text = $"{chars[1]}";
+		SouthText.text = $"{chars[2]}";
+		WestText.text = $"{chars[3]}";
+	}
+
+	private string ToFileName(string name)
+	{
+		return name.Replace(" ","");
+	}
+
+	private void LoadImage(string set, string image, Material material)
+	{
+		
+		string filename = $"Assets/Data/Sets/{set}/Images/TT{image}.jpg";
+		var bytes = System.IO.File.ReadAllBytes(filename);
+		var myTexture = new Texture2D(1, 1);
+		myTexture.LoadImage(bytes);
+
+		material.mainTexture = myTexture;
 	}
 
 	public override string ToString()
