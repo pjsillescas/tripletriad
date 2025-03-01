@@ -6,13 +6,22 @@ public class TestCardLoader : MonoBehaviour
 	private PlayingCard Card;
 	[SerializeField]
 	private SetLoader Loader;
+	[SerializeField]
+	private Hand PlayerHand;
+	[SerializeField]
+	private Hand OpponentHand;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		/*
 		var card = Loader.GetCards()[Random.Range(0, Loader.GetCards().Count - 1)];
-		Card.Load(card);
+		Card.Load(card, "team");
 		Debug.Log(Card);
+		*/
+
+		PlayerHand.Initialize();
+		OpponentHand.Initialize();
 	}
 
 	// Update is called once per frame

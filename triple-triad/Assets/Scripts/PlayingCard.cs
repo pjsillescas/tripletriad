@@ -1,5 +1,6 @@
 using cards;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
@@ -39,6 +40,7 @@ public class PlayingCard : MonoBehaviour
 	private int west;
 	private string cardName;
 	private Card.Element element;
+	private string team;
 
 
 	private Material GetMaterial(Transform side)
@@ -64,7 +66,7 @@ public class PlayingCard : MonoBehaviour
 
 	}
 
-	public void Load(Card card)
+	public PlayingCard Load(Card card, string team)
 	{
 		cardName = card.name;
 		element = card.element;
@@ -88,11 +90,24 @@ public class PlayingCard : MonoBehaviour
 		EastBackText.text = $"{chars[1]}";
 		SouthBackText.text = $"{chars[2]}";
 		WestBackText.text = $"{chars[3]}";
+
+		this.team = team;
+
+		return this;
 	}
 
 	private string ToFileName(string name)
 	{
-		return name.Replace(" ","");
+		Dictionary<string, string> dict = new Dictionary<string, string>() {
+			{ "Shumi Tribe", "NORG" },
+			{ "Tri-Point", "Tripoint" },
+			{ "Sphinxara", "Sphinxaur" },
+			{ "Blood Soul", "Bloudsoul" },
+			{ "Tri-Face", "TriFace" },
+			{ "T-Rexaur", "TRexaur"},
+		};
+
+		return dict.ContainsKey(name) ? dict[name] : name.Replace(" ","");
 	}
 
 	private void LoadImage(string set, string image, Material material)
