@@ -41,6 +41,7 @@ public class PlayingCard : MonoBehaviour
 	private string cardName;
 	private Card.Element element;
 	private string team;
+	private string imageFileName;
 
 
 	private Material GetMaterial(Transform side)
@@ -66,7 +67,7 @@ public class PlayingCard : MonoBehaviour
 
 	}
 
-	public PlayingCard Load(Card card, string team)
+	public PlayingCard Load(Card card, string team, bool useBackImage)
 	{
 		cardName = card.name;
 		element = card.element;
@@ -78,19 +79,33 @@ public class PlayingCard : MonoBehaviour
 		south = values[2];
 		west = values[3];
 
-		LoadImage("FFVIII", ToFileName(cardName), sideMat1);
-		LoadImage("FFVIII", ToFileName(cardName), sideMat2);
+		var set = "FFVIII";
+		var image = ToFileName(cardName);
+		imageFileName = $"Assets/Data/Sets/{set}/Images/TT{image}.jpg";
+		LoadImage(imageFileName, sideMat1);
 
 		NorthText.text = $"{chars[0]}";
 		EastText.text = $"{chars[1]}";
 		SouthText.text = $"{chars[2]}";
 		WestText.text = $"{chars[3]}";
 
-		NorthBackText.text = $"{chars[0]}";
-		EastBackText.text = $"{chars[1]}";
-		SouthBackText.text = $"{chars[2]}";
-		WestBackText.text = $"{chars[3]}";
-
+		if (useBackImage)
+		{
+			imageFileName = $"Assets/Data/Sets/{set}/Images/cardback.png";
+			LoadImage(imageFileName, sideMat2);
+			NorthBackText.text = "";
+			EastBackText.text = "";
+			SouthBackText.text = "";
+			WestBackText.text = "";
+		}
+		else
+		{
+			LoadImage(imageFileName, sideMat2);
+			NorthBackText.text = $"{chars[0]}";
+			EastBackText.text = $"{chars[1]}";
+			SouthBackText.text = $"{chars[2]}";
+			WestBackText.text = $"{chars[3]}";
+		}
 		this.team = team;
 
 		return this;
@@ -98,13 +113,15 @@ public class PlayingCard : MonoBehaviour
 
 	private string ToFileName(string name)
 	{
-		Dictionary<string, string> dict = new Dictionary<string, string>() {
+		Dictionary<string, string> dict = new () {
 			{ "Shumi Tribe", "NORG" },
 			{ "Tri-Point", "Tripoint" },
 			{ "Sphinxara", "Sphinxaur" },
 			{ "Blood Soul", "Bloudsoul" },
 			{ "Tri-Face", "TriFace" },
 			{ "T-Rexaur", "TRexaur"},
+			{ "Fastitocalon-F", "FastitocalonF"},
+			{ "Fujin, Raijin", "FujinRaijin"},
 		};
 
 		return dict.ContainsKey(name) ? dict[name] : name.Replace(" ","");
@@ -114,6 +131,10 @@ public class PlayingCard : MonoBehaviour
 	{
 		
 		string filename = $"Assets/Data/Sets/{set}/Images/TT{image}.jpg";
+		LoadImage(filename, material) ;
+	}
+	private void LoadImage(string filename, Material material)
+	{
 		var bytes = System.IO.File.ReadAllBytes(filename);
 		var myTexture = new Texture2D(1, 1);
 		myTexture.LoadImage(bytes);

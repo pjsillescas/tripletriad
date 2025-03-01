@@ -20,15 +20,21 @@ public class Hand : MonoBehaviour
         Cards = new();
 	}
 
-	public void Initialize()
+	public void Initialize(bool useCardBack)
 	{
         var cards = Loader.GetCards();
         for (int i = 0; i < NumCards; i++)
         {
             var cardObject = Instantiate(CardPrefab);
             var card = cardObject.GetComponent<PlayingCard>();
-            card.Load(cards[Random.Range(0, cards.Count - 1)], Team);
+            card.Load(cards[Random.Range(0, cards.Count - 1)], Team, useCardBack);
             card.transform.position += transform.position /*+ new Vector3(8f, 0, -3f)*/ + new Vector3(0, (NumCards - i)*0.1f, i * 1.25f);
+
+            if(useCardBack)
+            {
+                var rotation = card.transform.rotation;
+                card.transform.rotation = new Quaternion(rotation.x, rotation.y, 180.0f, rotation.w);
+            }
 
 			Cards.Add(card);
         }
