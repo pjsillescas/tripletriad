@@ -43,6 +43,8 @@ public class PlayingCard : MonoBehaviour
 	private string team;
 	private string imageFileName;
 
+	private string currentTeam;
+
 
 	private Material GetMaterial(Transform side)
 	{
@@ -101,14 +103,27 @@ public class PlayingCard : MonoBehaviour
 		else
 		{
 			LoadImage(imageFileName, sideMat2);
-			NorthBackText.text = $"{chars[0]}";
-			EastBackText.text = $"{chars[1]}";
-			SouthBackText.text = $"{chars[2]}";
-			WestBackText.text = $"{chars[3]}";
+			NorthBackText.text = NorthText.text;
+			EastBackText.text = EastText.text;
+			SouthBackText.text = SouthText.text;
+			WestBackText.text = WestText.text;
 		}
+
 		this.team = team;
 
 		return this;
+	}
+
+	public void Play()
+	{
+		currentTeam = team;
+
+		LoadImage(imageFileName, sideMat2);
+		NorthBackText.text = NorthText.text;
+		EastBackText.text = EastText.text;
+		SouthBackText.text = SouthText.text;
+		WestBackText.text = WestText.text;
+
 	}
 
 	private string ToFileName(string name)
