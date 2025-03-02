@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Hand : MonoBehaviour
@@ -22,13 +23,17 @@ public class Hand : MonoBehaviour
 
 	public void Initialize(bool useCardBack)
 	{
-        var cards = Loader.GetCards();
+        const float deltaHeight = 0.2f;
+        const float offset = 1.25f;
+
+
+		var cards = Loader.GetCards();
         for (int i = 0; i < NumCards; i++)
         {
             var cardObject = Instantiate(CardPrefab);
             var card = cardObject.GetComponent<PlayingCard>();
             card.Load(cards[Random.Range(0, cards.Count - 1)], Team, useCardBack);
-            card.transform.position += transform.position /*+ new Vector3(8f, 0, -3f)*/ + new Vector3(0, (NumCards - i)*0.1f, i * 1.25f);
+            card.transform.position += transform.position + new Vector3(0, (NumCards - i)*deltaHeight, i * offset);
 
             if(useCardBack)
             {

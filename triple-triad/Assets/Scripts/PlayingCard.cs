@@ -137,6 +137,8 @@ public class PlayingCard : MonoBehaviour
 			{ "T-Rexaur", "TRexaur"},
 			{ "Fastitocalon-F", "FastitocalonF"},
 			{ "Fujin, Raijin", "FujinRaijin"},
+			{ "Wedge, Biggs", "BiggsWedge"},
+			{ "Abadon", "Abaddon"},
 		};
 
 		return dict.ContainsKey(name) ? dict[name] : name.Replace(" ","");
@@ -162,4 +164,11 @@ public class PlayingCard : MonoBehaviour
 		var elementStr = Card.Element.none.Equals(element) ? "" : element.ToString();
 		return $"{cardName}[{elementStr}] => north: {north} east: {east} south: {south} west: {west}";
 	}
+
+	public string GetCardName() => cardName;
+
+	public int GetNorth() => north;
+	public int GetEast() => east;
+	public int GetSouth() => south;
+	public int GetWest() => west;
 }
