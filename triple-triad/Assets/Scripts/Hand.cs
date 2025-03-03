@@ -23,7 +23,7 @@ public class Hand : MonoBehaviour
 
 	public void Initialize(bool useCardBack)
 	{
-        const float deltaHeight = 0.2f;
+        const float deltaHeight = 0.5f;
         const float offset = 1.25f;
 
 
@@ -33,7 +33,7 @@ public class Hand : MonoBehaviour
             var cardObject = Instantiate(CardPrefab);
             var card = cardObject.GetComponent<PlayingCard>();
             card.Load(cards[Random.Range(0, cards.Count - 1)], Team, useCardBack);
-            card.transform.position += transform.position + new Vector3(0, (NumCards - i)*deltaHeight, i * offset);
+            card.transform.position += transform.position + new Vector3(0, (NumCards - 1 - i) *deltaHeight, i * offset);
 
             if(useCardBack)
             {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4347982756722325120}
   - component: {fileID: 8715693851547053588}
   - component: {fileID: 6723015905782243143}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextWest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4359544762650074175}
   - component: {fileID: 7891328980450133172}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 1054476023126978938}
   - component: {fileID: 3008680984847880741}
   - component: {fileID: 6658751186807043514}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextWest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -421,7 +421,7 @@ GameObject:
   - component: {fileID: 102893722902072027}
   - component: {fileID: 6502843635004282945}
   - component: {fileID: 8304014381456454011}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextEast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -597,7 +597,7 @@ GameObject:
   - component: {fileID: 1371969143439771372}
   - component: {fileID: 6054014053932312016}
   - component: {fileID: 2280624230692877209}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextNorth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -773,7 +773,7 @@ GameObject:
   - component: {fileID: 471622650342318334}
   - component: {fileID: 5644497786382664606}
   - component: {fileID: 7985566770640689887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextNorth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -950,7 +950,7 @@ GameObject:
   - component: {fileID: 5830894573817315854}
   - component: {fileID: 348707005061127854}
   - component: {fileID: 7225597079368070902}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlaneBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1058,7 +1058,7 @@ GameObject:
   - component: {fileID: 5315955791710467898}
   - component: {fileID: 6627346770058566710}
   - component: {fileID: 5268649245397078636}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextEast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1234,7 +1234,7 @@ GameObject:
   - component: {fileID: 492497448096470997}
   - component: {fileID: 8631487951651502861}
   - component: {fileID: 5953763997051718769}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextSouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1519,7 +1519,7 @@ GameObject:
   - component: {fileID: 5536676933072614174}
   - component: {fileID: 2129802677418235384}
   - component: {fileID: 4632265038077487894}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextSouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1693,7 +1693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1239671668502729926}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Texts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1728,7 +1728,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4527192797578918119}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TextsBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
