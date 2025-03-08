@@ -2,11 +2,12 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using Enums;
 
 public class Hand : MonoBehaviour
 {
 	[SerializeField]
-	private string Team;
+	private Team Team;
 	[SerializeField]
     private int NumCards;
     [SerializeField]
@@ -44,6 +45,11 @@ public class Hand : MonoBehaviour
 			Cards.Add(card);
         }
 	}
+
+    public void Drop(PlayingCard card)
+    {
+        Cards.Remove(card);
+    }
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()

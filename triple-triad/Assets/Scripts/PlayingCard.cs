@@ -1,4 +1,5 @@
 using cards;
+using Enums;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
@@ -40,10 +41,11 @@ public class PlayingCard : MonoBehaviour
 	private int west;
 	private string cardName;
 	private Card.Element element;
-	private string team;
+	private Team team;
 	private string imageFileName;
 
-	private string currentTeam;
+	private Team currentTeam;
+	private bool isPlayed;
 
 
 	private Material GetMaterial(Transform side)
@@ -69,7 +71,7 @@ public class PlayingCard : MonoBehaviour
 
 	}
 
-	public PlayingCard Load(Card card, string team, bool useBackImage)
+	public PlayingCard Load(Card card, Team team, bool useBackImage)
 	{
 		cardName = card.name;
 		element = card.element;
@@ -110,6 +112,8 @@ public class PlayingCard : MonoBehaviour
 		}
 
 		this.team = team;
+		this.currentTeam = team;
+		isPlayed = false;
 
 		return this;
 	}
@@ -171,4 +175,11 @@ public class PlayingCard : MonoBehaviour
 	public int GetEast() => east;
 	public int GetSouth() => south;
 	public int GetWest() => west;
+
+	public bool IsPlayed() => isPlayed;
+
+	public void SetIsPlayed(bool isPlayed)
+	{
+		this.isPlayed = isPlayed;
+	}
 }
