@@ -34,11 +34,7 @@ public class AdversaryController : Controller
 		var board = Board.GetInstance();
 		if (selectedPlayingCard != null && selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
 		{
-			// 1. Place card in board
-			board.AddCard(selectedPlayingCard, selectedBoardTile);
-
-			// 2. Take card off the hand
-			Hand.Drop(selectedPlayingCard);
+			gameManager.PlayCard(selectedPlayingCard, selectedBoardTile, Hand);
 		}
 
 		gameManager.StartNextTurn();
@@ -49,12 +45,12 @@ public class AdversaryController : Controller
 	private PlayingCard SelectPlayingCard()
 	{
 		var cards = Hand.GetPlayingCards();
-		return cards[UnityEngine.Random.Range(0, cards.Count)];
+		return (cards != null && cards.Count > 0) ? cards[UnityEngine.Random.Range(0, cards.Count)] : null;
 	}
 
 	private BoardTile SelectTile()
 	{
 		var tiles = Board.GetInstance().GetFreeBoardTiles();
-		return tiles[UnityEngine.Random.Range(0, tiles.Count)];
+		return (tiles != null && tiles.Count > 0) ? tiles[UnityEngine.Random.Range(0, tiles.Count)] : null;
 	}
 }

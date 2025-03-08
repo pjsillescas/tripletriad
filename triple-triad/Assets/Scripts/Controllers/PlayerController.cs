@@ -81,7 +81,7 @@ public class PlayerController : Controller
 			switch (turnState)
 			{
 				case PlayerTurnState.SelectCard:
-					if(currentPlayingCard != null)
+					if(currentPlayingCard != null && Hand.GetPlayingCards().Contains(currentPlayingCard))
 					{
 						selectedPlayingCard = currentPlayingCard;
 						//Debug.Log($"selected card {selectedPlayingCard.GetCardName()}");
@@ -94,10 +94,7 @@ public class PlayerController : Controller
 					if (selectedPlayingCard != null && selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
 					{
 						// 1. Place card in board
-						board.AddCard(selectedPlayingCard, selectedBoardTile);
-
-						// 2. Take card off the hand
-						Hand.Drop(selectedPlayingCard);
+						gameManager.PlayCard(selectedPlayingCard, selectedBoardTile, Hand);
 
 						// 3. Finish turn
 						turnState = PlayerTurnState.FinishTurn;

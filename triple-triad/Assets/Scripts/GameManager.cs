@@ -1,3 +1,4 @@
+using cards;
 using Enums;
 using System;
 using UnityEngine;
@@ -36,8 +37,17 @@ public class GameManager : MonoBehaviour
         OnNewTurn?.Invoke(this, currentTeamTurn);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayCard(PlayingCard playingCard, BoardTile boardTile, Hand hand)
+    {
+		playingCard.Play();
+
+		Board.GetInstance().AddCard(playingCard, boardTile);
+		
+        hand.Drop(playingCard);
+	}
+
+	// Update is called once per frame
+	void Update()
     {
         
     }

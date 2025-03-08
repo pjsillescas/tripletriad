@@ -95,8 +95,8 @@ public class PlayingCard : MonoBehaviour
 
 		if (useBackImage)
 		{
-			imageFileName = $"Assets/Data/Sets/{set}/Images/cardback.png";
-			LoadImage(imageFileName, sideMat2);
+			var backImageFileName = $"Assets/Data/Sets/{set}/Images/cardback.png";
+			LoadImage(backImageFileName, sideMat2);
 			NorthBackText.text = "";
 			EastBackText.text = "";
 			SouthBackText.text = "";
@@ -127,7 +127,8 @@ public class PlayingCard : MonoBehaviour
 		EastBackText.text = EastText.text;
 		SouthBackText.text = SouthText.text;
 		WestBackText.text = WestText.text;
-
+		
+		isPlayed = true;
 	}
 
 	private string ToFileName(string name)
