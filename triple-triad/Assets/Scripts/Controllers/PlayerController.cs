@@ -6,7 +6,7 @@ public class PlayerController : Controller
 {
 	private const float MAX_RAYCAST_DISTANCE = 20;
 
-	private enum PlayerTurnState { SelectCard, SelectTile, FinishTurn }
+	private enum PlayerTurnState { SelectCard, FinishTurn }
 
 	[SerializeField]
 	private Camera mainCamera;
@@ -103,24 +103,6 @@ public class PlayerController : Controller
 						turnState = PlayerTurnState.FinishTurn;
 					}
 
-					break;
-				case PlayerTurnState.SelectTile:
-					/*
-					selectedBoardTile = currentBoardTile;
-
-					var board = Board.GetInstance();
-					if (selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
-					{
-						// 1. Place card in board
-						board.AddCard(selectedPlayingCard, selectedBoardTile);
-
-						// 2. Take card off the hand
-						Hand.Drop(selectedPlayingCard);
-
-						// 3. Finish turn
-						turnState = PlayerTurnState.FinishTurn;
-					}
-					*/
 					break;
 				case PlayerTurnState.FinishTurn:
 				default:
