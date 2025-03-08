@@ -42,12 +42,14 @@ public class GameManager : MonoBehaviour
 		Initialize();
 	}
 
+	public Score GetScore() => new Score { player = playerScore, adversary = adversaryScore };
+
 	public void Initialize()
 	{
 		currentTeamTurn = (UnityEngine.Random.Range(0, 2) == 0) ? Team.Blue : Team.Red;
 		playerScore = 5;
 		adversaryScore = 5;
-		OnScoreChange?.Invoke(this, new Score { player = playerScore, adversary = adversaryScore });
+		OnScoreChange?.Invoke(this, GetScore());
 	}
 
 	public void StartNextTurn()
@@ -102,9 +104,9 @@ public class GameManager : MonoBehaviour
 			}
 
 			flippedCards.ForEach(card => card.SetCurrentTeam(playingCard.GetCurrentTeam()));
-			OnScoreChange?.Invoke(this, new Score { player = playerScore, adversary = adversaryScore });
+			OnScoreChange?.Invoke(this, GetScore());
 
-			Debug.Log($"player {playerScore} adversary {adversaryScore}");
+			// Debug.Log($"player {playerScore} adversary {adversaryScore}");
 		}
 
 		if (numFreeTiles == 0)
