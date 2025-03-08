@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using Enums;
+using cards;
 
 public class Hand : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Hand : MonoBehaviour
     [SerializeField]
     private GameObject CardPrefab;
 
+	public List<PlayingCard> GetPlayingCards() => Cards;
+
 	private void Awake()
 	{
         Cards = new();
@@ -24,29 +27,42 @@ public class Hand : MonoBehaviour
 
 	public void Initialize(bool useCardBack)
 	{
-        const float deltaHeight = 0.5f;
-        const float offset = 1.25f;
+		var allCards = Loader.GetCards();
 
-
-		var cards = Loader.GetCards();
-        for (int i = 0; i < NumCards; i++)
+		var cards = new List<Card>();
+		for (int i = 0; i < NumCards; i++)
         {
-            var cardObject = Instantiate(CardPrefab);
-            var card = cardObject.GetComponent<PlayingCard>();
-            card.Load(cards[Random.Range(0, cards.Count - 1)], Team, useCardBack);
-            card.transform.position += transform.position + new Vector3(0, (NumCards - 1 - i) *deltaHeight, i * offset);
-
-            if(useCardBack)
-            {
-                var rotation = card.transform.rotation;
-                card.transform.rotation = new Quaternion(rotation.x, rotation.y, 180.0f, rotation.w);
-            }
-
-			Cards.Add(card);
+			cards.Add(allCards[Random.Range(0, allCards.Count - 1)]);
         }
+
+		Initialize(cards, useCardBack);
 	}
 
-    public void Drop(PlayingCard card)
+	public void Initialize(List<Card> cards, bool useCardBack)
+	{
+		const float deltaHeight = 0.5f;
+		const float offset = 1.25f;
+
+		int i = 0;
+		cards.ForEach(card => 
+		{
+			var cardObject = Instantiate(CardPrefab);
+			var playingCard = cardObject.GetComponent<PlayingCard>();
+			playingCard.Load(card, Team, useCardBack);
+			playingCard.transform.position += transform.position + new Vector3(0, (NumCards - 1 - i) * deltaHeight, i * offset);
+
+			if (useCardBack)
+			{
+				var rotation = playingCard.transform.rotation;
+				playingCard.transform.rotation = new Quaternion(rotation.x, rotation.y, 180.0f, rotation.w);
+			}
+
+			Cards.Add(playingCard);
+			i++;
+		});
+	}
+
+	public void Drop(PlayingCard card)
     {
         Cards.Remove(card);
     }

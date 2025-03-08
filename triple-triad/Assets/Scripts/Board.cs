@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -66,5 +67,10 @@ public class Board : MonoBehaviour
 
             playingCard.transform.position = targetTile.transform.position;
 		}
+    }
+
+    public List<BoardTile> GetFreeBoardTiles()
+    {
+        return Tiles.Where(tile => cards[GetTileIndex(tile)] == null).ToList();
     }
 }
