@@ -20,7 +20,7 @@ public class AdversaryController : Controller
 	// Update is called once per frame
 	void Update()
     {
-		if (Team.Blue.Equals(gameManager.GetCurrentTeamTurn()))
+		if (Team.Blue.Equals(gameManager.GetCurrentTeamTurn()) || !isControllerEnabled)
         {
             return;
         }

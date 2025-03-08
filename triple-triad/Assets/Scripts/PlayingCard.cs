@@ -31,7 +31,12 @@ public class PlayingCard : MonoBehaviour
 	private TextMeshPro SouthBackText;
 	[SerializeField]
 	private TextMeshPro WestBackText;
-	
+
+	[SerializeField]
+	private TextMeshPro FrontTeamText;
+	[SerializeField]
+	private TextMeshPro BackTeamText;
+
 	private Material sideMat1;
 	private Material sideMat2;
 
@@ -112,7 +117,7 @@ public class PlayingCard : MonoBehaviour
 		}
 
 		this.team = team;
-		this.currentTeam = team;
+		SetCurrentTeam(team);
 		isPlayed = false;
 
 		return this;
@@ -120,7 +125,7 @@ public class PlayingCard : MonoBehaviour
 
 	public void Play()
 	{
-		currentTeam = team;
+		SetCurrentTeam(team);
 
 		LoadImage(imageFileName, sideMat2);
 		NorthBackText.text = NorthText.text;
@@ -178,6 +183,14 @@ public class PlayingCard : MonoBehaviour
 	public int GetWest() => west;
 
 	public bool IsPlayed() => isPlayed;
+
+	public Team GetCurrentTeam() => currentTeam;
+	public void SetCurrentTeam(Team newTeam)
+	{
+		currentTeam = newTeam;
+		BackTeamText.text = newTeam.ToString();
+		FrontTeamText.text = newTeam.ToString();
+	}
 
 	public void SetIsPlayed(bool isPlayed)
 	{

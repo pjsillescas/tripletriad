@@ -47,7 +47,7 @@ public class PlayerController : Controller
 	// Update is called once per frame
 	void Update()
 	{
-		if (Team.Red.Equals(gameManager.GetCurrentTeamTurn()))
+		if (Team.Red.Equals(gameManager.GetCurrentTeamTurn()) || !isControllerEnabled)
 		{
 			return;
 		}
