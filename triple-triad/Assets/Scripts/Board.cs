@@ -33,7 +33,7 @@ public class Board : MonoBehaviour
 
 		Instance = this;
 		cards = new PlayingCard[MAX_CARDS];
-		Initialize();
+		//Initialize();
 	}
 
 	public void Initialize()
@@ -42,7 +42,7 @@ public class Board : MonoBehaviour
 		{
 			if (cards[i] != null)
 			{
-				Destroy(cards[i]);
+				Destroy(cards[i].gameObject);
 			}
 
 			cards[i] = null;

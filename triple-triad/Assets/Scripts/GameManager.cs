@@ -5,6 +5,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	[SerializeField]
+	private SetLoader Loader;
+	[SerializeField]
+	private Hand PlayerHand;
+	[SerializeField]
+	private Hand AdversaryHand;
+	[SerializeField]
+	private PlayerController PlayerController;
+	[SerializeField]
+	private AdversaryController AdversaryController;
+	[SerializeField]
+	private WinnerManager WinnerManager;
+	[SerializeField]
+	private ScoreManager ScoreManager;
+
 	public class Score
 	{
 		public int player;
@@ -42,14 +57,31 @@ public class GameManager : MonoBehaviour
 		Initialize();
 	}
 
+	public void NewGame()
+	{
+		Initialize();
+	}
+
 	public Score GetScore() => new Score { player = playerScore, adversary = adversaryScore };
 
 	public void Initialize()
 	{
+		PlayerHand.Initialize(false);
+		AdversaryHand.Initialize(true);
+		
 		currentTeamTurn = (UnityEngine.Random.Range(0, 2) == 0) ? Team.Blue : Team.Red;
 		playerScore = 5;
 		adversaryScore = 5;
 		OnScoreChange?.Invoke(this, GetScore());
+		Board.GetInstance().Initialize();
+		
+		// Controllers
+		PlayerController.ResetController();
+		AdversaryController.ResetController();
+
+		// UI
+		ScoreManager.Initialize();
+		WinnerManager.Initialize();
 	}
 
 	public void StartNextTurn()

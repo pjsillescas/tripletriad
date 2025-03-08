@@ -194,6 +194,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e396b15d81cec6647b8d6cc52c35a2dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Loader: {fileID: 1551045496}
+  PlayerHand: {fileID: 1776719044}
+  AdversaryHand: {fileID: 152946591}
+  PlayerController: {fileID: 1934206706}
+  AdversaryController: {fileID: 1638911176}
+  WinnerManager: {fileID: 950290654}
+  ScoreManager: {fileID: 1941707451}
 --- !u!1 &99410130
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,7 +1053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &522164001
 MonoBehaviour:
   m_ObjectHideFlags: 0

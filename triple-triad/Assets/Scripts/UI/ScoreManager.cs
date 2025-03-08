@@ -21,4 +21,9 @@ public class ScoreManager : MonoBehaviour
 		AdversaryScoreText.text = score.adversary.ToString();
 		PlayerScoreText.text = score.player.ToString();
 	}
+
+	public void Initialize()
+	{
+		;
+	}
 }

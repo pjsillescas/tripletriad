@@ -47,6 +47,6 @@ public class WinnerManager : MonoBehaviour
 
 	private void NewGameClick()
     {
-        Debug.Log("New game!!");
+        GameManager.GetInstance().NewGame();
     }
 }

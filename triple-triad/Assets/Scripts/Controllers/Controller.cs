@@ -17,6 +17,11 @@ public abstract class Controller : MonoBehaviour
 		gameManager.OnNewTurn += OnTurnStart;
 		gameManager.OnFinishGame += OnFinishGame;
 
+		ResetController();
+	}
+
+	public void ResetController()
+	{
 		isControllerEnabled = true;
 	}
 
