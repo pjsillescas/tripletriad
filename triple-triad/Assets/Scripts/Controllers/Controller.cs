@@ -7,6 +7,9 @@ public abstract class Controller : MonoBehaviour
 	[SerializeField]
 	protected Hand Hand;
 
+	[SerializeField]
+	private Transform MiddlePosition;
+
 	protected GameManager gameManager;
 	protected bool isControllerEnabled;
 
@@ -60,9 +63,21 @@ public abstract class Controller : MonoBehaviour
 		return numCardsToFlip > 0;
 	}
 
-	protected void PlayCard(PlayingCard selectedPlayingCard, BoardTile selectedBoardTile)
+	protected void PlayCard(PlayingCard playingCard, BoardTile boardTile)
 	{
-		var flippedCards = gameManager.PlayCard(selectedPlayingCard, selectedBoardTile, Hand);
+		isFlipping = true;
+		//playingCard.transform.position = boardTile.transform.position;
+		playingCard.Travel(boardTile. transform.position, MiddlePosition.position,
+			() =>
+			{
+				isFlipping = false;
+				ProcessCard(playingCard, boardTile);
+			});
+	}
+
+	protected void ProcessCard(PlayingCard playingCard, BoardTile boardTile)
+	{
+		var flippedCards = gameManager.PlayCard(playingCard, boardTile, Hand);
 		if (flippedCards != null && flippedCards.Count > 0)
 		{
 			isFlipping = true;

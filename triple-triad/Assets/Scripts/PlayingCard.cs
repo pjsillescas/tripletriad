@@ -1,11 +1,8 @@
 using cards;
 using Enums;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -54,6 +51,7 @@ public class PlayingCard : MonoBehaviour
 	private Team currentTeam;
 	private bool isPlayed;
 	private CardFlip cardFlip;
+	private CardTravel cardTravel;
 
 
 	private Material GetMaterial(Transform side)
@@ -71,6 +69,7 @@ public class PlayingCard : MonoBehaviour
 	void Start()
 	{
 		cardFlip = GetComponent<CardFlip>();
+		cardTravel = GetComponent<CardTravel>();
 	}
 
 	public void Flip(Action onEndFlip)
@@ -78,9 +77,9 @@ public class PlayingCard : MonoBehaviour
 		cardFlip.Flip(onEndFlip);
 	}
 
-	private void OnEndFlip()
+	public void Travel(Vector3 endPosition, Vector3 middlePosition, Action onEndTravel)
 	{
-		Debug.Log("End flip");
+		cardTravel.Travel(endPosition, middlePosition,onEndTravel);
 	}
 
 	// Update is called once per frame

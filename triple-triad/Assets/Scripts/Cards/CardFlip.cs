@@ -58,13 +58,4 @@ public class CardFlip : MonoBehaviour
 		onEndFlip?.Invoke();
 		onEndFlip = null;
 	}
-	/*
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			Flip();
-		}
-	}
-	*/
 }

@@ -69,7 +69,7 @@ public class Board : MonoBehaviour
 			var index = GetTileIndex(targetTile);
 			cards[index] = playingCard;
 
-			playingCard.transform.position = targetTile.transform.position;
+			//playingCard.transform.position = targetTile.transform.position;
 		}
 
 		return new List<PlayingCard>(cards).Where(card => card == null).Count(); // ToList().Count;
