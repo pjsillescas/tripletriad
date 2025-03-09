@@ -15,13 +15,12 @@ public class AdversaryController : Controller
 	void Start()
 	{
 		Initialize();
-		isFlipping = false;
 	}
 
 	// Update is called once per frame
 	void Update()
     {
-		if (Team.Blue.Equals(gameManager.GetCurrentTeamTurn()) || !isControllerEnabled || isFlipping)
+		if (IsTeamTurn(Team.Blue))
         {
             return;
         }
@@ -35,17 +34,7 @@ public class AdversaryController : Controller
 		var board = Board.GetInstance();
 		if (selectedPlayingCard != null && selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
 		{
-			var flippedCards = gameManager.PlayCard(selectedPlayingCard, selectedBoardTile, Hand);
-			if (flippedCards != null && flippedCards.Count > 0)
-			{
-				isFlipping = true;
-				numCardsToFlip = flippedCards.Count;
-				flippedCards.ForEach(card => card.Flip(OnEndFlip));
-			}
-			else
-			{
-				EndTurn();
-			}
+			PlayCard(selectedPlayingCard, selectedBoardTile);
 		}
     }
 
@@ -60,23 +49,4 @@ public class AdversaryController : Controller
 		var tiles = Board.GetInstance().GetFreeBoardTiles();
 		return (tiles != null && tiles.Count > 0) ? tiles[UnityEngine.Random.Range(0, tiles.Count)] : null;
 	}
-
-	private void EndTurn()
-	{
-		gameManager.StartNextTurn();
-	}
-
-	private int numCardsToFlip;
-	private bool isFlipping;
-	private void OnEndFlip()
-	{
-		numCardsToFlip--;
-
-		if (numCardsToFlip == 0)
-		{
-			isFlipping = false;
-			EndTurn();
-		}
-	}
-
 }

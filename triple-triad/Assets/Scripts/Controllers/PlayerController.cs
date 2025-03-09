@@ -37,13 +37,12 @@ public class PlayerController : Controller
 	void Start()
 	{
 		Initialize();
-		isFlipping = false;
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (Team.Red.Equals(gameManager.GetCurrentTeamTurn()) || !isControllerEnabled || isFlipping)
+		if (IsTeamTurn(Team.Red))
 		{
 			return;
 		}
@@ -67,7 +66,7 @@ public class PlayerController : Controller
 			}
 		}
 
-		if (inputs.Player.Interact.IsPressed() && numCardsToFlip == 0)
+		if (inputs.Player.Interact.IsPressed() && !ThereAreCardsToFlip())
 		{
 			if (currentPlayingCard != null && Hand.GetPlayingCards().Contains(currentPlayingCard))
 			{
@@ -79,36 +78,8 @@ public class PlayerController : Controller
 			var board = Board.GetInstance();
 			if (selectedPlayingCard != null && selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
 			{
-				var flippedCards = gameManager.PlayCard(selectedPlayingCard, selectedBoardTile, Hand);
-				if (flippedCards != null && flippedCards.Count > 0)
-				{
-					isFlipping = true;
-					numCardsToFlip = flippedCards.Count;
-					flippedCards.ForEach(card => card.Flip(OnEndFlip));
-				}
-				else
-				{
-					EndTurn();
-				}
+				PlayCard(selectedPlayingCard, selectedBoardTile);
 			}
-		}
-	}
-
-	private void EndTurn()
-	{
-		gameManager.StartNextTurn();
-	}
-
-	private int numCardsToFlip;
-	private bool isFlipping;
-	private void OnEndFlip()
-	{
-		numCardsToFlip--;
-
-		if (numCardsToFlip == 0)
-		{
-			isFlipping = false;
-			EndTurn();
 		}
 	}
 }
