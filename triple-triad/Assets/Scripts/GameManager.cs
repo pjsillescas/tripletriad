@@ -1,5 +1,6 @@
 using Enums;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -102,7 +103,7 @@ public class GameManager : MonoBehaviour
 		};
 	}
 
-	public void PlayCard(PlayingCard playingCard, BoardTile boardTile, Hand hand)
+	public List<PlayingCard> PlayCard(PlayingCard playingCard, BoardTile boardTile, Hand hand)
 	{
 		var board = Board.GetInstance();
 
@@ -147,6 +148,8 @@ public class GameManager : MonoBehaviour
 		}
 
 		hand.Drop(playingCard);
+
+		return flippedCards;
 	}
 
 	// Update is called once per frame

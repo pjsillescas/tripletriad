@@ -123,4 +123,9 @@ public class Board : MonoBehaviour
 	{
 		return new() { Direction.North, Direction.South, Direction.East, Direction.West };
 	}
+
+	public List<PlayingCard> GetCards()
+	{
+		return new List<PlayingCard>(cards).Where(card => card != null).ToList();
+	}
 }
