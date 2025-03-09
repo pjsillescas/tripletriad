@@ -6,8 +6,6 @@ public class PlayerController : Controller
 {
 	private const float MAX_RAYCAST_DISTANCE = 20;
 
-	private enum PlayerTurnState { SelectCard, FinishTurn }
-
 	[SerializeField]
 	private Camera mainCamera;
 
@@ -18,7 +16,6 @@ public class PlayerController : Controller
 
 	private PlayingCard selectedPlayingCard;
 	private BoardTile selectedBoardTile;
-	private PlayerTurnState turnState;
 
 	private void Awake()
 	{
@@ -34,7 +31,6 @@ public class PlayerController : Controller
 	{
 		selectedPlayingCard = null;
 		selectedBoardTile = null;
-		turnState = PlayerTurnState.SelectCard;
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -44,7 +40,6 @@ public class PlayerController : Controller
 		isFlipping = false;
 	}
 
-
 	// Update is called once per frame
 	void Update()
 	{
@@ -53,9 +48,7 @@ public class PlayerController : Controller
 			return;
 		}
 
-		//Vector2 mousePosition1 = Mouse.current.position.ReadValue();
 		var mousePosition = inputs.UI.Point.ReadValue<Vector2>();
-		//Debug.Log($"{mousePosition} {mousePosition1}");
 		Ray ray = mainCamera.ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
 		Debug.DrawLine(ray.origin, ray.direction);
 		PlayingCard currentPlayingCard = null;
@@ -66,60 +59,43 @@ public class PlayerController : Controller
 			if (playingCard != null)
 			{
 				currentPlayingCard = playingCard;
-				//Debug.Log($"card {playingCard.GetCardName()}");
 			}
 
 			if (hit.collider.gameObject.TryGetComponent<BoardTile>(out var boardTile))
 			{
 				currentBoardTile = boardTile;
-				//var vec = boardTile.GetTileRow();
-				//Debug.Log($"tile ({vec.x},{vec.y})");
 			}
 		}
 
-		//Debug.Log($"cards to flip {numCardsToFlip}");
 		if (inputs.Player.Interact.IsPressed() && numCardsToFlip == 0)
 		{
-			switch (turnState)
+			if (currentPlayingCard != null && Hand.GetPlayingCards().Contains(currentPlayingCard))
 			{
-				case PlayerTurnState.SelectCard:
-					if(currentPlayingCard != null && Hand.GetPlayingCards().Contains(currentPlayingCard))
-					{
-						selectedPlayingCard = currentPlayingCard;
-						//Debug.Log($"selected card {selectedPlayingCard.GetCardName()}");
-						//turnState = PlayerTurnState.SelectTile;
-					}
+				selectedPlayingCard = currentPlayingCard;
+			}
 
-					selectedBoardTile = currentBoardTile;
+			selectedBoardTile = currentBoardTile;
 
-					var board = Board.GetInstance();
-					if (selectedPlayingCard != null && selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
-					{
-						var flippedCards = gameManager.PlayCard(selectedPlayingCard, selectedBoardTile, Hand);
-						if (flippedCards != null && flippedCards.Count > 0)
-						{
-							isFlipping = true;
-							numCardsToFlip = flippedCards.Count;
-							flippedCards.ForEach(card => card.Flip(OnEndFlip));
-						}
-						else
-						{
-							EndTurn();
-						}
-					}
-
-					break;
-				case PlayerTurnState.FinishTurn:
-				default:
-					gameManager.StartNextTurn();
-					break;
+			var board = Board.GetInstance();
+			if (selectedPlayingCard != null && selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
+			{
+				var flippedCards = gameManager.PlayCard(selectedPlayingCard, selectedBoardTile, Hand);
+				if (flippedCards != null && flippedCards.Count > 0)
+				{
+					isFlipping = true;
+					numCardsToFlip = flippedCards.Count;
+					flippedCards.ForEach(card => card.Flip(OnEndFlip));
+				}
+				else
+				{
+					EndTurn();
+				}
 			}
 		}
 	}
 
 	private void EndTurn()
 	{
-		//turnState = PlayerTurnState.FinishTurn;
 		gameManager.StartNextTurn();
 	}
 
