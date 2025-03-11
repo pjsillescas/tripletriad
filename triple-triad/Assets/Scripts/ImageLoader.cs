@@ -10,7 +10,7 @@ public class ImageLoader : MonoBehaviour
 
     public static string GetFileLocation(string path)
     {
-        return "file://" + Path.Combine(Application.streamingAssetsPath, path);
+        return /*"file://" +*/ Path.Combine(Application.streamingAssetsPath, path);
     }
 
     public void Load(string fileName, Action<Texture2D> onTextureLoad)
