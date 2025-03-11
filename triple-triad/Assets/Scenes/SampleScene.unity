@@ -1061,12 +1061,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522164000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69f212eddd518fa45942f929c8f4ff0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Card: {fileID: 7303009606033613147}
+  Card: {fileID: 0}
   Loader: {fileID: 1551045496}
   PlayerHand: {fileID: 1776719044}
   OpponentHand: {fileID: 152946591}
@@ -2957,6 +2957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1551045497}
   - component: {fileID: 1551045496}
+  - component: {fileID: 1551045498}
   m_Layer: 0
   m_Name: SetLoader
   m_TagString: Untagged
@@ -2992,6 +2993,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1621615240}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1551045498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551045495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 076be5363a6edc74f8be428c3c78803b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1621615239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,7 +3674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1865816594
 Transform:
   m_ObjectHideFlags: 0
@@ -4692,7 +4705,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3772353698726148560}
-  - component: {fileID: 7303009606033613147}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -5848,30 +5860,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7303009606033613147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324298441506381740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee9c4e0c15643cc4faff5c19b421a086, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Side1: {fileID: 5213251716258186385}
-  Side2: {fileID: 2880400940171710084}
-  NorthText: {fileID: 7352214102525902640}
-  EastText: {fileID: 8928360404416828564}
-  SouthText: {fileID: 5229591678403088121}
-  WestText: {fileID: 6167347870189779624}
-  NorthBackText: {fileID: 1692305391016679030}
-  EastBackText: {fileID: 4738950074612725635}
-  SouthBackText: {fileID: 6519564786061601182}
-  WestBackText: {fileID: 6103085039992950869}
-  FrontTeamText: {fileID: 0}
-  BackTeamText: {fileID: 0}
 --- !u!114 &7352214102525902640
 MonoBehaviour:
   m_ObjectHideFlags: 0

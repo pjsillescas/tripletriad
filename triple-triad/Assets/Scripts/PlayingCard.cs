@@ -53,6 +53,8 @@ public class PlayingCard : MonoBehaviour
 	private CardFlip cardFlip;
 	private CardTravel cardTravel;
 
+	private ImageLoader imageLoaderFront;
+	private ImageLoader imageLoaderBack;
 
 	private Material GetMaterial(Transform side)
 	{
@@ -70,6 +72,10 @@ public class PlayingCard : MonoBehaviour
 	{
 		cardFlip = GetComponent<CardFlip>();
 		cardTravel = GetComponent<CardTravel>();
+		var imageLoaders = GetComponents<ImageLoader>();
+
+		imageLoaderFront = imageLoaders[0];
+		imageLoaderBack = imageLoaders[1];
 	}
 
 	public void Flip(Action onEndFlip)
@@ -102,8 +108,8 @@ public class PlayingCard : MonoBehaviour
 
 		var set = "FFVIII";
 		var image = ToFileName(cardName);
-		imageFileName = $"Assets/Data/Sets/{set}/Images/TT{image}.jpg";
-		LoadImage(imageFileName, sideMat1);
+		imageFileName = $"Sets/{set}/Images/TT{image}.jpg";
+		LoadImage(imageFileName, sideMat1, true);
 
 		NorthText.text = $"{chars[0]}";
 		EastText.text = $"{chars[1]}";
@@ -112,8 +118,8 @@ public class PlayingCard : MonoBehaviour
 
 		if (useBackImage)
 		{
-			var backImageFileName = $"Assets/Data/Sets/{set}/Images/cardback.png";
-			LoadImage(backImageFileName, sideMat2);
+			var backImageFileName = $"Sets/{set}/Images/cardback.png";
+			LoadImage(backImageFileName, sideMat2, false);
 			NorthBackText.text = "";
 			EastBackText.text = "";
 			SouthBackText.text = "";
@@ -121,7 +127,7 @@ public class PlayingCard : MonoBehaviour
 		}
 		else
 		{
-			LoadImage(imageFileName, sideMat2);
+			LoadImage(imageFileName, sideMat2, false);
 			NorthBackText.text = NorthText.text;
 			EastBackText.text = EastText.text;
 			SouthBackText.text = SouthText.text;
@@ -139,7 +145,7 @@ public class PlayingCard : MonoBehaviour
 	{
 		SetCurrentTeam(team);
 
-		LoadImage(imageFileName, sideMat2);
+		LoadImage(imageFileName, sideMat2, false);
 		NorthBackText.text = NorthText.text;
 		EastBackText.text = EastText.text;
 		SouthBackText.text = SouthText.text;
@@ -166,26 +172,19 @@ public class PlayingCard : MonoBehaviour
 		return dict.ContainsKey(name) ? dict[name] : name.Replace(" ","");
 	}
 
-	private void LoadImage(string set, string image, Material material)
+	private void LoadImage(string filename, Material material, bool useFront)
 	{
-		
-		string filename = $"Assets/Data/Sets/{set}/Images/TT{image}.jpg";
-		LoadImage(filename, material) ;
-	}
-	private void LoadImage(string filename, Material material)
-	{
-		var bytes = System.IO.File.ReadAllBytes(filename);
-		var myTexture = new Texture2D(1, 1);
-		myTexture.LoadImage(bytes);
-
-		material.mainTexture = myTexture;
+		((useFront) ? imageLoaderFront : imageLoaderBack).Load(filename, (texture) => material.mainTexture = texture);
+		//material.mainTexture = myTexture;
 	}
 
+	/*
 	public override string ToString()
 	{
 		var elementStr = Card.Element.none.Equals(element) ? "" : element.ToString();
 		return $"{cardName}[{elementStr}] => north: {north} east: {east} south: {south} west: {west}";
 	}
+	*/
 
 	public string GetCardName() => cardName;
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Enums;
 using cards;
+using System.Collections;
 
 public class Hand : MonoBehaviour
 {
@@ -46,7 +47,9 @@ public class Hand : MonoBehaviour
 		{
 			var cardObject = Instantiate(CardPrefab);
 			var playingCard = cardObject.GetComponent<PlayingCard>();
-			playingCard.Load(card, Team, useCardBack);
+			//playingCard.Load(card, Team, useCardBack);
+			LoadWithDelay(playingCard, card, Team, useCardBack);
+
 			playingCard.transform.position += transform.position + new Vector3(0, (NumCards - 1 - i) * deltaHeight, i * offset);
 
 			if (useCardBack)
@@ -58,6 +61,17 @@ public class Hand : MonoBehaviour
 			Cards.Add(playingCard);
 			i++;
 		});
+	}
+
+	private void LoadWithDelay(PlayingCard playingCard, Card card, Team team, bool useCardBack)
+	{
+		StartCoroutine(DoLoadWithDelay(playingCard, card, team, useCardBack));
+	}
+
+	private IEnumerator DoLoadWithDelay(PlayingCard playingCard, Card card, Team team, bool useCardBack)
+	{
+		yield return new WaitForSeconds(0.1f);
+		playingCard.Load(card, Team, useCardBack);
 	}
 
 	public void Drop(PlayingCard card)
