@@ -10,7 +10,7 @@ public class ImageLoader : MonoBehaviour
 
     public static string GetFileLocation(string path)
     {
-        return /*"file://" +*/ Path.Combine(Application.streamingAssetsPath, path);
+        return Path.Combine(Application.streamingAssetsPath, path);
     }
 
     public void Load(string fileName, Action<Texture2D> onTextureLoad)
@@ -38,9 +38,4 @@ public class ImageLoader : MonoBehaviour
             }
         }
     }
-
-	private void Awake()
-	{
-        Debug.Log($"awake {gameObject.name}");
-	}
 }

@@ -10,8 +10,7 @@ public class JsonLoader : MonoBehaviour
 
     public static string GetFileLocation(string path)
     {
-        Debug.Log($"path {Application.streamingAssetsPath}");
-        return /*"file://" + */Path.Combine(Application.streamingAssetsPath, path);
+        return Path.Combine(Application.streamingAssetsPath, path);
     }
 
     public void Load(string fileName, Action<string> onJsonLoad)

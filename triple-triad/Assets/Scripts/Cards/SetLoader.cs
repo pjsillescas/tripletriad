@@ -22,13 +22,8 @@ public class SetLoader : MonoBehaviour
 	void Start()
 	{
 		var fileName = $"Sets/{Set}/cards.json";
-		
 		var jsonLoader = GetComponent<JsonLoader>();
-
 		jsonLoader.Load(fileName, OnJsonLoad);
-		
-		//var json = File.ReadAllText(fileName);
-		// Debug.Log($"json {json}");
 	}
 
 	private void OnJsonLoad(string json)
@@ -37,9 +32,6 @@ public class SetLoader : MonoBehaviour
 		cards = cardSet.cards;
 
 		OnSetLoaded?.Invoke(this, cards);
-		//Debug.Log($"{cards.Count} cards");
-		//Debug.Log(new List<int>() { 1, 2, 3 });
-		//Debug.Log(cards.Select(c => c.name).ToList()[0]);
 	}
 
 	// Update is called once per frame
