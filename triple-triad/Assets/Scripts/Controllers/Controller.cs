@@ -20,7 +20,10 @@ public abstract class Controller : MonoBehaviour
 		gameManager.OnNewTurn += OnTurnStart;
 		gameManager.OnFinishGame += OnFinishGame;
 
-		ResetController();
+		//ResetController();
+		isControllerEnabled = false;
+		isFlipping = false;
+
 	}
 
 	public void ResetController()
@@ -67,7 +70,7 @@ public abstract class Controller : MonoBehaviour
 	{
 		isFlipping = true;
 		//playingCard.transform.position = boardTile.transform.position;
-		playingCard.Travel(boardTile. transform.position, MiddlePosition.position,
+		playingCard.Travel(boardTile.transform.position, MiddlePosition.position,
 			() =>
 			{
 				isFlipping = false;

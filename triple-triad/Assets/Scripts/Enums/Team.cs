@@ -4,5 +4,6 @@ namespace Enums
 	{
 		Blue,
 		Red,
+		None,
 	}
 }

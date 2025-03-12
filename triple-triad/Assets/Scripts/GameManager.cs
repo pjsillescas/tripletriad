@@ -1,5 +1,6 @@
 using Enums;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
 		}
 
 		Instance = this;
+		currentTeamTurn = Team.None;
 	}
 
 	public static GameManager GetInstance() => Instance;
@@ -69,20 +71,29 @@ public class GameManager : MonoBehaviour
 	{
 		PlayerHand.Initialize(false);
 		AdversaryHand.Initialize(true);
-		
-		currentTeamTurn = (UnityEngine.Random.Range(0, 2) == 0) ? Team.Blue : Team.Red;
+
+		currentTeamTurn = Team.None;
 		playerScore = 5;
 		adversaryScore = 5;
 		OnScoreChange?.Invoke(this, GetScore());
 		Board.GetInstance().Initialize();
 		
-		// Controllers
-		PlayerController.ResetController();
-		AdversaryController.ResetController();
-
 		// UI
 		ScoreManager.Initialize();
 		WinnerManager.Initialize();
+
+		StartCoroutine(WaitForGameLoad());
+	}
+
+	private IEnumerator WaitForGameLoad()
+	{
+		yield return new WaitForSeconds(1f);
+
+		currentTeamTurn = (UnityEngine.Random.Range(0, 2) == 0) ? Team.Blue : Team.Red;
+		// Controllers
+		PlayerController.ResetController();
+		AdversaryController.ResetController();
+		yield return null;
 	}
 
 	public void StartNextTurn()

@@ -42,6 +42,8 @@ public class Hand : MonoBehaviour
 		const float deltaHeight = 0.5f;
 		const float offset = 1.25f;
 
+		Unload();
+
 		int i = 0;
 		cards.ForEach(card => 
 		{
@@ -78,6 +80,12 @@ public class Hand : MonoBehaviour
     {
         Cards.Remove(card);
     }
+
+	public void Unload()
+	{
+		Cards.ForEach(card => Destroy(card.gameObject));
+		Cards.Clear();
+	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
