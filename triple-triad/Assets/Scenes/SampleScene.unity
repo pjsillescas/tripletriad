@@ -375,6 +375,7 @@ MonoBehaviour:
   Team: 1
   Cards: []
   CardPrefab: {fileID: 1926127786947820099, guid: df17993aeffd0e54eb43cee4f47e843e, type: 3}
+  AnimationInitialPosition: {fileID: 847425903}
 --- !u!4 &152946592
 Transform:
   m_ObjectHideFlags: 0
@@ -1872,6 +1873,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &847425902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 847425903}
+  m_Layer: 0
+  m_Name: AdversaryStartAnimationPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &847425903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847425902}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8, y: 0, z: -7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &878899120
 GameObject:
   m_ObjectHideFlags: 0
@@ -2683,6 +2715,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1366840385}
   m_CullTransparentMesh: 1
+--- !u!1 &1383777144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1383777145}
+  m_Layer: 0
+  m_Name: PlayerStartAnimationPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1383777145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383777144}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8, y: 0, z: -7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1432703777
 GameObject:
   m_ObjectHideFlags: 0
@@ -3533,6 +3596,7 @@ MonoBehaviour:
   Team: 0
   Cards: []
   CardPrefab: {fileID: 1926127786947820099, guid: df17993aeffd0e54eb43cee4f47e843e, type: 3}
+  AnimationInitialPosition: {fileID: 1383777145}
 --- !u!1 &1835050187
 GameObject:
   m_ObjectHideFlags: 0
@@ -6374,3 +6438,5 @@ SceneRoots:
   - {fileID: 577602283}
   - {fileID: 1621615240}
   - {fileID: 566831735}
+  - {fileID: 1383777145}
+  - {fileID: 847425903}

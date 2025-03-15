@@ -4,6 +4,8 @@ using Enums;
 using cards;
 using System.Collections;
 using System;
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 
 public class Hand : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class Hand : MonoBehaviour
     private List<PlayingCard> Cards;
     [SerializeField]
     private GameObject CardPrefab;
+	[SerializeField]
+	private Transform AnimationInitialPosition;
 
 	private int numCardsToLoad;
 
@@ -29,13 +33,14 @@ public class Hand : MonoBehaviour
 	{
 		const float deltaHeight = 0.5f;
 		const float offset = 1.25f;
+		const float offsetTime = 0.1f;
 
 		Unload();
 
 		numCardsToLoad = cards.Count;
 		var numCards = cards.Count;
-
-		int i = 0;
+		
+		var i = 0;
 		cards.ForEach(card => 
 		{
 			var cardObject = Instantiate(CardPrefab);
@@ -43,14 +48,21 @@ public class Hand : MonoBehaviour
 			//playingCard.Load(card, Team, useCardBack);
 			LoadWithDelay(playingCard, card, Team, useCardBack);
 
-			playingCard.transform.position += transform.position + new Vector3(0, (numCards - 1 - i) * deltaHeight, i * offset);
+			//playingCard.transform.position += transform.position + new Vector3(0, (numCards - 1 - i) * deltaHeight, i * offset);
 
 			if (useCardBack)
 			{
 				var rotation = playingCard.transform.rotation;
 				playingCard.transform.rotation = new Quaternion(rotation.x, rotation.y, 180.0f, rotation.w);
 			}
+			var endPosition = playingCard.transform.position + transform.position + new Vector3(0, (numCards - 1 - i) * deltaHeight, i * offset);
 
+			var cardAnimator = gameObject.AddComponent<HandCardAnimator>();
+			if (cardAnimator != null)
+			{
+				cardAnimator.StartAnimation(playingCard, AnimationInitialPosition.position, endPosition, offsetTime * (numCards - i), FinishLoadCard);
+			}
+			
 			Cards.Add(playingCard);
 			i++;
 		});
@@ -65,7 +77,6 @@ public class Hand : MonoBehaviour
 	{
 		yield return new WaitForSeconds(0.1f);
 		playingCard.Load(card, Team, useCardBack);
-		FinishLoadCard();
 	}
 
 	private void FinishLoadCard()
