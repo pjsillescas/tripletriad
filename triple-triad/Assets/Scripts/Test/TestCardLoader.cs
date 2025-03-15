@@ -20,8 +20,8 @@ public class TestCardLoader : MonoBehaviour
 		Debug.Log(Card);
 		*/
 
-		PlayerHand.Initialize(false);
-		OpponentHand.Initialize(true);
+		PlayerHand.Initialize(new(), false);
+		OpponentHand.Initialize(new(), true);
 	}
 
 	// Update is called once per frame

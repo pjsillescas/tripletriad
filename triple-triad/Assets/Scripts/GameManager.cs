@@ -1,3 +1,4 @@
+using cards;
 using Enums;
 using System;
 using System.Collections;
@@ -9,6 +10,8 @@ public class GameManager : MonoBehaviour
 {
 	[SerializeField]
 	private SetLoader Loader;
+	[SerializeField]
+	private int NumCardsPerHand;
 	[SerializeField]
 	private Hand PlayerHand;
 	[SerializeField]
@@ -90,13 +93,26 @@ public class GameManager : MonoBehaviour
 
 	public Score GetScore() => new Score { player = playerScore, adversary = adversaryScore };
 
+	public List<Card> GetRandomHand()
+	{
+		var allCards = Loader.GetCards();
+
+		var cards = new List<Card>();
+		for (int i = 0; i < NumCardsPerHand; i++)
+		{
+			cards.Add(allCards[UnityEngine.Random.Range(0, allCards.Count - 1)]);
+		}
+
+		return cards;
+	}
+
 	public void Initialize()
 	{
 		playerHandLoaded = false;
 		adversaryHandLoaded = false;
 
-		PlayerHand.Initialize(false);
-		AdversaryHand.Initialize(true);
+		PlayerHand.Initialize(GetRandomHand(), false);
+		AdversaryHand.Initialize(GetRandomHand(), true);
 
 		currentTeamTurn = Team.None;
 		playerScore = 5;

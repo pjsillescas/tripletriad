@@ -9,12 +9,8 @@ public class Hand : MonoBehaviour
 {
 	[SerializeField]
 	private Team Team;
-	[SerializeField]
-    private int NumCards;
     [SerializeField]
     private List<PlayingCard> Cards;
-	[SerializeField]
-	private SetLoader Loader;
     [SerializeField]
     private GameObject CardPrefab;
 
@@ -29,19 +25,6 @@ public class Hand : MonoBehaviour
         Cards = new();
 	}
 
-	public void Initialize(bool useCardBack)
-	{
-		var allCards = Loader.GetCards();
-
-		var cards = new List<Card>();
-		for (int i = 0; i < NumCards; i++)
-        {
-			cards.Add(allCards[UnityEngine.Random.Range(0, allCards.Count - 1)]);
-        }
-
-		Initialize(cards, useCardBack);
-	}
-
 	public void Initialize(List<Card> cards, bool useCardBack)
 	{
 		const float deltaHeight = 0.5f;
@@ -50,7 +33,8 @@ public class Hand : MonoBehaviour
 		Unload();
 
 		numCardsToLoad = cards.Count;
-		
+		var numCards = cards.Count;
+
 		int i = 0;
 		cards.ForEach(card => 
 		{
@@ -59,7 +43,7 @@ public class Hand : MonoBehaviour
 			//playingCard.Load(card, Team, useCardBack);
 			LoadWithDelay(playingCard, card, Team, useCardBack);
 
-			playingCard.transform.position += transform.position + new Vector3(0, (NumCards - 1 - i) * deltaHeight, i * offset);
+			playingCard.transform.position += transform.position + new Vector3(0, (numCards - 1 - i) * deltaHeight, i * offset);
 
 			if (useCardBack)
 			{
