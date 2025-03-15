@@ -3,6 +3,7 @@ using UnityEngine;
 using Enums;
 using cards;
 using System.Collections;
+using System;
 
 public class Hand : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class Hand : MonoBehaviour
 	private SetLoader Loader;
     [SerializeField]
     private GameObject CardPrefab;
+
+	private int numCardsToLoad;
+
+	public EventHandler<Hand> OnHandLoaded;
 
 	public List<PlayingCard> GetPlayingCards() => Cards;
 
@@ -31,7 +36,7 @@ public class Hand : MonoBehaviour
 		var cards = new List<Card>();
 		for (int i = 0; i < NumCards; i++)
         {
-			cards.Add(allCards[Random.Range(0, allCards.Count - 1)]);
+			cards.Add(allCards[UnityEngine.Random.Range(0, allCards.Count - 1)]);
         }
 
 		Initialize(cards, useCardBack);
@@ -44,6 +49,8 @@ public class Hand : MonoBehaviour
 
 		Unload();
 
+		numCardsToLoad = cards.Count;
+		
 		int i = 0;
 		cards.ForEach(card => 
 		{
@@ -74,6 +81,16 @@ public class Hand : MonoBehaviour
 	{
 		yield return new WaitForSeconds(0.1f);
 		playingCard.Load(card, Team, useCardBack);
+		FinishLoadCard();
+	}
+
+	private void FinishLoadCard()
+	{
+		numCardsToLoad--;
+		if (numCardsToLoad == 0)
+		{
+			OnHandLoaded?.Invoke(this, this);
+		}
 	}
 
 	public void Drop(PlayingCard card)

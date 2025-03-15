@@ -39,6 +39,9 @@ public class GameManager : MonoBehaviour
 	private int playerScore;
 	private int adversaryScore;
 
+	private bool playerHandLoaded;
+	private bool adversaryHandLoaded;
+
 	private void Awake()
 	{
 		if (Instance != null)
@@ -58,6 +61,26 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		SetLoader.OnSetLoaded += (sender, cards) => Initialize();
+		PlayerHand.OnHandLoaded += OnHandLoaded;
+		AdversaryHand.OnHandLoaded += OnHandLoaded;
+	}
+
+	private void OnHandLoaded(object sender, Hand hand)
+	{
+		if (PlayerHand.Equals(hand))
+		{
+			playerHandLoaded = true;
+		}
+
+		if (AdversaryHand.Equals(hand))
+		{
+			adversaryHandLoaded = true;
+		}
+
+		if (playerHandLoaded && adversaryHandLoaded)
+		{
+			FinishInitialization();
+		}
 	}
 
 	public void NewGame()
@@ -69,6 +92,9 @@ public class GameManager : MonoBehaviour
 
 	public void Initialize()
 	{
+		playerHandLoaded = false;
+		adversaryHandLoaded = false;
+
 		PlayerHand.Initialize(false);
 		AdversaryHand.Initialize(true);
 
@@ -81,19 +107,14 @@ public class GameManager : MonoBehaviour
 		// UI
 		ScoreManager.Initialize();
 		WinnerManager.Initialize();
-
-		StartCoroutine(WaitForGameLoad());
 	}
 
-	private IEnumerator WaitForGameLoad()
+	private void FinishInitialization()
 	{
-		yield return new WaitForSeconds(1f);
-
 		currentTeamTurn = (UnityEngine.Random.Range(0, 2) == 0) ? Team.Blue : Team.Red;
 		// Controllers
 		PlayerController.ResetController();
 		AdversaryController.ResetController();
-		yield return null;
 	}
 
 	public void StartNextTurn()
