@@ -1,7 +1,6 @@
 using cards;
 using Enums;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -45,6 +44,9 @@ public class GameManager : MonoBehaviour
 	private bool playerHandLoaded;
 	private bool adversaryHandLoaded;
 
+	private TurnManager turnManager;
+	private bool isGameOver;
+
 	private void Awake()
 	{
 		if (Instance != null)
@@ -63,9 +65,12 @@ public class GameManager : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		currentTeamTurn = Team.None;
 		SetLoader.OnSetLoaded += (sender, cards) => Initialize();
 		PlayerHand.OnHandLoaded += OnHandLoaded;
 		AdversaryHand.OnHandLoaded += OnHandLoaded;
+
+		turnManager = GetComponent<TurnManager>();
 	}
 
 	private void OnHandLoaded(object sender, Hand hand)
@@ -108,13 +113,15 @@ public class GameManager : MonoBehaviour
 
 	public void Initialize()
 	{
+		currentTeamTurn = turnManager.ResetTurn();
+		isGameOver = false;
+
 		playerHandLoaded = false;
 		adversaryHandLoaded = false;
 
 		PlayerHand.Initialize(GetRandomHand(), false);
 		AdversaryHand.Initialize(GetRandomHand(), true);
 
-		currentTeamTurn = Team.None;
 		playerScore = 5;
 		adversaryScore = 5;
 		OnScoreChange?.Invoke(this, GetScore());
@@ -127,16 +134,31 @@ public class GameManager : MonoBehaviour
 
 	private void FinishInitialization()
 	{
-		currentTeamTurn = (UnityEngine.Random.Range(0, 2) == 0) ? Team.Blue : Team.Red;
+		currentTeamTurn = Team.None;
+		turnManager.ChooseRandomTeam(team => { currentTeamTurn = team; });
+
 		// Controllers
+		EnableControllers();
+	}
+
+	private void EnableControllers()
+	{
 		PlayerController.ResetController();
 		AdversaryController.ResetController();
 	}
 
 	public void StartNextTurn()
 	{
-		currentTeamTurn = Team.Red.Equals(currentTeamTurn) ? Team.Blue : Team.Red;
-		OnNewTurn?.Invoke(this, currentTeamTurn);
+		if (isGameOver)
+		{
+			return;
+		}
+
+		currentTeamTurn = Team.None;
+		turnManager.SetNextTurn(team => {
+			currentTeamTurn = team;
+			OnNewTurn?.Invoke(this, currentTeamTurn);
+		});
 	}
 
 	private bool WinsDirection(PlayingCard card1, PlayingCard card2, Board.Direction direction)
@@ -158,16 +180,13 @@ public class GameManager : MonoBehaviour
 		playingCard.Play();
 
 		var numFreeTiles = board.AddCard(playingCard, boardTile);
-		//Debug.Log($"playing card {playingCard.GetCardName()}");
+		isGameOver = numFreeTiles == 0;
 		var flippedCards = board.GetDirections().Select(direction =>
 		{
 			var card = board.GetNeighbour(playingCard, direction);
-			//var n = card == null ? "none" : card.GetCardName();
-			//Debug.Log($"neighbour {direction} {n}");
 			var isFlipped = card != null &&
 				!card.GetCurrentTeam().Equals(playingCard.GetCurrentTeam()) &&
 				WinsDirection(playingCard, card, direction);
-			//Debug.Log(isFlipped ? "flipped" : "not flipped");
 			return (isFlipped) ? card : null;
 		}).Where(card => card != null).ToList();
 
@@ -186,11 +205,9 @@ public class GameManager : MonoBehaviour
 
 			flippedCards.ForEach(card => card.SetCurrentTeam(playingCard.GetCurrentTeam()));
 			OnScoreChange?.Invoke(this, GetScore());
-
-			// Debug.Log($"player {playerScore} adversary {adversaryScore}");
 		}
-
-		if (numFreeTiles == 0)
+		
+		if (IsGameOver())
 		{
 			OnFinishGame?.Invoke(this, EventArgs.Empty);
 		}
@@ -199,6 +216,8 @@ public class GameManager : MonoBehaviour
 
 		return flippedCards;
 	}
+
+	private bool IsGameOver() => isGameOver;
 
 	// Update is called once per frame
 	void Update()

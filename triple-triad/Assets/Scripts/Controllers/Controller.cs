@@ -58,7 +58,7 @@ public abstract class Controller : MonoBehaviour
 
 	protected bool IsTeamTurn(Team team)
 	{
-		return team.Equals(gameManager.GetCurrentTeamTurn()) || !isControllerEnabled || isFlipping;
+		return team.Equals(gameManager.GetCurrentTeamTurn()) && isControllerEnabled && !isFlipping;
 	}
 
 	protected bool ThereAreCardsToFlip()

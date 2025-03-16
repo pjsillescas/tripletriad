@@ -20,7 +20,7 @@ public class AdversaryController : Controller
 	// Update is called once per frame
 	void Update()
     {
-		if (IsTeamTurn(Team.Blue))
+		if (!IsTeamTurn(Team.Red))
         {
             return;
         }

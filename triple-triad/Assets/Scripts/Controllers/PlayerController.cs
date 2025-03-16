@@ -42,7 +42,7 @@ public class PlayerController : Controller
 	// Update is called once per frame
 	void Update()
 	{
-		if (IsTeamTurn(Team.Red))
+		if (!IsTeamTurn(Team.Blue))
 		{
 			return;
 		}
