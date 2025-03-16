@@ -52,6 +52,7 @@ public class PlayingCard : MonoBehaviour
 	private bool isPlayed;
 	private CardFlip cardFlip;
 	private CardTravel cardTravel;
+	private bool isBackShown;
 
 	private ImageLoader imageLoaderFront;
 	private ImageLoader imageLoaderBack;
@@ -76,10 +77,34 @@ public class PlayingCard : MonoBehaviour
 
 		imageLoaderFront = imageLoaders[0];
 		imageLoaderBack = imageLoaders[1];
+		isBackShown = false;
 	}
 
+	public void FlipIsBackShown()
+	{
+		isBackShown = !isBackShown;
+
+		RefreshTexts();
+	}
+
+	private void RefreshTexts()
+	{
+		NorthText.gameObject.SetActive(!isBackShown);
+		EastText.gameObject.SetActive(!isBackShown);
+		SouthText.gameObject.SetActive(!isBackShown);
+		WestText.gameObject.SetActive(!isBackShown);
+		FrontTeamText.gameObject.SetActive(!isBackShown);
+
+		NorthBackText.gameObject.SetActive(isPlayed && isBackShown);
+		EastBackText.gameObject.SetActive(isPlayed && isBackShown);
+		SouthBackText.gameObject.SetActive(isPlayed && isBackShown);
+		WestBackText.gameObject.SetActive(isPlayed && isBackShown);
+		BackTeamText.gameObject.SetActive(isPlayed && isBackShown);
+	}
+	
 	public void Flip(Action onEndFlip)
 	{
+		FlipIsBackShown();
 		cardFlip.Flip(onEndFlip);
 	}
 
@@ -116,6 +141,8 @@ public class PlayingCard : MonoBehaviour
 		SouthText.text = $"{chars[2]}";
 		WestText.text = $"{chars[3]}";
 
+		isPlayed = false;
+		isBackShown = useBackImage;
 		if (useBackImage)
 		{
 			var backImageFileName = $"Sets/{set}/Images/cardback.png";
@@ -134,9 +161,10 @@ public class PlayingCard : MonoBehaviour
 			WestBackText.text = WestText.text;
 		}
 
+		RefreshTexts();
+		
 		this.team = team;
 		SetCurrentTeam(team);
-		isPlayed = false;
 
 		return this;
 	}
