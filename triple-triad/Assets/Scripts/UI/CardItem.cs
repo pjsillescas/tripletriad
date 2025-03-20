@@ -1,4 +1,5 @@
 using cards;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
@@ -17,9 +18,12 @@ public class CardItem : MonoBehaviour
 
 	private int numUnits;
     private int leftUnits;
-    Card card;
+    private Card card;
 
-    public void AddCardData(Card card, int numUnits)
+	private Func<Card, bool> addCard;
+	private Func<Card, bool> removeCard;
+
+    public void AddCardData(Card card, int numUnits, Func<Card, bool> addCard, Func<Card, bool> removeCard)
     {
         this.numUnits = numUnits;
         this.card = card;
@@ -27,11 +31,14 @@ public class CardItem : MonoBehaviour
 		ResetCard();
 		TitleText.text = card.name;
 		NumberText.text = leftUnits.ToString();
+		this.addCard = addCard;
+		this.removeCard = removeCard;
 	}
 
 	public void ResetCard()
 	{
 		leftUnits = numUnits;
+		NumberText.text = leftUnits.ToString();
 
 		AddButton.enabled = true;
 		RemoveButton.enabled = false;
@@ -52,10 +59,13 @@ public class CardItem : MonoBehaviour
             return;
         }
 
-        leftUnits--;
-		NumberText.text = leftUnits.ToString();
+		if (addCard(card))
+		{
+			leftUnits--;
+			NumberText.text = leftUnits.ToString();
 
-		RemoveButton.enabled = leftUnits >= 0;
+			RemoveButton.enabled = leftUnits >= 0;
+		}
     }
 	private void RemoveButtonClick()
 	{
@@ -63,11 +73,14 @@ public class CardItem : MonoBehaviour
 		{
 			return;
 		}
-		
-        leftUnits++;
-		NumberText.text = leftUnits.ToString();
 
-		AddButton.enabled = leftUnits <= numUnits;
+		if (removeCard(card))
+		{
+			leftUnits++;
+			NumberText.text = leftUnits.ToString();
+
+			AddButton.enabled = leftUnits <= numUnits;
+		}
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created

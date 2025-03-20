@@ -13,8 +13,28 @@ public class ScoreManager : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
     {
-        GameManager.GetInstance().OnScoreChange += OnScoreChange;
+		var gameManager = GameManager.GetInstance();
+
+		gameManager.OnScoreChange += OnScoreChange;
+		gameManager.OnFinishGame += (sender, args) => DeactivateWidget();
+		gameManager.OnStartGame += (sender, args) => ActivateWidget();
+
+		DeactivateWidget();
     }
+
+	public void ActivateWidget()
+	{
+		Debug.Log("activate");
+		AdversaryScoreText.gameObject.SetActive(true);
+		PlayerScoreText.gameObject.SetActive(true);
+	}
+
+	public void DeactivateWidget()
+	{
+		Debug.Log("deactivate");
+		AdversaryScoreText.gameObject.SetActive(false);
+		PlayerScoreText.gameObject.SetActive(false);
+	}
 
 	private void OnScoreChange(object sender, GameManager.Score score)
 	{
@@ -24,6 +44,6 @@ public class ScoreManager : MonoBehaviour
 
 	public void Initialize()
 	{
-		;
+		ActivateWidget();
 	}
 }

@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 	private WinnerManager WinnerManager;
 	[SerializeField]
 	private ScoreManager ScoreManager;
+	[SerializeField]
+	private ManualHandWidget ManualHandWidget;
 
 	public class Score
 	{
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
 
 	public event EventHandler<Team> OnNewTurn;
 	public event EventHandler OnFinishGame;
+	public event EventHandler OnStartGame;
 	public event EventHandler<Score> OnScoreChange;
 
 
@@ -66,11 +69,13 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		currentTeamTurn = Team.None;
-		SetLoader.OnSetLoaded += (sender, cards) => Initialize();
+		//SetLoader.OnSetLoaded += (sender, cards) => Initialize();
 		PlayerHand.OnHandLoaded += OnHandLoaded;
 		AdversaryHand.OnHandLoaded += OnHandLoaded;
 
 		turnManager = GetComponent<TurnManager>();
+
+		Initialize();
 	}
 
 	private void OnHandLoaded(object sender, Hand hand)
@@ -113,23 +118,30 @@ public class GameManager : MonoBehaviour
 
 	public void Initialize()
 	{
+		ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
+	}
+
+	private void OnPlayerHandChosen(List<Card> cards)
+	{
 		currentTeamTurn = turnManager.ResetTurn();
 		isGameOver = false;
 
 		playerHandLoaded = false;
 		adversaryHandLoaded = false;
 
-		PlayerHand.Initialize(GetRandomHand(), false);
+		PlayerHand.Initialize(cards, false);
 		AdversaryHand.Initialize(GetRandomHand(), true);
 
 		playerScore = 5;
 		adversaryScore = 5;
 		OnScoreChange?.Invoke(this, GetScore());
 		Board.GetInstance().Initialize();
-		
+
 		// UI
 		ScoreManager.Initialize();
 		WinnerManager.Initialize();
+
+		OnStartGame?.Invoke(this, EventArgs.Empty);
 	}
 
 	private void FinishInitialization()

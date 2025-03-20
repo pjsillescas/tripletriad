@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Rendering;
+using System;
 
 public class CardLister : MonoBehaviour
 {
@@ -16,14 +17,8 @@ public class CardLister : MonoBehaviour
 	private Transform Content;
 
 	private List<CardItem> items;
-	/*
-	private void OnSetLoaded(object sender, List<Card> cardList)
-	{
-		LoadSet(cardList);
-	}
-	*/
 
-	public void LoadSet(List<Card> cardList)
+	public void LoadSet(List<Card> cardList, Func<Card, bool> addCard, Func<Card, bool> removeCard)
 	{
 		items.ForEach(card => {
 			if (card != null)
@@ -35,7 +30,7 @@ public class CardLister : MonoBehaviour
 		items = cardList.Select(card => {
 			var item = Instantiate(ItemPrefab, Content);
 			var cardItem = item.GetComponentInChildren<CardItem>();
-			cardItem.AddCardData(card, MaxCards);
+			cardItem.AddCardData(card, MaxCards, addCard, removeCard);
 			return cardItem;
 		}).ToList();
 		
@@ -54,7 +49,7 @@ public class CardLister : MonoBehaviour
 	void Start()
 	{
 		items = new();
-		SetLoader.OnSetLoaded += (sender, cardList) => LoadSet(cardList);
+		
 	}
 
 	// Update is called once per frame
