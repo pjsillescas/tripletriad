@@ -20,13 +20,15 @@ public class CardLister : MonoBehaviour
 
 	public void LoadSet(List<Card> cardList, Func<Card, bool> addCard, Func<Card, bool> removeCard)
 	{
-		items.ForEach(card => {
+		items?.ForEach(card => {
 			if (card != null)
 			{
 				Destroy(card.gameObject);
 			}
 		});
-
+		Content.DetachChildren();
+		items?.Clear();
+		
 		items = cardList.Select(card => {
 			var item = Instantiate(ItemPrefab, Content);
 			var cardItem = item.GetComponentInChildren<CardItem>();

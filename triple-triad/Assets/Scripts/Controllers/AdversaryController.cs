@@ -8,7 +8,7 @@ public class AdversaryController : Controller
 
 	protected override void OnTurnStart(object sender, Team currentTeam)
 	{
-        ;
+		;
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,13 +19,13 @@ public class AdversaryController : Controller
 
 	// Update is called once per frame
 	void Update()
-    {
+	{
 		if (!IsTeamTurn(Team.Red))
-        {
-            return;
-        }
+		{
+			return;
+		}
 
-        Debug.Log("Adversary turn start");
+		// Debug.Log("Adversary turn start");
 
 		var selectedPlayingCard = SelectPlayingCard();
 
@@ -36,7 +36,7 @@ public class AdversaryController : Controller
 		{
 			PlayCard(selectedPlayingCard, selectedBoardTile);
 		}
-    }
+	}
 
 	private PlayingCard SelectPlayingCard()
 	{

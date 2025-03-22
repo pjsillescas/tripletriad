@@ -24,14 +24,12 @@ public class ScoreManager : MonoBehaviour
 
 	public void ActivateWidget()
 	{
-		Debug.Log("activate");
 		AdversaryScoreText.gameObject.SetActive(true);
 		PlayerScoreText.gameObject.SetActive(true);
 	}
 
 	public void DeactivateWidget()
 	{
-		Debug.Log("deactivate");
 		AdversaryScoreText.gameObject.SetActive(false);
 		PlayerScoreText.gameObject.SetActive(false);
 	}

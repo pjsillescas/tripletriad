@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static HandSelector;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,12 +20,14 @@ public class GameManager : MonoBehaviour
 	private PlayerController PlayerController;
 	[SerializeField]
 	private AdversaryController AdversaryController;
-	[SerializeField]
-	private WinnerManager WinnerManager;
+	//[SerializeField]
+	//private WinnerManager WinnerManager;
 	[SerializeField]
 	private ScoreManager ScoreManager;
 	[SerializeField]
 	private ManualHandWidget ManualHandWidget;
+	[SerializeField]
+	private NewGameWidget NewGameWidget;
 
 	public class Score
 	{
@@ -50,6 +53,8 @@ public class GameManager : MonoBehaviour
 	private TurnManager turnManager;
 	private bool isGameOver;
 
+	private HandSelectionType handSelectionType;
+
 	private void Awake()
 	{
 		if (Instance != null)
@@ -70,6 +75,20 @@ public class GameManager : MonoBehaviour
 	{
 		currentTeamTurn = Team.None;
 		//SetLoader.OnSetLoaded += (sender, cards) => Initialize();
+
+		SetLoader.OnSetLoaded += (sender, cards) => {
+			switch (handSelectionType)
+			{
+				case HandSelectionType.Manual:
+					ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
+					break;
+				case HandSelectionType.Random:
+				default:
+					OnPlayerHandChosen(GetRandomHand());
+					break;
+			}
+		};
+
 		PlayerHand.OnHandLoaded += OnHandLoaded;
 		AdversaryHand.OnHandLoaded += OnHandLoaded;
 
@@ -118,7 +137,15 @@ public class GameManager : MonoBehaviour
 
 	public void Initialize()
 	{
-		ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
+		NewGameWidget.ActivateWidget(OnNewGame);
+		//ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
+	}
+
+	private void OnNewGame(string setName, HandSelectionType handSelectionType)
+	{
+		this.handSelectionType = handSelectionType;
+
+		SetLoader.GetInstance().LoadSet(setName);
 	}
 
 	private void OnPlayerHandChosen(List<Card> cards)
@@ -139,7 +166,7 @@ public class GameManager : MonoBehaviour
 
 		// UI
 		ScoreManager.Initialize();
-		WinnerManager.Initialize();
+		//WinnerManager.Initialize();
 
 		OnStartGame?.Invoke(this, EventArgs.Empty);
 	}
