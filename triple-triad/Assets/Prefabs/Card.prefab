@@ -832,7 +832,7 @@ GameObject:
   - component: {fileID: 4423909657013592295}
   - component: {fileID: 1595095103716525638}
   - component: {fileID: 7238671468558874274}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: CardPlaneBlack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -885,7 +885,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 16ecaa81dce6a004185d6ab54db71ab7, type: 2}
+  - {fileID: 2100000, guid: f1deec3c70248d4438e06018acbf2235, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2287,7 +2287,7 @@ GameObject:
   - component: {fileID: 4749126848865176302}
   - component: {fileID: 7353462285055163940}
   - component: {fileID: 1470122253764321626}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: CardPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2340,7 +2340,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 16ecaa81dce6a004185d6ab54db71ab7, type: 2}
+  - {fileID: 2100000, guid: f1deec3c70248d4438e06018acbf2235, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
