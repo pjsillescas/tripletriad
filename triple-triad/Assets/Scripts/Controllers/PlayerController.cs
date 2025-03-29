@@ -51,24 +51,18 @@ public class PlayerController : Controller
 		var mousePosition = inputs.UI.Point.ReadValue<Vector2>();
 		Ray ray = mainCamera.ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
 		Debug.DrawLine(ray.origin, ray.direction);
-		PlayingCard currentPlayingCard = null;
 		BoardTile currentBoardTile = null;
 		if (Physics.Raycast(ray, out RaycastHit hit, MAX_RAYCAST_DISTANCE, layers))
 		{
 			var playingCard = hit.collider.gameObject.GetComponentInParent<PlayingCard>();
-			if (playingCard != null)
+			if (playingCard != null && selectedHoveredCard != playingCard)
 			{
-				if (selectedHoveredCard != playingCard)
+				if (selectedHoveredCard != null)
 				{
-					if (selectedHoveredCard != null)
-					{
-						selectedHoveredCard.SetIsHovered(false);
-					}
-					selectedHoveredCard = playingCard;
-					selectedHoveredCard.SetIsHovered(true);
+					selectedHoveredCard.SetIsHovered(false);
 				}
-
-				currentPlayingCard = playingCard;
+				selectedHoveredCard = playingCard;
+				selectedHoveredCard.SetIsHovered(true);
 			}
 
 			if (hit.collider.gameObject.TryGetComponent<BoardTile>(out var boardTile))
@@ -79,13 +73,14 @@ public class PlayerController : Controller
 
 		if (inputs.Player.Interact.IsPressed() && !ThereAreCardsToFlip())
 		{
-			if (currentPlayingCard != null && Hand.GetPlayingCards().Contains(currentPlayingCard))
+			if (selectedHoveredCard != null && selectedHoveredCard != selectedPlayingCard &&
+				Hand.GetPlayingCards().Contains(selectedHoveredCard))
 			{
 				if(selectedPlayingCard)
 				{
 					selectedPlayingCard.SetIsSelected(false);
 				}
-				selectedPlayingCard = currentPlayingCard;
+				selectedPlayingCard = selectedHoveredCard;
 
 				selectedPlayingCard.SetIsSelected(true);
 			}
