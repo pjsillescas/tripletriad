@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class PlayingCard : MonoBehaviour
 {
+	private const float OUTLINE_WIDTH = 0.05f;
+
 	[SerializeField]
 	private Transform Side1;
 	[SerializeField]
@@ -53,6 +55,7 @@ public class PlayingCard : MonoBehaviour
 	private CardFlip cardFlip;
 	private CardTravel cardTravel;
 	private bool isBackShown;
+	private bool isSelected;
 
 	private ImageLoader imageLoaderFront;
 	private ImageLoader imageLoaderBack;
@@ -101,7 +104,7 @@ public class PlayingCard : MonoBehaviour
 		WestBackText.gameObject.SetActive(isPlayed && isBackShown);
 		BackTeamText.gameObject.SetActive(isPlayed && isBackShown);
 	}
-	
+
 	public void Flip(Action onEndFlip)
 	{
 		FlipIsBackShown();
@@ -110,7 +113,7 @@ public class PlayingCard : MonoBehaviour
 
 	public void Travel(Vector3 endPosition, Vector3 middlePosition, Action onEndTravel)
 	{
-		cardTravel.Travel(endPosition, middlePosition,onEndTravel);
+		cardTravel.Travel(endPosition, middlePosition, onEndTravel);
 	}
 
 	// Update is called once per frame
@@ -162,10 +165,10 @@ public class PlayingCard : MonoBehaviour
 		}
 
 		RefreshTexts();
-		
+
 		this.team = team;
 		SetCurrentTeam(team);
-
+		SetIsSelected(false);
 		return this;
 	}
 
@@ -178,13 +181,14 @@ public class PlayingCard : MonoBehaviour
 		EastBackText.text = EastText.text;
 		SouthBackText.text = SouthText.text;
 		WestBackText.text = WestText.text;
-		
+
 		isPlayed = true;
+		SetIsSelected(false);
 	}
 
 	private string ToFileName(string name)
 	{
-		Dictionary<string, string> dict = new () {
+		Dictionary<string, string> dict = new() {
 			{ "Shumi Tribe", "NORG" },
 			{ "Tri-Point", "Tripoint" },
 			{ "Sphinxara", "Sphinxaur" },
@@ -197,7 +201,7 @@ public class PlayingCard : MonoBehaviour
 			{ "Abadon", "Abaddon"},
 		};
 
-		return dict.ContainsKey(name) ? dict[name] : name.Replace(" ","");
+		return dict.ContainsKey(name) ? dict[name] : name.Replace(" ", "");
 	}
 
 	private void LoadImage(string filename, Material material, bool useFront)
@@ -234,5 +238,60 @@ public class PlayingCard : MonoBehaviour
 	public void SetIsPlayed(bool isPlayed)
 	{
 		this.isPlayed = isPlayed;
+
+		if (isPlayed)
+		{
+			SetIsSelected(false);
+		}
+	}
+
+	private readonly Color SELECTED_COLOR = Color.red;
+	private readonly Color HOVERED_COLOR = Color.cyan;
+
+	public void SetIsSelected(bool isSelected)
+	{
+		this.isSelected = isSelected;
+		if (isSelected)
+		{
+			//sideMat1.SetFloat("Outline Width", 0.05f);
+			//sideMat1.SetColor("Outline Color", Color.red);
+			SetOutline(sideMat1, OUTLINE_WIDTH, SELECTED_COLOR);
+			SetOutline(sideMat2, OUTLINE_WIDTH, SELECTED_COLOR);
+		}
+		else
+		{
+			//sideMat1.SetFloat("Outline Width", 0);
+			SetOutline(sideMat1, 0, SELECTED_COLOR);
+			SetOutline(sideMat2, 0, SELECTED_COLOR);
+		}
+	}
+
+	public void SetIsHovered(bool isHovered)
+	{
+		if (CanBeHovered())
+		{
+			if (isHovered)
+			{
+				SetOutline(sideMat1, OUTLINE_WIDTH, HOVERED_COLOR);
+				SetOutline(sideMat2, OUTLINE_WIDTH, HOVERED_COLOR);
+			}
+			else
+			{
+				//sideMat1.SetFloat("Outline Width", 0);
+				SetOutline(sideMat1, 0, HOVERED_COLOR);
+				SetOutline(sideMat2, 0, HOVERED_COLOR);
+			}
+		}
+	}
+
+	private bool CanBeHovered()
+	{
+		return !isBackShown && !isSelected && team.Equals(Team.Blue);
+	}
+
+	private void SetOutline(Material material, float width, Color color)
+	{
+		material.SetFloat("_OutlineWidth", width);
+		material.SetColor("_OutlineColor", color);
 	}
 }

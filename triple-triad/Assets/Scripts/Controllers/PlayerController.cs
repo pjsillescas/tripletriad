@@ -15,6 +15,7 @@ public class PlayerController : Controller
 	private int layers;
 
 	private PlayingCard selectedPlayingCard;
+	private PlayingCard selectedHoveredCard;
 	private BoardTile selectedBoardTile;
 
 	private void Awake()
@@ -57,6 +58,16 @@ public class PlayerController : Controller
 			var playingCard = hit.collider.gameObject.GetComponentInParent<PlayingCard>();
 			if (playingCard != null)
 			{
+				if (selectedHoveredCard != playingCard)
+				{
+					if (selectedHoveredCard != null)
+					{
+						selectedHoveredCard.SetIsHovered(false);
+					}
+					selectedHoveredCard = playingCard;
+					selectedHoveredCard.SetIsHovered(true);
+				}
+
 				currentPlayingCard = playingCard;
 			}
 
@@ -70,7 +81,13 @@ public class PlayerController : Controller
 		{
 			if (currentPlayingCard != null && Hand.GetPlayingCards().Contains(currentPlayingCard))
 			{
+				if(selectedPlayingCard)
+				{
+					selectedPlayingCard.SetIsSelected(false);
+				}
 				selectedPlayingCard = currentPlayingCard;
+
+				selectedPlayingCard.SetIsSelected(true);
 			}
 
 			selectedBoardTile = currentBoardTile;
