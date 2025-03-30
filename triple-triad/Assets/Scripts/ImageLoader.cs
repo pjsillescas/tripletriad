@@ -30,7 +30,7 @@ public class ImageLoader : MonoBehaviour
             yield return uwr.SendWebRequest();
             if(uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
             {
-				Debug.LogError(uwr.error);
+				Debug.LogError($"{uwr.error} ({fileName})");
             }
             else
             {

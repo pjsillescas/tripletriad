@@ -49,7 +49,12 @@ Shader "Custom/PlaneOutlineSDF"
                 float distance = min(edgeDist.x, edgeDist.y);
 
                 // Sample the main texture
-                fixed4 col = tex2D(_MainTex, i.uv) * _Color;
+                fixed4 col = tex2D(_MainTex, i.uv);
+
+                if(col.a == 0)
+                {
+                    col = _Color;
+                }
 
                 // Apply outline based on distance
                 float outlineFactor = 1 - smoothstep(_OutlineWidth, _OutlineWidth * 0.5, distance);

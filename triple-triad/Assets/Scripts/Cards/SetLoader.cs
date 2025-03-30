@@ -51,7 +51,11 @@ public class SetLoader : MonoBehaviour
 	{
 		var cardSet = JsonUtility.FromJson<JsonSetObject>(json);
 		cards = cardSet.cards;
-
+		cards.ForEach(card =>
+		{
+			card.set = Set;
+			card.nameFormat = (Set.Equals("FFVIII")) ? "TT{0}.jpg" : "{0}.png";
+		});
 		OnSetLoaded?.Invoke(this, cards);
 	}
 

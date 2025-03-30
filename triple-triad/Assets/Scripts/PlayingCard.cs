@@ -122,6 +122,9 @@ public class PlayingCard : MonoBehaviour
 
 	}
 
+	private readonly Color PLAYER_BACKGROUND_COLOR = Color.blue;
+	private readonly Color ADVERSARY_BACKGROUND_COLOR = Color.red;
+
 	public PlayingCard Load(Card card, Team team, bool useBackImage)
 	{
 		cardName = card.name;
@@ -134,9 +137,21 @@ public class PlayingCard : MonoBehaviour
 		south = values[2];
 		west = values[3];
 
-		var set = "FFVIII";
+		/*
+		var backgroundColor = (team.Equals(Team.Blue)) ? PLAYER_BACKGROUND_COLOR : ADVERSARY_BACKGROUND_COLOR;
+		sideMat1.SetColor("_Color", backgroundColor);
+		var reverseBackgroundColor = (team.Equals(Team.Blue)) ? ADVERSARY_BACKGROUND_COLOR : PLAYER_BACKGROUND_COLOR;
+		sideMat2.SetColor("_Color", reverseBackgroundColor);
+		*/
+		sideMat1.SetColor("_Color", PLAYER_BACKGROUND_COLOR);
+		sideMat2.SetColor("_Color", ADVERSARY_BACKGROUND_COLOR);
+
+
+		//var set = "FFVIII";
+		var set = card.set;
 		var image = ToFileName(cardName);
-		imageFileName = $"Sets/{set}/Images/TT{image}.jpg";
+		var cardFileName = string.Format(card.nameFormat, image);
+		imageFileName = $"Sets/{set}/Images/{cardFileName}";
 		LoadImage(imageFileName, sideMat1, true);
 
 		NorthText.text = $"{chars[0]}";
@@ -289,9 +304,9 @@ public class PlayingCard : MonoBehaviour
 		return !isBackShown && !isSelected && team.Equals(Team.Blue);
 	}
 
-	private void SetOutline(Material material, float width, Color color)
+	private void SetOutline(Material material, float width, Color outlineColor)
 	{
 		material.SetFloat("_OutlineWidth", width);
-		material.SetColor("_OutlineColor", color);
+		material.SetColor("_OutlineColor", outlineColor);
 	}
 }
