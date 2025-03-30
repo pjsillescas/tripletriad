@@ -1,0 +1,179 @@
+{
+  "cards": [
+	{
+	  "name": "Nginx5",
+	  "elemental": null,
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "8962"
+	},
+	{
+	  "name": "Nginx4",
+	  "elemental": "earth",
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "5199"
+	},
+	{
+	  "name": "Nginx3",
+	  "elemental": "earth",
+	  "level": 8,
+	  "class": "guardian-force",
+	  "values": "9529"
+	},
+	{
+	  "name": "Nginx2",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "84A4"
+	},
+	{
+	  "name": "Nginx1",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "5A83"
+	},
+	{
+	  "name": "Apollo",
+	  "elemental": "water",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "7A17"
+	},
+	{
+	  "name": "Pluton",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "8A35"
+	},
+	{
+	  "name": "Cafetera",
+	  "elemental": "wind",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "A177"
+	},
+	{
+	  "name": "Iron Man",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "746A"
+	},
+	{
+	  "name": "Oscar",
+	  "elemental": "holy",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "9A42"
+	},
+	{
+	  "name": "Thanos",
+	  "elemental": "fire",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "727A"
+	},
+	{
+	  "name": "Venom",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "A826"
+	},
+	{
+	  "name": "Dr Strange",
+	  "elemental": "poison",
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "31AA"
+	},
+	{
+	  "name": "Cactus",
+	  "elemental": null,
+	  "level": 9,
+	  "class": "guardian-force",
+	  "values": "449A"
+	},
+	{
+	  "name": "Red Hulk",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "A728"
+	},
+	{
+	  "name": "Hulk",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "676A"
+	},
+	{
+	  "name": "Malmeto",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "5A39"
+	},
+	{
+	  "name": "Colossus",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "A864"
+	},
+	{
+	  "name": "Ironheart",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "96A2"
+	},
+	{
+	  "name": "Scarlet Witch",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "269A"
+	},
+	{
+	  "name": "Human Torch",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "85A6"
+	},
+	{
+	  "name": "Vision",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "4A2A"
+	},
+	{
+	  "name": "Deadpool",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "AA33"
+	},
+	{
+	  "name": "Spider-man",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "69A4"
+	},
+	{
+	  "name": "Wolverine",
+	  "elemental": null,
+	  "level": 10,
+	  "class": "player",
+	  "values": "A469"
+	}
+  ]
+}
