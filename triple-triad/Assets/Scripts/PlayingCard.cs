@@ -150,7 +150,7 @@ public class PlayingCard : MonoBehaviour
 		//var set = "FFVIII";
 		var set = card.set;
 		var image = ToFileName(cardName);
-		var cardFileName = string.Format(card.nameFormat, image);
+		var cardFileName = string.Format(card.nameFormat, (set.Equals("Inmoba")) ? image.ToLower() : image);
 		imageFileName = $"Sets/{set}/Images/{cardFileName}";
 		LoadImage(imageFileName, sideMat1, true);
 
@@ -237,6 +237,7 @@ public class PlayingCard : MonoBehaviour
 			{ "Fujin, Raijin", "FujinRaijin"},
 			{ "Wedge, Biggs", "BiggsWedge"},
 			{ "Abadon", "Abaddon"},
+			{ "Tripoint", "TTTriPoint" },
 		};
 
 		return dict.ContainsKey(name) ? dict[name] : name.Replace(" ", "");
