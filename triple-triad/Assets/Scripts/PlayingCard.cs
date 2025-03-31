@@ -192,10 +192,33 @@ public class PlayingCard : MonoBehaviour
 		SetCurrentTeam(team);
 
 		LoadImage(imageFileName, sideMat2, false);
+
+		Debug.Log("playing card " + cardName);
+
+		NorthBackText.gameObject.SetActive(true);
+		EastBackText.gameObject.SetActive(true);
+		SouthBackText.gameObject.SetActive(true);
+		WestBackText.gameObject.SetActive(true);
+
+		NorthText.gameObject.SetActive(true);
+		EastText.gameObject.SetActive(true);
+		SouthText.gameObject.SetActive(true);
+		WestText.gameObject.SetActive(true);
+		
+		BackTeamText.gameObject.SetActive(true);
+		FrontTeamText.gameObject.SetActive(true);
+
 		NorthBackText.text = NorthText.text;
 		EastBackText.text = EastText.text;
 		SouthBackText.text = SouthText.text;
 		WestBackText.text = WestText.text;
+
+		/*
+		NorthText.text = NorthText.text;
+		EastText.text = EastText.text;
+		SouthText.text = SouthText.text;
+		WestText.text = WestText.text;
+		*/
 
 		isPlayed = true;
 		SetIsSelected(false);
