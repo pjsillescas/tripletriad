@@ -57,6 +57,8 @@ public class ManualHandWidget : MonoBehaviour
 
 	private void StartButtonClick()
 	{
+		SoundManager.GetInstance().Click();
+
 		onHandChosen?.Invoke(cards);
 		DeactivateWidget();
 	}

@@ -16,7 +16,7 @@ public class ScoreManager : MonoBehaviour
 		var gameManager = GameManager.GetInstance();
 
 		gameManager.OnScoreChange += OnScoreChange;
-		gameManager.OnFinishGame += (sender, args) => DeactivateWidget();
+		//gameManager.OnFinishGame += (sender, args) => DeactivateWidget();
 		gameManager.OnStartGame += (sender, args) => ActivateWidget();
 
 		DeactivateWidget();

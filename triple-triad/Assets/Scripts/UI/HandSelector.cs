@@ -30,6 +30,8 @@ public class HandSelector : MonoBehaviour
 			return;
 		}
 
+		SoundManager.GetInstance().Click();
+		
 		currentHandSelection = toggle.name.StartsWith("Manual") ? HandSelectionType.Manual : HandSelectionType.Random;
 	}
 

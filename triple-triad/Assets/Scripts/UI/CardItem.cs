@@ -61,6 +61,8 @@ public class CardItem : MonoBehaviour
 
 		if (addCard(card))
 		{
+			SoundManager.GetInstance().Click();
+
 			leftUnits--;
 			NumberText.text = leftUnits.ToString();
 
@@ -76,6 +78,8 @@ public class CardItem : MonoBehaviour
 
 		if (removeCard(card))
 		{
+			SoundManager.GetInstance().Click();
+			
 			leftUnits++;
 			NumberText.text = leftUnits.ToString();
 

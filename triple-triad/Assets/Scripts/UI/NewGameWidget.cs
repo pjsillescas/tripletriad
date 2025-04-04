@@ -23,6 +23,8 @@ public class NewGameWidget : MonoBehaviour
 	{
 		NewGameButton.onClick.AddListener(NewGameClick);
 		GameManager.GetInstance().OnFinishGame += FinishGame;
+
+		SetDropdown.onValueChanged.AddListener((_val) => SoundManager.GetInstance().Click());
 	}
 
 	private void FinishGame(object sender, EventArgs e)
@@ -63,6 +65,8 @@ public class NewGameWidget : MonoBehaviour
 
 	private void NewGameClick()
 	{
+		SoundManager.GetInstance().Click();
+		
 		var chosenSet = SetDropdown.options[SetDropdown.value].text;
 		var handSelectionMethod = HandSelector.GetHandSelection();
 		Debug.Log($"set {chosenSet} player [{handSelectionMethod}]");

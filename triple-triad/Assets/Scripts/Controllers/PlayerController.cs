@@ -50,7 +50,7 @@ public class PlayerController : Controller
 
 		var mousePosition = inputs.UI.Point.ReadValue<Vector2>();
 		Ray ray = mainCamera.ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
-		Debug.DrawLine(ray.origin, ray.direction);
+		//Debug.DrawLine(ray.origin, ray.direction);
 		BoardTile currentBoardTile = null;
 		if (Physics.Raycast(ray, out RaycastHit hit, MAX_RAYCAST_DISTANCE, layers))
 		{
@@ -76,12 +76,13 @@ public class PlayerController : Controller
 			if (selectedHoveredCard != null && selectedHoveredCard != selectedPlayingCard &&
 				Hand.GetPlayingCards().Contains(selectedHoveredCard))
 			{
-				if(selectedPlayingCard)
+				if (selectedPlayingCard)
 				{
 					selectedPlayingCard.SetIsSelected(false);
 				}
 				selectedPlayingCard = selectedHoveredCard;
 
+				SoundManager.GetInstance().Click();
 				selectedPlayingCard.SetIsSelected(true);
 			}
 

@@ -47,6 +47,8 @@ public abstract class Controller : MonoBehaviour
 	private bool isFlipping;
 	private void OnEndFlip()
 	{
+		SoundManager.GetInstance().Drip();
+		
 		numCardsToFlip--;
 
 		if (numCardsToFlip == 0)
@@ -68,11 +70,15 @@ public abstract class Controller : MonoBehaviour
 
 	protected void PlayCard(PlayingCard playingCard, BoardTile boardTile)
 	{
+		SoundManager.GetInstance().Click();
+
 		isFlipping = true;
 		//playingCard.transform.position = boardTile.transform.position;
 		playingCard.Travel(boardTile.transform.position, MiddlePosition.position,
 			() =>
 			{
+				SoundManager.GetInstance().Drip();
+
 				isFlipping = false;
 				ProcessCard(playingCard, boardTile);
 			});
