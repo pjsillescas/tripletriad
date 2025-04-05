@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
 
 	private HandSelectionType handSelectionType;
 
+	private List<RuleVariation> rules;
+
 	private void Awake()
 	{
 		if (Instance != null)
@@ -141,9 +143,10 @@ public class GameManager : MonoBehaviour
 		//ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
 	}
 
-	private void OnNewGame(string setName, HandSelectionType handSelectionType)
+	private void OnNewGame(string setName, HandSelectionType handSelectionType, List<RuleVariation> rules)
 	{
 		this.handSelectionType = handSelectionType;
+		this.rules = rules;
 
 		SetLoader.GetInstance().LoadSet(setName);
 	}

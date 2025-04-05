@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +12,17 @@ public class NewGameWidget : MonoBehaviour
 	[SerializeField]
 	private TextMeshProUGUI WinnerText;
 	[SerializeField]
+	private GameObject WinnerPanel;
+	[SerializeField]
 	private TMP_Dropdown SetDropdown;
 	[SerializeField]
 	private HandSelector HandSelector;
 	[SerializeField]
 	private Button NewGameButton;
+	[SerializeField]
+	private RuleVariationWidget RuleVariationWidget;
 
-	private Action<string, HandSelector.HandSelectionType> onNewGame;
+	private Action<string, HandSelector.HandSelectionType, List<RuleVariation>> onNewGame;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -48,32 +54,41 @@ public class NewGameWidget : MonoBehaviour
 		ActivateWidget(winner);
 	}
 
-	public void ActivateWidget(Action<string,HandSelector.HandSelectionType> onNewGame)
+	public void ActivateWidget(Action<string,HandSelector.HandSelectionType, List<RuleVariation>> onNewGame)
 	{
 		this.onNewGame = onNewGame;
 		Widget.gameObject.SetActive(true);
-		WinnerText.gameObject.SetActive(false);
+		SetWinnerWidgetActive(false);
 	}
 
 	public void ActivateWidget(string winner)
 	{
 		WinnerText.text = winner;
 		Widget.gameObject.SetActive(true);
-		WinnerText.gameObject.SetActive(true);
-
+		SetWinnerWidgetActive(true);
 	}
 
+	private void SetWinnerWidgetActive(bool active)
+	{
+		WinnerText.gameObject.SetActive(active);
+		WinnerPanel.SetActive(active);
+	}
 	private void NewGameClick()
 	{
 		SoundManager.GetInstance().Click();
-		
+		/*
 		var chosenSet = SetDropdown.options[SetDropdown.value].text;
 		var handSelectionMethod = HandSelector.GetHandSelection();
 		Debug.Log($"set {chosenSet} player [{handSelectionMethod}]");
 		Widget.gameObject.SetActive(false);
-		WinnerText.gameObject.SetActive(false);
+		SetWinnerWidgetActive(false);
+		*/
 
-		onNewGame(chosenSet, handSelectionMethod);
+		var rules = RuleVariationWidget.GetRuleVariations();
+
+		Debug.Log($"{rules.Count} rules selected");
+		rules.ForEach(rule => Debug.Log($"{rule} rules selected"));
+		//onNewGame(chosenSet, handSelectionMethod, rules);
 	}
 
 	// Update is called once per frame
