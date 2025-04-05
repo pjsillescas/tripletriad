@@ -40,6 +40,28 @@ public class PlayerController : Controller
 		Initialize();
 	}
 
+	private void SetSelectedHoveredCard(PlayingCard playingCard)
+	{
+		if (selectedHoveredCard != null)
+		{
+			selectedHoveredCard.SetIsHovered(false);
+		}
+		selectedHoveredCard = playingCard;
+		selectedHoveredCard.SetIsHovered(true);
+	}
+	
+	private void SelectCurrentHoveredCard()
+	{
+		if (selectedPlayingCard != null)
+		{
+			selectedPlayingCard.SetIsSelected(false);
+		}
+		
+		selectedPlayingCard = selectedHoveredCard;
+
+		selectedPlayingCard.SetIsSelected(true);
+	}
+
 	// Update is called once per frame
 	void Update()
 	{
@@ -50,19 +72,14 @@ public class PlayerController : Controller
 
 		var mousePosition = inputs.UI.Point.ReadValue<Vector2>();
 		Ray ray = mainCamera.ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
-		//Debug.DrawLine(ray.origin, ray.direction);
 		BoardTile currentBoardTile = null;
+		PlayingCard playingCard = null;
 		if (Physics.Raycast(ray, out RaycastHit hit, MAX_RAYCAST_DISTANCE, layers))
 		{
-			var playingCard = hit.collider.gameObject.GetComponentInParent<PlayingCard>();
+			playingCard = hit.collider.gameObject.GetComponentInParent<PlayingCard>();
 			if (playingCard != null && selectedHoveredCard != playingCard)
 			{
-				if (selectedHoveredCard != null)
-				{
-					selectedHoveredCard.SetIsHovered(false);
-				}
-				selectedHoveredCard = playingCard;
-				selectedHoveredCard.SetIsHovered(true);
+				SetSelectedHoveredCard(playingCard);
 			}
 
 			if (hit.collider.gameObject.TryGetComponent<BoardTile>(out var boardTile))
@@ -70,20 +87,20 @@ public class PlayerController : Controller
 				currentBoardTile = boardTile;
 			}
 		}
+		
+		if (playingCard == null && selectedHoveredCard != null)
+		{
+			selectedHoveredCard.SetIsHovered(false);
+			selectedHoveredCard = null;
+		}
 
 		if (inputs.Player.Interact.IsPressed() && !ThereAreCardsToFlip())
 		{
 			if (selectedHoveredCard != null && selectedHoveredCard != selectedPlayingCard &&
 				Hand.GetPlayingCards().Contains(selectedHoveredCard))
 			{
-				if (selectedPlayingCard)
-				{
-					selectedPlayingCard.SetIsSelected(false);
-				}
-				selectedPlayingCard = selectedHoveredCard;
-
+				SelectCurrentHoveredCard();
 				SoundManager.GetInstance().Click();
-				selectedPlayingCard.SetIsSelected(true);
 			}
 
 			selectedBoardTile = currentBoardTile;
