@@ -11,6 +11,8 @@ public class SoundManager : MonoBehaviour
 
     private static SoundManager instance = null;
 
+    private bool isSoundEnabled = false;
+
     public static SoundManager GetInstance() => instance;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,14 +31,46 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBackground()
     {
-        BackgroundSource.Play();
+        if (isSoundEnabled)
+        {
+            BackgroundSource.Play();
+        }
     }
 
     public void StopBackground()
     {
-        BackgroundSource.Stop();
+        if (isSoundEnabled)
+        {
+            BackgroundSource.Stop();
+        }
     }
 
-    public void Click() => ClickSource.Play();
-    public void Drip() { Debug.Log("drip"); DripSource.Play();}
+    public void Click()
+    {
+        if (isSoundEnabled)
+        {
+            ClickSource.Play();
+        }
+    }
+
+    public void Drip()
+    {
+        if (isSoundEnabled)
+        {
+            DripSource.Play();
+        }
+    }
+
+    public void EnableSound()
+    {
+        isSoundEnabled = true;
+        BackgroundSource.Play();
+    }
+
+	public void DisableSound()
+	{
+		isSoundEnabled = false;
+		BackgroundSource.Stop();
+	}
+
 }
