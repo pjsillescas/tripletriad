@@ -22,7 +22,7 @@ public class NewGameWidget : MonoBehaviour
 	[SerializeField]
 	private RuleVariationWidget RuleVariationWidget;
 
-	private Action<string, HandSelector.HandSelectionType, List<RuleVariation>> onNewGame;
+	private Action<string, HandSelector.HandSelectionType, List<IRuleVariation>> onNewGame;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -54,7 +54,7 @@ public class NewGameWidget : MonoBehaviour
 		ActivateWidget(winner);
 	}
 
-	public void ActivateWidget(Action<string,HandSelector.HandSelectionType, List<RuleVariation>> onNewGame)
+	public void ActivateWidget(Action<string,HandSelector.HandSelectionType, List<IRuleVariation>> onNewGame)
 	{
 		this.onNewGame = onNewGame;
 		Widget.gameObject.SetActive(true);
@@ -66,6 +66,7 @@ public class NewGameWidget : MonoBehaviour
 		WinnerText.text = winner;
 		Widget.gameObject.SetActive(true);
 		SetWinnerWidgetActive(true);
+		RuleVariationWidget.gameObject.SetActive(true);
 	}
 
 	private void SetWinnerWidgetActive(bool active)
@@ -76,19 +77,19 @@ public class NewGameWidget : MonoBehaviour
 	private void NewGameClick()
 	{
 		SoundManager.GetInstance().Click();
-		/*
+		
 		var chosenSet = SetDropdown.options[SetDropdown.value].text;
 		var handSelectionMethod = HandSelector.GetHandSelection();
-		Debug.Log($"set {chosenSet} player [{handSelectionMethod}]");
+		//Debug.Log($"set {chosenSet} player [{handSelectionMethod}]");
 		Widget.gameObject.SetActive(false);
+		RuleVariationWidget.gameObject.SetActive(false);
 		SetWinnerWidgetActive(false);
-		*/
 
 		var rules = RuleVariationWidget.GetRuleVariations();
 
 		Debug.Log($"{rules.Count} rules selected");
 		rules.ForEach(rule => Debug.Log($"{rule} rules selected"));
-		//onNewGame(chosenSet, handSelectionMethod, rules);
+		onNewGame(chosenSet, handSelectionMethod, rules);
 	}
 
 	// Update is called once per frame

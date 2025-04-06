@@ -1,4 +1,5 @@
 
-public interface RuleVariation
+public interface IRuleVariation
 {
+	bool UseCardBack();
 }

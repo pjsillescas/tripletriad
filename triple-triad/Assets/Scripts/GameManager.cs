@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
 	private HandSelectionType handSelectionType;
 
-	private List<RuleVariation> rules;
+	private List<IRuleVariation> rules;
 
 	private void Awake()
 	{
@@ -143,12 +143,22 @@ public class GameManager : MonoBehaviour
 		//ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
 	}
 
-	private void OnNewGame(string setName, HandSelectionType handSelectionType, List<RuleVariation> rules)
+	private void OnNewGame(string setName, HandSelectionType handSelectionType, List<IRuleVariation> rules)
 	{
 		this.handSelectionType = handSelectionType;
 		this.rules = rules;
 
 		SetLoader.GetInstance().LoadSet(setName);
+	}
+
+	private bool GetUseCardBackAdversary()
+	{
+		if(rules?.Count > 0)
+		{
+			return rules.Select(rule => rule.UseCardBack()).Aggregate(true, (acc, value) => acc && value);
+		}
+
+		return true;
 	}
 
 	private void OnPlayerHandChosen(List<Card> cards)
@@ -160,7 +170,7 @@ public class GameManager : MonoBehaviour
 		adversaryHandLoaded = false;
 
 		PlayerHand.Initialize(cards, false);
-		AdversaryHand.Initialize(GetRandomHand(), true);
+		AdversaryHand.Initialize(GetRandomHand(), GetUseCardBackAdversary());
 
 		playerScore = 5;
 		adversaryScore = 5;

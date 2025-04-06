@@ -7,7 +7,7 @@ public class RuleVariationWidget : MonoBehaviour
 {
 	private List<Toggle> toggles;
 
-	private Dictionary<string, RuleVariation> rules;
+	private Dictionary<string, IRuleVariation> rules;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -27,7 +27,7 @@ public class RuleVariationWidget : MonoBehaviour
 		toggles.ForEach(toggle => toggle.onValueChanged.AddListener((value) => SoundManager.GetInstance().Click()));
 	}
 
-	public List<RuleVariation> GetRuleVariations()
+	public List<IRuleVariation> GetRuleVariations()
 	{
 		return toggles.Where(toggle => toggle.isOn).Select(toggle => rules[toggle.name]).ToList();
 	}
