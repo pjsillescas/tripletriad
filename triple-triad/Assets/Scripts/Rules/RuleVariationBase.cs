@@ -15,4 +15,9 @@ public class RuleVariationBase : IRuleVariation
 	{
 		return false;
 	}
+
+	public virtual void Initialize()
+	{
+		;
+	}
 }

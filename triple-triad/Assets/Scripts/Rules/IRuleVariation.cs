@@ -5,4 +5,6 @@ public interface IRuleVariation
 	bool ImplementsWinsDirection();
 
 	bool WinsDirection(PlayingCard card1, PlayingCard card2, Board.Direction direction);
+
+	void Initialize();
 }

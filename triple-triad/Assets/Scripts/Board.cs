@@ -1,3 +1,4 @@
+using cards;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ public class Board : MonoBehaviour
 		return Instance;
 	}
 
+	public List<BoardTile> GetTiles() => Tiles;
+
 	private void Awake()
 	{
 		if (Instance != null)
@@ -47,6 +50,11 @@ public class Board : MonoBehaviour
 
 			cards[i] = null;
 		}
+
+		foreach (BoardTile tile in Tiles)
+		{
+			tile.SetElement(Card.Element.none);
+		}
 	}
 
 	public int GetTileIndex(BoardTile tile)
@@ -69,6 +77,11 @@ public class Board : MonoBehaviour
 			var index = GetTileIndex(targetTile);
 			cards[index] = playingCard;
 
+			if (!Card.Element.none.Equals(targetTile.GetElement()))
+			{
+				var modifier = (targetTile.GetElement().Equals(playingCard.GetElement())) ? 1 : -1;
+				playingCard.SetModifier(modifier);
+			}
 			//playingCard.transform.position = targetTile.transform.position;
 		}
 

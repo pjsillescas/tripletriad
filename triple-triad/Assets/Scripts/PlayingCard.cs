@@ -38,6 +38,16 @@ public class PlayingCard : MonoBehaviour
 	[SerializeField]
 	private TextMeshPro BackTeamText;
 
+	[SerializeField]
+	private TextMeshPro FrontModifierText;
+	[SerializeField]
+	private TextMeshPro BackModifierText;
+
+	[SerializeField]
+	private GameObject FrontElementPlane;
+	[SerializeField]
+	private GameObject BackElementPlane;
+
 	private Material sideMat1;
 	private Material sideMat2;
 
@@ -45,10 +55,12 @@ public class PlayingCard : MonoBehaviour
 	private int east;
 	private int south;
 	private int west;
+	private int modifier;
 	private string cardName;
 	private Card.Element element;
 	private Team team;
 	private string imageFileName;
+	private string set;
 
 	private Team currentTeam;
 	private bool isPlayed;
@@ -59,6 +71,8 @@ public class PlayingCard : MonoBehaviour
 
 	private ImageLoader imageLoaderFront;
 	private ImageLoader imageLoaderBack;
+	private ImageLoader imageLoaderElementFront;
+	private ImageLoader imageLoaderElementBack;
 
 	private Material GetMaterial(Transform side)
 	{
@@ -80,6 +94,8 @@ public class PlayingCard : MonoBehaviour
 
 		imageLoaderFront = imageLoaders[0];
 		imageLoaderBack = imageLoaders[1];
+		imageLoaderElementFront = imageLoaders[2];
+		imageLoaderElementBack = imageLoaders[3];
 		isBackShown = false;
 	}
 
@@ -125,10 +141,26 @@ public class PlayingCard : MonoBehaviour
 	private readonly Color PLAYER_BACKGROUND_COLOR = Color.blue;
 	private readonly Color ADVERSARY_BACKGROUND_COLOR = Color.red;
 
+	private void LoadElement(GameObject plane, string set, bool useFront)
+	{
+		var elementFileName = $"Sets/{set}/Icons/Tripletriad-{element}.jpeg";
+		if (element.Equals(Card.Element.none))
+		{
+			plane.SetActive(false);
+		}
+		else
+		{
+			plane.SetActive(true);
+			LoadImageElement(elementFileName, plane.GetComponent<MeshRenderer>().material, useFront);
+		}
+	}
 	public PlayingCard Load(Card card, Team team, bool useBackImage)
 	{
 		cardName = card.name;
-		element = card.element;
+		element = card.elemental;
+
+		Debug.Log(card);
+		//element = Card.Element.wind;
 
 		var chars = card.values.ToCharArray();
 		var values = chars.Select(c => c == 'A' ? 10 : c - '0').ToList();
@@ -137,22 +169,18 @@ public class PlayingCard : MonoBehaviour
 		south = values[2];
 		west = values[3];
 
-		/*
-		var backgroundColor = (team.Equals(Team.Blue)) ? PLAYER_BACKGROUND_COLOR : ADVERSARY_BACKGROUND_COLOR;
-		sideMat1.SetColor("_Color", backgroundColor);
-		var reverseBackgroundColor = (team.Equals(Team.Blue)) ? ADVERSARY_BACKGROUND_COLOR : PLAYER_BACKGROUND_COLOR;
-		sideMat2.SetColor("_Color", reverseBackgroundColor);
-		*/
+		SetModifier(0);
+
 		sideMat1.SetColor("_Color", PLAYER_BACKGROUND_COLOR);
 		sideMat2.SetColor("_Color", ADVERSARY_BACKGROUND_COLOR);
 
-
-		//var set = "FFVIII";
-		var set = card.set;
+		set = card.set;
 		var image = ToFileName(cardName);
 		var cardFileName = string.Format(card.nameFormat, (set.Equals("Inmoba")) ? image.ToLower() : image);
 		imageFileName = $"Sets/{set}/Images/{cardFileName}";
 		LoadImage(imageFileName, sideMat1, true);
+
+		LoadElement(FrontElementPlane, set, true);
 
 		NorthText.text = $"{chars[0]}";
 		EastText.text = $"{chars[1]}";
@@ -165,6 +193,8 @@ public class PlayingCard : MonoBehaviour
 		{
 			var backImageFileName = $"Sets/{set}/Images/cardback.png";
 			LoadImage(backImageFileName, sideMat2, false);
+			BackElementPlane.SetActive(false);
+
 			NorthBackText.text = "";
 			EastBackText.text = "";
 			SouthBackText.text = "";
@@ -173,6 +203,7 @@ public class PlayingCard : MonoBehaviour
 		else
 		{
 			LoadImage(imageFileName, sideMat2, false);
+			LoadElement(BackElementPlane, set, false);
 			NorthBackText.text = NorthText.text;
 			EastBackText.text = EastText.text;
 			SouthBackText.text = SouthText.text;
@@ -192,6 +223,7 @@ public class PlayingCard : MonoBehaviour
 		SetCurrentTeam(team);
 
 		LoadImage(imageFileName, sideMat2, false);
+		LoadElement(BackElementPlane, set, false);
 
 		Debug.Log("playing card " + cardName);
 
@@ -249,24 +281,33 @@ public class PlayingCard : MonoBehaviour
 		//material.mainTexture = myTexture;
 	}
 
-	/*
-	public override string ToString()
+	private void LoadImageElement(string filename, Material material, bool useFront)
 	{
-		var elementStr = Card.Element.none.Equals(element) ? "" : element.ToString();
-		return $"{cardName}[{elementStr}] => north: {north} east: {east} south: {south} west: {west}";
+		((useFront) ? imageLoaderElementFront : imageLoaderElementBack).Load(filename, (texture) => material.mainTexture = texture);
+		//material.mainTexture = myTexture;
 	}
-	*/
+
+	public void SetModifier(int modifier)
+	{
+		this.modifier = modifier;
+
+		var sign = modifier < 0 ? "-" : "+";
+		var modifierText = (modifier == 0) ? "" : $"{sign}{Math.Abs(modifier)}";
+		FrontModifierText.text = modifierText;
+		BackModifierText.text = modifierText;
+	}
 
 	public string GetCardName() => cardName;
 
-	public int GetNorth() => north;
-	public int GetEast() => east;
-	public int GetSouth() => south;
-	public int GetWest() => west;
+	public int GetNorth() => north + modifier;
+	public int GetEast() => east + modifier;
+	public int GetSouth() => south + modifier;
+	public int GetWest() => west + modifier;
 
 	public bool IsPlayed() => isPlayed;
 
 	public Team GetCurrentTeam() => currentTeam;
+	public Card.Element GetElement() => element;
 	public void SetCurrentTeam(Team newTeam)
 	{
 		currentTeam = newTeam;

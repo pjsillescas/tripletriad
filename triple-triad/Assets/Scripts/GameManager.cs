@@ -181,6 +181,8 @@ public class GameManager : MonoBehaviour
 		ScoreManager.Initialize();
 		//WinnerManager.Initialize();
 
+		rules?.ForEach(rule => rule.Initialize());
+
 		OnStartGame?.Invoke(this, EventArgs.Empty);
 	}
 

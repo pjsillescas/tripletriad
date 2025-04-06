@@ -8,7 +8,7 @@ namespace cards
 		public enum Element { none, earth, fire, holy, ice, poison, thunder, water, wind, };
 
 		public string name;
-		public Element element;
+		public Element elemental;
 		public int level;
 		public string values;
 		public string set;
@@ -16,7 +16,7 @@ namespace cards
 
 		public override string ToString()
 		{
-			return $"{name}";
+			return $"{name} {elemental}";
 		}
 	}
 }
