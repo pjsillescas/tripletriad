@@ -1,6 +1,7 @@
 using cards;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SetLoader : MonoBehaviour
@@ -15,7 +16,7 @@ public class SetLoader : MonoBehaviour
 	[Serializable]
 	public class JsonSetObject
 	{
-		public List<Card> cards;
+		public List<CardRaw> cards;
 	}
 
 	public List<Card> GetCards() => cards;
@@ -50,7 +51,16 @@ public class SetLoader : MonoBehaviour
 	private void OnJsonLoad(string json)
 	{
 		var cardSet = JsonUtility.FromJson<JsonSetObject>(json);
-		cards = cardSet.cards;
+		cards = cardSet.cards.Select(cardRaw => 
+			new Card
+			{
+				name = cardRaw.name,
+				set = cardRaw.set,
+				nameFormat = cardRaw.nameFormat,
+				values = cardRaw.values,
+				level = cardRaw.level,
+				elemental = (cardRaw.elemental == "") ? Card.Element.none : (Card.Element)System.Enum.Parse(typeof(Card.Element), cardRaw.elemental),
+			}).ToList();
 		cards.ForEach(card =>
 		{
 			card.set = Set;
