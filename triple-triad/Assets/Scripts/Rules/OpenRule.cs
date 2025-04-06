@@ -1,8 +1,10 @@
 using UnityEngine;
 
-public class OpenRule : IRuleVariation
+public class OpenRule : RuleVariationBase
 {
 	// Enables the player to see which cards the opponent is using.
-	public bool UseCardBack() => false;
-
+	public override bool UseCardBack()
+	{
+		return false;
+	}
 }

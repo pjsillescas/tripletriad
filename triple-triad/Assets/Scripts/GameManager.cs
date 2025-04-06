@@ -213,8 +213,23 @@ public class GameManager : MonoBehaviour
 		});
 	}
 
+	private bool RulesImplementWinsDirection()
+	{
+		return rules.Where(rule => rule.ImplementsWinsDirection()).Count() > 0;
+	}
+
+	private bool RulesWinsDirection(PlayingCard card1, PlayingCard card2, Board.Direction direction)
+	{
+		return rules.Select(rule => rule.WinsDirection(card1, card2, direction)).Aggregate(false, (acc, value) => acc || value);
+	}
+
 	private bool WinsDirection(PlayingCard card1, PlayingCard card2, Board.Direction direction)
 	{
+		if(RulesImplementWinsDirection())
+		{
+			return RulesWinsDirection(card1, card2, direction);
+		}
+
 		return direction switch
 		{
 			Board.Direction.North => card1.GetNorth() > card2.GetSouth(),
