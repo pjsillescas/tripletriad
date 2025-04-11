@@ -1,9 +1,7 @@
 using cards;
-using Enums;
 using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,8 +29,6 @@ public class CardViewer : MonoBehaviour
 	[SerializeField]
 	private Button ButtonRemove;
 
-	//private Material sideMat1;
-
 	private ImageLoader imageLoaderFront;
 	private ImageLoader imageLoaderElementFront;
 
@@ -43,13 +39,6 @@ public class CardViewer : MonoBehaviour
 
 	private Image cardImage;
 	private Image elementImage;
-
-	/*
-	private Material GetMaterial(Transform side)
-	{
-		return (side != null) ? side.GetComponent<Image>().material : null;
-	}
-	*/
 
 	public void SetCallbacks(Func<Card, bool> addCard, Func<Card, bool> removeCard)
 	{
@@ -64,7 +53,6 @@ public class CardViewer : MonoBehaviour
 		imageLoaderFront = imageLoaders[0];
 		imageLoaderElementFront = imageLoaders[1];
 
-		//sideMat1 = GetMaterial(Side1);
 		cardImage = Side1.GetComponent<Image>();
 		elementImage = FrontElementPlane.GetComponent<Image>();
 
@@ -112,12 +100,18 @@ public class CardViewer : MonoBehaviour
 
 			ButtonRemove.enabled = leftUnits >= 0;
 		}
-
 	}
 
 	private void OnCardItemClick(object sender, CardItem item)
 	{
+		if(cardItem != null)
+		{
+			cardItem.Deselect();
+		}
 		cardItem = item;
+
+		cardItem.Select();
+
 		Load(cardItem.GetCard());
 	}
 

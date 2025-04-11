@@ -109,6 +109,16 @@ public class CardItem : MonoBehaviour
 		}
 	}
 
+	public void Select()
+	{
+		TitleText.color = Color.red;
+	}
+
+	public void Deselect()
+	{
+		TitleText.color = Color.black;
+	}
+
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
