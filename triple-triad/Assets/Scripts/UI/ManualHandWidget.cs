@@ -8,6 +8,10 @@ public class ManualHandWidget : MonoBehaviour
 {
 	[SerializeField]
 	private CardLister CardLister;
+	[SerializeField]
+	private CardViewer CardViewer;
+	[SerializeField]
+	private GameObject CardViewerWidget;
 
 	[SerializeField]
 	private HandView HandView;
@@ -32,6 +36,7 @@ public class ManualHandWidget : MonoBehaviour
 
 	public void ActivateWidget(Action<List<Card>> onHandChosen)
 	{
+		CardViewerWidget.SetActive(true);
 		CardLister.gameObject.SetActive(true);
 		HandView.gameObject.SetActive(true);
 
@@ -48,6 +53,7 @@ public class ManualHandWidget : MonoBehaviour
 
 	public void DeactivateWidget()
 	{
+		CardViewerWidget.SetActive(false);
 		CardLister.gameObject.SetActive(false);
 		HandView.gameObject.SetActive(false);
 		this.onHandChosen = null;
@@ -67,6 +73,7 @@ public class ManualHandWidget : MonoBehaviour
 		cardsClone.Reverse();
 
 		CardLister.LoadSet(cardsClone, AddCard, RemoveCard);
+		CardViewer.SetCallbacks(AddCard, RemoveCard);
 	}
 
 	private bool RemoveCard(Card card)
