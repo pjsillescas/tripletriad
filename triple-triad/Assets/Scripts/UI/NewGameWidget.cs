@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,7 +32,21 @@ public class NewGameWidget : MonoBehaviour
 		NewGameButton.onClick.AddListener(NewGameClick);
 		GameManager.GetInstance().OnFinishGame += FinishGame;
 
+		RefreshCardSets();
+
 		SetDropdown.onValueChanged.AddListener((_val) => SoundManager.GetInstance().Click());
+	}
+
+	private void RefreshCardSets()
+	{
+#if !UNITY_WEBGL
+		var setsDirectory = Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Sets";
+		var dirs = new List<string>(Directory.GetDirectories(setsDirectory)).
+			Select(dir => { return dir.Split(Path.DirectorySeparatorChar).LastOrDefault(); }).ToList();
+		
+		SetDropdown.ClearOptions();
+		SetDropdown.AddOptions(dirs);
+#endif
 	}
 
 	private void FinishGame(object sender, EventArgs e)
