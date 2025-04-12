@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CardFlip : MonoBehaviour
 {
-	const float FLIP_TIME = 1.0f;
+	const float FLIP_TIME = 0.6f;
 	const float FLIP_TIME_HALF = FLIP_TIME / 2.0f;
 
-	const float flipHeight = 10f;
+	const float flipHeight = 5f;
 
-	public float flipSpeed = 1.0f;
+	public float flipSpeed = 2.0f * flipHeight / FLIP_TIME;
 	private bool isFlipping = false;
 
 	private Action onEndFlip;
@@ -37,15 +37,16 @@ public class CardFlip : MonoBehaviour
 		while (elapsedTime < FLIP_TIME)
 		{
 			elapsedTime += Time.deltaTime * flipSpeed;
-			transform.rotation = Quaternion.Lerp(startRotation, endRotation, elapsedTime);
+			var alpha = elapsedTime / FLIP_TIME;
+			transform.rotation = Quaternion.Lerp(startRotation, endRotation, alpha);
 			
 			if(elapsedTime <= FLIP_TIME_HALF)
 			{
-				transform.position = Vector3.Lerp(startPosition, middlePosition, elapsedTime);
+				transform.position = Vector3.Lerp(startPosition, middlePosition, 2*alpha);
 			}
-            else
+			else
             {
-				transform.position = Vector3.Lerp(middlePosition, endPosition, elapsedTime);
+				transform.position = Vector3.Lerp(middlePosition, endPosition, 2*alpha -1);
 			}
 
 			yield return null;
