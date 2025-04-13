@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class NewGameWidget : MonoBehaviour
 {
@@ -79,10 +79,21 @@ public class NewGameWidget : MonoBehaviour
 
 	public void ActivateWidget(string winner)
 	{
+		SoundManager.GetInstance().StopBackground();
+		SoundManager.GetInstance().PlayFanfare();
+
 		WinnerText.text = winner;
-		Widget.gameObject.SetActive(true);
 		SetWinnerWidgetActive(true);
+
+		StartCoroutine(DelayNewGameCoroutine());
+	}
+
+	private IEnumerator DelayNewGameCoroutine()
+	{
+		yield return new WaitForSeconds(2);
+		Widget.gameObject.SetActive(true);
 		RuleVariationWidget.gameObject.SetActive(true);
+		yield return null;
 	}
 
 	private void SetWinnerWidgetActive(bool active)
@@ -105,6 +116,10 @@ public class NewGameWidget : MonoBehaviour
 
 		Debug.Log($"{rules.Count} rules selected");
 		rules.ForEach(rule => Debug.Log($"{rule} rules selected"));
+
+		SoundManager.GetInstance().StopFanfare();
+		SoundManager.GetInstance().PlayBackground();
+
 		onNewGame(chosenSet, handSelectionMethod, rules);
 	}
 

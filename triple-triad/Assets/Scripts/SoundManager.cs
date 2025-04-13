@@ -8,8 +8,10 @@ public class SoundManager : MonoBehaviour
     private AudioSource DripSource;
     [SerializeField]
     private AudioSource BackgroundSource;
+	[SerializeField]
+	private AudioSource FanfareSource;
 
-    private static SoundManager instance = null;
+	private static SoundManager instance = null;
 
     private bool isSoundEnabled = false;
 
@@ -45,7 +47,22 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void Click()
+    public void PlayFanfare()
+    {
+        if (isSoundEnabled)
+        {
+            FanfareSource.Play();
+        }
+    }
+	public void StopFanfare()
+	{
+		if (isSoundEnabled)
+		{
+			FanfareSource.Stop();
+		}
+	}
+
+	public void Click()
     {
         if (isSoundEnabled)
         {
