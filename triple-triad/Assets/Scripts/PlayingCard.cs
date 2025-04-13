@@ -141,9 +141,9 @@ public class PlayingCard : MonoBehaviour
 	private readonly Color PLAYER_BACKGROUND_COLOR = Color.blue;
 	private readonly Color ADVERSARY_BACKGROUND_COLOR = Color.red;
 
-	private void LoadElement(GameObject plane, string set, bool useFront)
+	private void LoadElement(GameObject plane, string set, bool useFront, Color color)
 	{
-		var elementFileName = $"Sets/{set}/Icons/Tripletriad-{element}.jpeg";
+		var elementFileName = $"Sets/{set}/Icons/Tripletriad-{element}.png";
 		if (element.Equals(Card.Element.none))
 		{
 			plane.SetActive(false);
@@ -151,7 +151,7 @@ public class PlayingCard : MonoBehaviour
 		else
 		{
 			plane.SetActive(true);
-			LoadImageElement(elementFileName, plane.GetComponent<MeshRenderer>().material, useFront);
+			LoadImageElement(elementFileName, plane.GetComponent<MeshRenderer>().material, useFront, color);
 		}
 	}
 	public PlayingCard Load(Card card, Team team, bool useBackImage)
@@ -160,7 +160,6 @@ public class PlayingCard : MonoBehaviour
 		element = card.elemental;
 
 		Debug.Log(card);
-		//element = Card.Element.wind;
 
 		var chars = card.values.ToCharArray();
 		var values = chars.Select(c => c == 'A' ? 10 : c - '0').ToList();
@@ -172,7 +171,9 @@ public class PlayingCard : MonoBehaviour
 		SetModifier(0);
 
 		sideMat1.SetColor("_Color", PLAYER_BACKGROUND_COLOR);
+		sideMat1.SetInt("_UseBackground", 1);
 		sideMat2.SetColor("_Color", ADVERSARY_BACKGROUND_COLOR);
+		sideMat2.SetInt("_UseBackground", 1);
 
 		set = card.set;
 		var image = ToFileName(cardName);
@@ -180,7 +181,7 @@ public class PlayingCard : MonoBehaviour
 		imageFileName = $"Sets/{set}/Images/{cardFileName}";
 		LoadImage(imageFileName, sideMat1, true);
 
-		LoadElement(FrontElementPlane, set, true);
+		LoadElement(FrontElementPlane, set, true, PLAYER_BACKGROUND_COLOR);
 
 		NorthText.text = $"{chars[0]}";
 		EastText.text = $"{chars[1]}";
@@ -203,7 +204,7 @@ public class PlayingCard : MonoBehaviour
 		else
 		{
 			LoadImage(imageFileName, sideMat2, false);
-			LoadElement(BackElementPlane, set, false);
+			LoadElement(BackElementPlane, set, false, ADVERSARY_BACKGROUND_COLOR);
 			NorthBackText.text = NorthText.text;
 			EastBackText.text = EastText.text;
 			SouthBackText.text = SouthText.text;
@@ -223,7 +224,7 @@ public class PlayingCard : MonoBehaviour
 		SetCurrentTeam(team);
 
 		LoadImage(imageFileName, sideMat2, false);
-		LoadElement(BackElementPlane, set, false);
+		LoadElement(BackElementPlane, set, false, ADVERSARY_BACKGROUND_COLOR);
 
 		Debug.Log("playing card " + cardName);
 
@@ -244,13 +245,6 @@ public class PlayingCard : MonoBehaviour
 		EastBackText.text = EastText.text;
 		SouthBackText.text = SouthText.text;
 		WestBackText.text = WestText.text;
-
-		/*
-		NorthText.text = NorthText.text;
-		EastText.text = EastText.text;
-		SouthText.text = SouthText.text;
-		WestText.text = WestText.text;
-		*/
 
 		isPlayed = true;
 		SetIsSelected(false);
@@ -278,13 +272,13 @@ public class PlayingCard : MonoBehaviour
 	private void LoadImage(string filename, Material material, bool useFront)
 	{
 		((useFront) ? imageLoaderFront : imageLoaderBack).Load(filename, (texture) => material.mainTexture = texture);
-		//material.mainTexture = myTexture;
 	}
 
-	private void LoadImageElement(string filename, Material material, bool useFront)
+	private void LoadImageElement(string filename, Material material, bool useFront, Color color)
 	{
+		material.SetColor("_Color", color);
+
 		((useFront) ? imageLoaderElementFront : imageLoaderElementBack).Load(filename, (texture) => material.mainTexture = texture);
-		//material.mainTexture = myTexture;
 	}
 
 	public void SetModifier(int modifier)
@@ -333,14 +327,11 @@ public class PlayingCard : MonoBehaviour
 		this.isSelected = isSelected;
 		if (isSelected)
 		{
-			//sideMat1.SetFloat("Outline Width", 0.05f);
-			//sideMat1.SetColor("Outline Color", Color.red);
 			SetOutline(sideMat1, OUTLINE_WIDTH, SELECTED_COLOR);
 			SetOutline(sideMat2, OUTLINE_WIDTH, SELECTED_COLOR);
 		}
 		else
 		{
-			//sideMat1.SetFloat("Outline Width", 0);
 			SetOutline(sideMat1, 0, SELECTED_COLOR);
 			SetOutline(sideMat2, 0, SELECTED_COLOR);
 		}
@@ -357,7 +348,6 @@ public class PlayingCard : MonoBehaviour
 			}
 			else
 			{
-				//sideMat1.SetFloat("Outline Width", 0);
 				SetOutline(sideMat1, 0, HOVERED_COLOR);
 				SetOutline(sideMat2, 0, HOVERED_COLOR);
 			}

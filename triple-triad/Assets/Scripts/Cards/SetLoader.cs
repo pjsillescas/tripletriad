@@ -64,7 +64,7 @@ public class SetLoader : MonoBehaviour
 		cards.ForEach(card =>
 		{
 			card.set = Set;
-			card.nameFormat = (Set.Equals("FFVIII")) ? "TT{0}.jpg" : "{0}.png";
+			card.nameFormat = (Set.Equals("FFVIII")) ? "TT{0}.png" : "{0}.png";
 		});
 		OnSetLoaded?.Invoke(this, cards);
 	}

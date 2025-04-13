@@ -117,7 +117,7 @@ public class CardViewer : MonoBehaviour
 
 	private void LoadElement(GameObject plane, string set, Card.Element element)
 	{
-		var elementFileName = $"Sets/{set}/Icons/Tripletriad-{element}.jpeg";
+		var elementFileName = $"Sets/{set}/Icons/Tripletriad-{element}.png";
 		if (element.Equals(Card.Element.none))
 		{
 			plane.SetActive(false);

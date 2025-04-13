@@ -3,7 +3,9 @@ Shader "Custom/PlaneOutlineSDF"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Color ("Base Color", Color) = (1,1,1,1)
+        _Color ("Color", Color) = (1,1,1,1)
+        _ColorBase ("Base Color", Color) = (1,1,1,1)
+        _UseBackground("Use Background", int) = 0
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
         _OutlineWidth ("Outline Width", Range(0,0.1)) = 0.05
     }
@@ -31,8 +33,10 @@ Shader "Custom/PlaneOutlineSDF"
 
             sampler2D _MainTex;
             float4 _Color;
+            float4 _ColorBase;
             float4 _OutlineColor;
             float _OutlineWidth;
+            int _UseBackground;
 
             v2f vert (appdata v)
             {
@@ -53,9 +57,21 @@ Shader "Custom/PlaneOutlineSDF"
 
                 if(col.a == 0)
                 {
-                    col = _Color;
+                    float alpha = length(i.uv);
+                    col = (fixed4) lerp(_ColorBase, _Color, clamp(sqrt(alpha),0,1));
+                    /*
+                    if(_UseBackground > 0)
+                    {
+                        float alpha = length(i.uv);
+                        col = (fixed4) lerp(_ColorBase, _Color, clamp(sqrt(alpha),0,1));
+                    }
+                    else
+                    {
+                        col = fixed4(1,1,1,0);
+                    }
+                    */
                 }
-
+                
                 // Apply outline based on distance
                 float outlineFactor = 1 - smoothstep(_OutlineWidth, _OutlineWidth * 0.5, distance);
                 col.rgb = lerp(_OutlineColor.rgb, col.rgb, outlineFactor);
