@@ -53,17 +53,22 @@ public class NewGameWidget : MonoBehaviour
 	{
 		var score = GameManager.GetInstance().GetScore();
 
+		SoundManager.GetInstance().StopBackground();
+
 		string winner;
-		if (score.player > score.adversary)
+		if (score.player < score.adversary)
 		{
-			winner = "You Won!";
-		}
-		else if (score.player < score.adversary)
-		{
+			SoundManager.GetInstance().PlaySadFanfare();
 			winner = "You Lost!";
+		}
+		else if(score.player > score.adversary)
+		{
+			SoundManager.GetInstance().PlayFanfare();
+			winner = "You Won!";
 		}
 		else
 		{
+			SoundManager.GetInstance().PlayFanfare();
 			winner = "Draw";
 		}
 
@@ -79,9 +84,6 @@ public class NewGameWidget : MonoBehaviour
 
 	public void ActivateWidget(string winner)
 	{
-		SoundManager.GetInstance().StopBackground();
-		SoundManager.GetInstance().PlayFanfare();
-
 		WinnerText.text = winner;
 		SetWinnerWidgetActive(true);
 
