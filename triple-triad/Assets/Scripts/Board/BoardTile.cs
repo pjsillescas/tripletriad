@@ -33,7 +33,7 @@ public class BoardTile : MonoBehaviour
 		if (Element != Card.Element.none)
 		{
 			ElementPlane.gameObject.SetActive(true);
-			var imageFileName = $"Sets/{set}/Icons/Tripletriad-{Element}.jpeg";
+			var imageFileName = $"Sets/{set}/Icons/Tripletriad-{Element}.png";
 			imageLoader.Load(imageFileName, OnTextureLoad);
 		}
 		else

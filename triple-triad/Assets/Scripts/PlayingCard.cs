@@ -254,16 +254,15 @@ public class PlayingCard : MonoBehaviour
 	{
 		Dictionary<string, string> dict = new() {
 			{ "Shumi Tribe", "NORG" },
-			{ "Tri-Point", "Tripoint" },
+			{ "Tri-Point", "TriPoint" },
 			{ "Sphinxara", "Sphinxaur" },
-			{ "Blood Soul", "Bloudsoul" },
+			{ "Blood Soul", "BloudSoul" },
 			{ "Tri-Face", "TriFace" },
 			{ "T-Rexaur", "TRexaur"},
 			{ "Fastitocalon-F", "FastitocalonF"},
 			{ "Fujin, Raijin", "FujinRaijin"},
 			{ "Wedge, Biggs", "BiggsWedge"},
 			{ "Abadon", "Abaddon"},
-			{ "Tripoint", "TTTriPoint" },
 		};
 
 		return dict.ContainsKey(name) ? dict[name] : name.Replace(" ", "");
