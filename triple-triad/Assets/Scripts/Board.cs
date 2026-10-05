@@ -1,5 +1,5 @@
 using cards;
-using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +16,7 @@ public class Board : MonoBehaviour
 	private List<BoardTile> Tiles;
 
 	private PlayingCard[] cards;
+	private Animator animator;
 
 	private static Board Instance = null;
 
@@ -36,7 +37,38 @@ public class Board : MonoBehaviour
 
 		Instance = this;
 		cards = new PlayingCard[MAX_CARDS];
+		animator = GetComponent<Animator>();
 		//Initialize();
+	}
+
+	private void Start()
+	{
+		GameManager.GetInstance().OnStartGame += OnStartGame;
+		GameManager.GetInstance().OnFinishGame += OnFinishGame;
+	}
+
+	private void OnDisable()
+	{
+		GameManager.GetInstance().OnStartGame -= OnStartGame;
+		GameManager.GetInstance().OnFinishGame -= OnFinishGame;
+	}
+
+	private void OnStartGame(object sender, EventArgs args)
+	{
+		SetOpen(true);
+	}
+
+	private void OnFinishGame(object sender, EventArgs args)
+	{
+		SetOpen(false);
+	}
+
+	private void SetOpen(bool open)
+	{
+		if (animator != null)
+		{
+			animator.SetBool("Open", open);
+		}
 	}
 
 	public void Initialize()
