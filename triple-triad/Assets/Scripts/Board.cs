@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+	private static readonly int OpenHash = Animator.StringToHash("Open");
 	private const int BOARD_DIMENSION = 3;
 	private const int MAX_CARDS = BOARD_DIMENSION * BOARD_DIMENSION;
 
@@ -38,7 +39,6 @@ public class Board : MonoBehaviour
 		Instance = this;
 		cards = new PlayingCard[MAX_CARDS];
 		animator = GetComponent<Animator>();
-		//Initialize();
 	}
 
 	private void Start()
@@ -67,7 +67,7 @@ public class Board : MonoBehaviour
 	{
 		if (animator != null)
 		{
-			animator.SetBool("Open", open);
+			animator.SetBool(OpenHash, open);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class Board : MonoBehaviour
 		}
 	}
 
-	public int GetTileIndex(BoardTile tile)
+	private int GetTileIndex(BoardTile tile)
 	{
 		var vector = tile.GetTileRow();
 
@@ -102,7 +102,7 @@ public class Board : MonoBehaviour
 		return cards[index] == null;
 	}
 
-	public int AddCard(PlayingCard playingCard, BoardTile targetTile)
+	public void AddCard(PlayingCard playingCard, BoardTile targetTile)
 	{
 		if (CanPlaceCard(targetTile))
 		{
@@ -114,10 +114,12 @@ public class Board : MonoBehaviour
 				var modifier = (targetTile.GetElement().Equals(playingCard.GetElement())) ? 1 : -1;
 				playingCard.SetModifier(modifier);
 			}
-			//playingCard.transform.position = targetTile.transform.position;
 		}
+	}
 
-		return new List<PlayingCard>(cards).Where(card => card == null).Count(); // ToList().Count;
+	public int GetNumFreeTiles()
+	{
+		return new List<PlayingCard>(cards).Count(card => card == null);
 	}
 
 	public List<BoardTile> GetFreeBoardTiles()
@@ -125,7 +127,7 @@ public class Board : MonoBehaviour
 		return Tiles.Where(tile => cards[GetTileIndex(tile)] == null).ToList();
 	}
 
-	public PlayingCard GetNeighbour(PlayingCard playingCard, Direction direction)
+	private PlayingCard GetNeighbour(PlayingCard playingCard, Direction direction)
 	{
 		var index = 0;
 		while (index < MAX_CARDS && !playingCard.Equals(cards[index]))
@@ -138,7 +140,6 @@ public class Board : MonoBehaviour
 			return null;
 		}
 
-		var card = cards[index];
 		var cardColumn = index % BOARD_DIMENSION;
 		var cardRow = (index - cardColumn) / BOARD_DIMENSION;
 
@@ -164,13 +165,43 @@ public class Board : MonoBehaviour
 		return (isValidNeighbour) ? cards[cardRow * BOARD_DIMENSION + cardColumn] : null;
 	}
 
-	public List<Direction> GetDirections()
+	private bool RulesImplementWinsDirection(List<IRuleVariation> rules)
 	{
-		return new() { Direction.North, Direction.South, Direction.East, Direction.West };
+		return rules.Any(rule => rule.ImplementsWinsDirection());
 	}
 
-	public List<PlayingCard> GetCards()
+	private bool RulesWinsDirection(PlayingCard card1, PlayingCard card2, Direction direction, List<IRuleVariation> rules)
 	{
-		return new List<PlayingCard>(cards).Where(card => card != null).ToList();
+		return rules.Select(rule => rule.WinsDirection(card1, card2, direction)).Aggregate(false, (acc, value) => acc || value);
+	}
+
+	private bool WinsDirection(PlayingCard card1, PlayingCard card2, Direction direction, List<IRuleVariation> rules)
+	{
+		if (RulesImplementWinsDirection(rules))
+		{
+			return RulesWinsDirection(card1, card2, direction, rules);
+		}
+
+		return direction switch
+		{
+			Direction.North => card1.GetNorth() > card2.GetSouth(),
+			Direction.South => card1.GetSouth() > card2.GetNorth(),
+			Direction.West => card1.GetWest() > card2.GetEast(),
+			Direction.East => card1.GetEast() > card2.GetWest(),
+			_ => throw new Exception($"Invalid direction to check '{direction}'"),
+		};
+	}
+
+	public List<PlayingCard> GetFlippedCards(PlayingCard playingCard, List<IRuleVariation> rules)
+	{
+		List<Direction> directions = new () { Direction.North, Direction.South, Direction.East, Direction.West };
+		return directions.Select(direction =>
+		{
+			var card = GetNeighbour(playingCard, direction);
+			var isFlipped = card != null &&
+				!card.GetCurrentTeam().Equals(playingCard.GetCurrentTeam()) &&
+				WinsDirection(playingCard, card, direction, rules);
+			return (isFlipped) ? card : null;
+		}).Where(card => card != null).ToList();
 	}
 }

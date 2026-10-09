@@ -6,8 +6,12 @@ using System.Linq;
 using UnityEngine;
 using static HandSelector;
 
+[RequireComponent(typeof(TurnManager))]
 public class GameManager : MonoBehaviour
 {
+	private enum GameState { INITIALIZATION, PLAYING, FINISH_GAME }
+	private enum InitGameState { NONE, PLAYER_INIT, ADVERSARY_INIT, FINISH_INIT }
+
 	[SerializeField]
 	private SetLoader Loader;
 	[SerializeField]
@@ -20,10 +24,6 @@ public class GameManager : MonoBehaviour
 	private PlayerController PlayerController;
 	[SerializeField]
 	private AdversaryController AdversaryController;
-	//[SerializeField]
-	//private WinnerManager WinnerManager;
-	[SerializeField]
-	private ScoreManager ScoreManager;
 	[SerializeField]
 	private ManualHandWidget ManualHandWidget;
 	[SerializeField]
@@ -47,11 +47,10 @@ public class GameManager : MonoBehaviour
 	private int playerScore;
 	private int adversaryScore;
 
-	private bool playerHandLoaded;
-	private bool adversaryHandLoaded;
+	private GameState gameState;
+	private InitGameState initGameState;
 
 	private TurnManager turnManager;
-	private bool isGameOver;
 
 	private HandSelectionType handSelectionType;
 
@@ -76,9 +75,9 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		currentTeamTurn = Team.None;
-		//SetLoader.OnSetLoaded += (sender, cards) => Initialize();
 
-		SetLoader.OnSetLoaded += (sender, cards) => {
+		SetLoader.OnSetLoaded += (sender, cards) =>
+		{
 			switch (handSelectionType)
 			{
 				case HandSelectionType.Manual:
@@ -96,51 +95,80 @@ public class GameManager : MonoBehaviour
 
 		turnManager = GetComponent<TurnManager>();
 
-		Initialize();
+		NewGame();
+	}
+
+	public void NewGame()
+	{
+		gameState = GameState.INITIALIZATION;
+		initGameState = InitGameState.NONE;
+
+		NewGameWidget.ActivateWidget(OnNewGame);
 	}
 
 	private void OnHandLoaded(object sender, Hand hand)
 	{
-		if (PlayerHand.Equals(hand))
+		if (gameState != GameState.INITIALIZATION)
 		{
-			playerHandLoaded = true;
+			return;
 		}
 
-		if (AdversaryHand.Equals(hand))
+		if (PlayerHand.Equals(hand) && initGameState != InitGameState.PLAYER_INIT)
 		{
-			adversaryHandLoaded = true;
+			if (initGameState == InitGameState.NONE)
+			{
+				initGameState = InitGameState.PLAYER_INIT;
+			}
+			else // initGameState == InitGameState.ADVERSARY_INIT
+			{
+				initGameState = InitGameState.FINISH_INIT;
+			}
 		}
 
-		if (playerHandLoaded && adversaryHandLoaded)
+		if (AdversaryHand.Equals(hand) && initGameState != InitGameState.ADVERSARY_INIT)
+		{
+			if (initGameState == InitGameState.NONE)
+			{
+				initGameState = InitGameState.ADVERSARY_INIT;
+			}
+			else // initGameState == InitGameState.PLAYER_INIT
+			{
+				initGameState = InitGameState.FINISH_INIT;
+			}
+		}
+
+		if (initGameState == InitGameState.FINISH_INIT)
 		{
 			FinishInitialization();
 		}
 	}
 
-	public void NewGame()
+	private void FinishInitialization()
 	{
-		Initialize();
+		initGameState = InitGameState.NONE;
+		gameState = GameState.PLAYING;
+
+		currentTeamTurn = Team.None;
+		turnManager.ChooseRandomTeam(team => { currentTeamTurn = team; });
+
+		// Controllers
+		PlayerController.ResetController();
+		AdversaryController.ResetController();
 	}
 
-	public Score GetScore() => new Score { player = playerScore, adversary = adversaryScore };
+	public Score GetScore() => new() { player = playerScore, adversary = adversaryScore };
 
-	public List<Card> GetRandomHand()
+	private List<Card> GetRandomHand()
 	{
 		var allCards = Loader.GetCards();
 
 		var cards = new List<Card>();
 		for (int i = 0; i < NumCardsPerHand; i++)
 		{
-			cards.Add(allCards[UnityEngine.Random.Range(0, allCards.Count - 1)]);
+			cards.Add(allCards[UnityEngine.Random.Range(0, allCards.Count)]);
 		}
 
 		return cards;
-	}
-
-	public void Initialize()
-	{
-		NewGameWidget.ActivateWidget(OnNewGame);
-		//ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
 	}
 
 	private void OnNewGame(string setName, HandSelectionType handSelectionType, List<IRuleVariation> rules)
@@ -153,7 +181,7 @@ public class GameManager : MonoBehaviour
 
 	private bool GetUseCardBackAdversary()
 	{
-		if(rules?.Count > 0)
+		if (rules?.Count > 0)
 		{
 			return rules.Select(rule => rule.UseCardBack()).Aggregate(true, (acc, value) => acc && value);
 		}
@@ -164,10 +192,9 @@ public class GameManager : MonoBehaviour
 	private void OnPlayerHandChosen(List<Card> cards)
 	{
 		currentTeamTurn = turnManager.ResetTurn();
-		isGameOver = false;
 
-		playerHandLoaded = false;
-		adversaryHandLoaded = false;
+		gameState = GameState.INITIALIZATION;
+		initGameState = InitGameState.NONE;
 
 		PlayerHand.Initialize(cards, false);
 		AdversaryHand.Initialize(GetRandomHand(), GetUseCardBackAdversary());
@@ -177,88 +204,40 @@ public class GameManager : MonoBehaviour
 		OnScoreChange?.Invoke(this, GetScore());
 		Board.GetInstance().Initialize();
 
-		// UI
-		ScoreManager.Initialize();
-		//WinnerManager.Initialize();
-
 		rules?.ForEach(rule => rule.Initialize());
 
 		OnStartGame?.Invoke(this, EventArgs.Empty);
 	}
 
-	private void FinishInitialization()
-	{
-		currentTeamTurn = Team.None;
-		turnManager.ChooseRandomTeam(team => { currentTeamTurn = team; });
-
-		// Controllers
-		EnableControllers();
-	}
-
-	private void EnableControllers()
-	{
-		PlayerController.ResetController();
-		AdversaryController.ResetController();
-	}
-
 	public void StartNextTurn()
 	{
-		if (isGameOver)
+		if (gameState == GameState.FINISH_GAME)
 		{
 			return;
 		}
 
 		currentTeamTurn = Team.None;
-		turnManager.SetNextTurn(team => {
+		turnManager.SetNextTurn(team =>
+		{
 			currentTeamTurn = team;
 			OnNewTurn?.Invoke(this, currentTeamTurn);
 		});
 	}
 
-	private bool RulesImplementWinsDirection()
-	{
-		return rules.Where(rule => rule.ImplementsWinsDirection()).Count() > 0;
-	}
-
-	private bool RulesWinsDirection(PlayingCard card1, PlayingCard card2, Board.Direction direction)
-	{
-		return rules.Select(rule => rule.WinsDirection(card1, card2, direction)).Aggregate(false, (acc, value) => acc || value);
-	}
-
-	private bool WinsDirection(PlayingCard card1, PlayingCard card2, Board.Direction direction)
-	{
-		if(RulesImplementWinsDirection())
-		{
-			return RulesWinsDirection(card1, card2, direction);
-		}
-
-		return direction switch
-		{
-			Board.Direction.North => card1.GetNorth() > card2.GetSouth(),
-			Board.Direction.South => card1.GetSouth() > card2.GetNorth(),
-			Board.Direction.West => card1.GetWest() > card2.GetEast(),
-			Board.Direction.East => card1.GetEast() > card2.GetWest(),
-			_ => throw new Exception($"Invalid direction to check '{direction}'"),
-		};
-	}
-
 	public List<PlayingCard> PlayCard(PlayingCard playingCard, BoardTile boardTile, Hand hand)
 	{
+		if (gameState != GameState.PLAYING)
+		{
+			return new();
+		}
+
 		var board = Board.GetInstance();
 
 		playingCard.Play();
 
-		var numFreeTiles = board.AddCard(playingCard, boardTile);
-		isGameOver = numFreeTiles == 0;
-		var flippedCards = board.GetDirections().Select(direction =>
-		{
-			var card = board.GetNeighbour(playingCard, direction);
-			var isFlipped = card != null &&
-				!card.GetCurrentTeam().Equals(playingCard.GetCurrentTeam()) &&
-				WinsDirection(playingCard, card, direction);
-			return (isFlipped) ? card : null;
-		}).Where(card => card != null).ToList();
+		board.AddCard(playingCard, boardTile);
 
+		var flippedCards = board.GetFlippedCards(playingCard, rules);
 		if (flippedCards.Count > 0)
 		{
 			if (playingCard.GetCurrentTeam().Equals(Team.Blue))
@@ -275,22 +254,15 @@ public class GameManager : MonoBehaviour
 			flippedCards.ForEach(card => card.SetCurrentTeam(playingCard.GetCurrentTeam()));
 			OnScoreChange?.Invoke(this, GetScore());
 		}
-		
-		if (IsGameOver())
+
+		if (board.GetNumFreeTiles() == 0)
 		{
+			gameState = GameState.FINISH_GAME;
 			OnFinishGame?.Invoke(this, EventArgs.Empty);
 		}
 
 		hand.Drop(playingCard);
 
 		return flippedCards;
-	}
-
-	private bool IsGameOver() => isGameOver;
-
-	// Update is called once per frame
-	void Update()
-	{
-
 	}
 }
