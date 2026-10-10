@@ -706,7 +706,6 @@ MonoBehaviour:
   AdversaryHand: {fileID: 152946591}
   PlayerController: {fileID: 1934206706}
   AdversaryController: {fileID: 1638911176}
-  ScoreManager: {fileID: 1941707451}
   ManualHandWidget: {fileID: 1641466622}
   NewGameWidget: {fileID: 1250252225}
 --- !u!114 &89391332

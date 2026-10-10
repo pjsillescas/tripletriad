@@ -18,6 +18,15 @@ public class Abacus : MonoBehaviour
 	{
 		isGameStarted = false;
 
+		InitializeAbacus();
+
+		GameManager.GetInstance().OnStartGame += OnStartGame;
+		GameManager.GetInstance().OnFinishGame += OnFinishGame;
+		GameManager.GetInstance().OnScoreChange += OnScoreChange;
+	}
+
+	private void InitializeAbacus()
+	{
 		points = new();
 		for (int k = 0; k < 10; k++)
 		{
@@ -26,10 +35,6 @@ public class Abacus : MonoBehaviour
 		}
 
 		lastRedIndex = 0;
-
-		GameManager.GetInstance().OnStartGame += OnStartGame;
-		GameManager.GetInstance().OnFinishGame += OnFinishGame;
-		GameManager.GetInstance().OnScoreChange += OnScoreChange;
 	}
 
 	private void OnDisable()

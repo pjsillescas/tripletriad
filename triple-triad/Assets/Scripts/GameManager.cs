@@ -189,7 +189,8 @@ public class GameManager : MonoBehaviour
 		return true;
 	}
 
-	private void OnPlayerHandChosen(List<Card> cards)
+
+	public void InitializeGame()
 	{
 		currentTeamTurn = turnManager.ResetTurn();
 
@@ -205,7 +206,18 @@ public class GameManager : MonoBehaviour
 		Board.GetInstance().Initialize();
 
 		rules?.ForEach(rule => rule.Initialize());
+	}
 
+	public void FinalizeGame()
+	{
+		currentTeamTurn = turnManager.ResetTurn();
+	}
+
+	private List<Card> cards;
+	private void OnPlayerHandChosen(List<Card> cards)
+	{
+		this.cards = cards;
+		// InitializeGame();
 		OnStartGame?.Invoke(this, EventArgs.Empty);
 	}
 
@@ -231,6 +243,7 @@ public class GameManager : MonoBehaviour
 			return new();
 		}
 
+		hand.Drop(playingCard);
 		var board = Board.GetInstance();
 
 		playingCard.Play();
@@ -260,8 +273,6 @@ public class GameManager : MonoBehaviour
 			gameState = GameState.FINISH_GAME;
 			OnFinishGame?.Invoke(this, EventArgs.Empty);
 		}
-
-		hand.Drop(playingCard);
 
 		return flippedCards;
 	}

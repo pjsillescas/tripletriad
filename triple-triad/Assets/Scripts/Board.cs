@@ -19,6 +19,8 @@ public class Board : MonoBehaviour
 	private PlayingCard[] cards;
 	private Animator animator;
 
+	private bool isBoardOpen;
+
 	private static Board Instance = null;
 
 	public static Board GetInstance()
@@ -39,6 +41,8 @@ public class Board : MonoBehaviour
 		Instance = this;
 		cards = new PlayingCard[MAX_CARDS];
 		animator = GetComponent<Animator>();
+		
+		isBoardOpen = false;
 	}
 
 	private void Start()
@@ -203,5 +207,24 @@ public class Board : MonoBehaviour
 				WinsDirection(playingCard, card, direction, rules);
 			return (isFlipped) ? card : null;
 		}).Where(card => card != null).ToList();
+	}
+
+	public void OnBoardOpen()
+	{
+		if (!isBoardOpen)
+		{
+			GameManager.GetInstance().InitializeGame();
+		}
+		else
+		{
+			GameManager.GetInstance().FinalizeGame();
+		}
+
+		isBoardOpen = !isBoardOpen;
+	}
+
+	public void OnBoardClosed()
+	{
+		;
 	}
 }

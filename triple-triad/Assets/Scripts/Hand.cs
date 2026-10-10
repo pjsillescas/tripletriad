@@ -9,10 +9,10 @@ public class Hand : MonoBehaviour
 {
 	[SerializeField]
 	private Team Team;
-    [SerializeField]
-    private List<PlayingCard> Cards;
-    [SerializeField]
-    private GameObject CardPrefab;
+	[SerializeField]
+	private List<PlayingCard> Cards;
+	[SerializeField]
+	private GameObject CardPrefab;
 	[SerializeField]
 	private Transform AnimationInitialPosition;
 
@@ -24,7 +24,7 @@ public class Hand : MonoBehaviour
 
 	private void Awake()
 	{
-        Cards = new();
+		Cards = new();
 	}
 
 	public void Initialize(List<Card> cards, bool useCardBack)
@@ -37,9 +37,9 @@ public class Hand : MonoBehaviour
 
 		numCardsToLoad = cards.Count;
 		var numCards = cards.Count;
-		
+
 		var i = 0;
-		cards.ForEach(card => 
+		cards.ForEach(card =>
 		{
 			var cardObject = Instantiate(CardPrefab);
 			var playingCard = cardObject.GetComponent<PlayingCard>();
@@ -60,7 +60,7 @@ public class Hand : MonoBehaviour
 			{
 				cardAnimator.StartAnimation(playingCard, AnimationInitialPosition.position, endPosition, offsetTime * (numCards - i), FinishLoadCard);
 			}
-			
+
 			Cards.Add(playingCard);
 			i++;
 		});
@@ -87,9 +87,9 @@ public class Hand : MonoBehaviour
 	}
 
 	public void Drop(PlayingCard card)
-    {
-        Cards.Remove(card);
-    }
+	{
+		Cards.Remove(card);
+	}
 
 	public void Unload()
 	{
@@ -99,13 +99,17 @@ public class Hand : MonoBehaviour
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
-    {
-        
-    }
+	{
+		GameManager.GetInstance().OnFinishGame += OnFinishGame;
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void OnDisable()
+	{
+		GameManager.GetInstance().OnFinishGame -= OnFinishGame;
+	}
+
+	private void OnFinishGame(object sender, EventArgs e)
+	{
+		Unload();
+	}
 }
