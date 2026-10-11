@@ -175,6 +175,7 @@ public class GameManager : MonoBehaviour
 	{
 		this.handSelectionType = handSelectionType;
 		this.rules = rules;
+		Board.GetInstance().Initialize();
 
 		SetLoader.GetInstance().LoadSet(setName);
 	}
@@ -203,7 +204,6 @@ public class GameManager : MonoBehaviour
 		playerScore = 5;
 		adversaryScore = 5;
 		OnScoreChange?.Invoke(this, GetScore());
-		Board.GetInstance().Initialize();
 
 		rules?.ForEach(rule => rule.Initialize());
 	}
