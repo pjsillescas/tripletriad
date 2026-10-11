@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 24a6f11edd55d70429113f4935c72116
+guid: d146b96153f7ed448b2a7bba17185189
 ModelImporter:
   serializedVersion: 24600
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MDarkWood
+    second: {fileID: 2100000, guid: f3299f1fb17d11c49bbce6769f9992b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MLightWood
+    second: {fileID: 2100000, guid: 48986240a31ace2458b281bfd9f4d61d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MMetal
+    second: {fileID: 2100000, guid: d7f8f2184d9db8b40af30c1b89f37d78, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MVelvet
+    second: {fileID: 2100000, guid: f34cac47c129ed54faee8ae522c03520, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -23,7 +43,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -106,7 +126,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
