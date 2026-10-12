@@ -12,6 +12,8 @@ public class UserWidget : MonoBehaviour
 	private Button LoginButton;
 	[SerializeField]
 	private Button LogoutButton;
+	[SerializeField]
+	private LoginWidget LoginWidget;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -22,12 +24,19 @@ public class UserWidget : MonoBehaviour
 		LogoutButton.onClick.RemoveAllListeners();
 		LogoutButton.onClick.AddListener(LogoutButtonClick);
 
+		LoginWidget.Deactivate();
+
 		Disconnect();
+	}
+
+	private void OnLogin(string username)
+	{
+		Connect(username);
 	}
 
 	private void LoginButtonClick()
 	{
-		Connect("testuser");
+		LoginWidget.Activate(OnLogin);
 	}
 
 	private void LogoutButtonClick()
