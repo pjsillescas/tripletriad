@@ -4,13 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using static HandSelector;
 
 [RequireComponent(typeof(TurnManager))]
 public class GameManager : MonoBehaviour
 {
+	private enum GameManagerType { CLASSIC, ENHANCED }
 	private enum GameState { INITIALIZATION, PLAYING, FINISH_GAME }
 	private enum InitGameState { NONE, PLAYER_INIT, ADVERSARY_INIT, FINISH_INIT }
+
+	[SerializeField]
+	private GameManagerType ManagerType;
 
 	[SerializeField]
 	private SetLoader Loader;
@@ -28,6 +33,10 @@ public class GameManager : MonoBehaviour
 	private ManualHandWidget ManualHandWidget;
 	[SerializeField]
 	private NewGameWidget NewGameWidget;
+	[SerializeField]
+	private CreateGameWidget CreateGameWidget;
+	[SerializeField]
+	private EnhancedHandWidget EnhancedHandWidget;
 
 	public class Score
 	{
@@ -37,6 +46,7 @@ public class GameManager : MonoBehaviour
 
 	public event EventHandler<Team> OnNewTurn;
 	public event EventHandler OnFinishGame;
+	public event EventHandler<Score> OnEnhancedFinishGame;
 	public event EventHandler OnStartGame;
 	public event EventHandler<Score> OnScoreChange;
 
@@ -67,33 +77,48 @@ public class GameManager : MonoBehaviour
 		currentTeamTurn = Team.None;
 	}
 
+	private bool IsClassicManager() => ManagerType == GameManagerType.CLASSIC;
+
 	public static GameManager GetInstance() => Instance;
 
 	public Team GetCurrentTeamTurn() => currentTeamTurn;
+
+	private void OnSetLoadedClassic(object sender, List<Card> cards)
+	{
+		switch (handSelectionType)
+		{
+			case HandSelectionType.Manual:
+				ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
+				break;
+			case HandSelectionType.Random:
+			default:
+				OnPlayerHandChosen(GetRandomHand());
+				break;
+		}
+	}
+
+	private void OnSetLoadedEnhanced(object sender, List<Card> cards)
+	{
+		EnhancedHandWidget.ActivateWidget();
+	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
 		currentTeamTurn = Team.None;
 
-		SetLoader.OnSetLoaded += (sender, cards) =>
-		{
-			switch (handSelectionType)
-			{
-				case HandSelectionType.Manual:
-					ManualHandWidget.ActivateWidget(OnPlayerHandChosen);
-					break;
-				case HandSelectionType.Random:
-				default:
-					OnPlayerHandChosen(GetRandomHand());
-					break;
-			}
-		};
+		SetLoader.OnSetLoaded += IsClassicManager() ? OnSetLoadedClassic : OnSetLoadedEnhanced;
 
 		PlayerHand.OnHandLoaded += OnHandLoaded;
 		AdversaryHand.OnHandLoaded += OnHandLoaded;
 
 		turnManager = GetComponent<TurnManager>();
+
+		if (!IsClassicManager())
+		{
+			EnhancedHandWidget.OnHandChosen += OnEnhancedPlayerHandChosen;
+			CreateGameWidget.OnNewGame += OnEnhancedNewGame;
+		}
 
 		NewGame();
 	}
@@ -103,11 +128,19 @@ public class GameManager : MonoBehaviour
 		gameState = GameState.INITIALIZATION;
 		initGameState = InitGameState.NONE;
 
-		NewGameWidget.ActivateWidget(OnNewGame);
+		if (IsClassicManager())
+		{
+			NewGameWidget.ActivateWidget(OnClassicNewGame);
+		}
+		else
+		{
+			CreateGameWidget.ActivateWidget();
+		}
 	}
 
 	private void OnHandLoaded(object sender, Hand hand)
 	{
+		Debug.Log("on hand loaded");
 		if (gameState != GameState.INITIALIZATION)
 		{
 			return;
@@ -160,18 +193,18 @@ public class GameManager : MonoBehaviour
 
 	private List<Card> GetRandomHand()
 	{
-		var allCards = Loader.GetCards();
-
-		var cards = new List<Card>();
-		for (int i = 0; i < NumCardsPerHand; i++)
-		{
-			cards.Add(allCards[UnityEngine.Random.Range(0, allCards.Count)]);
-		}
-
-		return cards;
+		return HandUtils.GetRandomHand(Loader, NumCardsPerHand);
 	}
 
-	private void OnNewGame(string setName, HandSelectionType handSelectionType, List<IRuleVariation> rules)
+	private void OnEnhancedNewGame(object sender, CreateGameWidget.OnNewGameData data)
+	{
+		rules = data.rules;
+		Board.GetInstance().Initialize();
+
+		SetLoader.GetInstance().LoadSet(data.set);
+	}
+
+	private void OnClassicNewGame(string setName, HandSelectionType handSelectionType, List<IRuleVariation> rules)
 	{
 		this.handSelectionType = handSelectionType;
 		this.rules = rules;
@@ -219,6 +252,11 @@ public class GameManager : MonoBehaviour
 		this.cards = cards;
 		// InitializeGame();
 		OnStartGame?.Invoke(this, EventArgs.Empty);
+	}
+
+	private void OnEnhancedPlayerHandChosen(object sender, List<Card> cards)
+	{
+		OnPlayerHandChosen(cards);
 	}
 
 	public void StartNextTurn()
@@ -272,6 +310,7 @@ public class GameManager : MonoBehaviour
 		{
 			gameState = GameState.FINISH_GAME;
 			OnFinishGame?.Invoke(this, EventArgs.Empty);
+			OnEnhancedFinishGame?.Invoke(this, GetScore());
 		}
 
 		return flippedCards;

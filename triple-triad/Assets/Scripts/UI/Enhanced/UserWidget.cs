@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,9 @@ public class UserWidget : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		LoginWidget.OnLogin += OnLogin;
+		LoginWidget.OnLogout += OnLogout;
+
 		LoginButton.onClick.RemoveAllListeners();
 		LoginButton.onClick.AddListener(LoginButtonClick);
 
@@ -29,19 +33,30 @@ public class UserWidget : MonoBehaviour
 		Disconnect();
 	}
 
-	private void OnLogin(string username)
+	private void OnDisable()
+	{
+		LoginWidget.OnLogin -= OnLogin;
+		LoginWidget.OnLogout -= OnLogout;
+	}
+
+	private void OnLogin(object sender, string username)
 	{
 		Connect(username);
 	}
 
+	private void OnLogout(object sender, EventArgs args)
+	{
+		Disconnect();
+	}
+
 	private void LoginButtonClick()
 	{
-		LoginWidget.Activate(OnLogin);
+		LoginWidget.Activate();
 	}
 
 	private void LogoutButtonClick()
 	{
-		Disconnect();
+		LoginWidget.Logout();
 	}
 
 	private void Disconnect()

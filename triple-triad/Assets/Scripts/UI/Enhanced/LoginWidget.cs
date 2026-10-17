@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class LoginWidget : MonoBehaviour
 {
+	public static event EventHandler<string> OnLogin;
+	public static event EventHandler OnLogout;
+
 	[SerializeField]
 	private TMP_InputField UsernameInput;
 
@@ -16,17 +19,19 @@ public class LoginWidget : MonoBehaviour
 	[SerializeField]
 	private Button SignupButton;
 
-	private Action<string> OnLogin;
-
-	public void Activate(Action<string> onLogin)
+	public void Activate()
 	{
-		OnLogin = onLogin;
 		gameObject.SetActive(true);
 	}
 
 	public void Deactivate()
 	{
 		gameObject.SetActive(false);
+	}
+
+	public void Logout()
+	{
+		OnLogout?.Invoke(this, EventArgs.Empty);
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,13 +46,13 @@ public class LoginWidget : MonoBehaviour
 
 	private void LoginClick()
 	{
-		OnLogin(UsernameInput.text);
+		OnLogin?.Invoke(this, UsernameInput.text);
 		Deactivate();
 	}
 
 	private void SignupClick()
 	{
-		OnLogin(UsernameInput.text);
+		OnLogin?.Invoke(this, UsernameInput.text);
 		Deactivate();
 	}
 
