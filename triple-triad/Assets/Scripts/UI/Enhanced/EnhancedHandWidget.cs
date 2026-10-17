@@ -2,6 +2,7 @@ using cards;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class EnhancedHandWidget : MonoBehaviour
 	[SerializeField]
 	private Button RandomHandButton;
 
-	private List<Card> cards;
+	//private List<Card> cards;
 	//private Image backgroundImage;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,10 +32,27 @@ public class EnhancedHandWidget : MonoBehaviour
 
 		StartButton.interactable = false;
 		StartButton.onClick.AddListener(StartButtonClick);
-		
+
+		EnhancedHandItem.OnDropCard += HandItemDropCard;
+		EnhancedHandItem.OnAddCard += HandItemAddCard;
 		//backgroundImage = GetComponent<Image>();
-		
+
 		DeactivateWidget();
+	}
+
+	private void HandItemDropCard(object sender, Card card)
+	{
+		if (card == null)
+		{
+			return;
+		}
+
+		CardLister.AddCard(card);
+	}
+
+	private void HandItemAddCard(object sender, Card card)
+	{
+		StartButton.interactable = HandView.IsHandComplete();
 	}
 
 	public void ActivateWidget()
@@ -56,6 +74,7 @@ public class EnhancedHandWidget : MonoBehaviour
 
 	public void ResetWidget()
 	{
+		/*
 		if (cards == null)
 		{
 			cards = new();
@@ -63,6 +82,7 @@ public class EnhancedHandWidget : MonoBehaviour
 
 		Debug.Log("reset");
 		cards.Clear();
+		*/
 		HandView.ResetWidget();
 		CardLister.ResetList();
 	}
@@ -79,7 +99,7 @@ public class EnhancedHandWidget : MonoBehaviour
 	{
 		SoundManager.GetInstance().Click();
 
-		OnHandChosen?.Invoke(this, cards);
+		OnHandChosen?.Invoke(this, HandView.GetHand());
 		DeactivateWidget();
 	}
 

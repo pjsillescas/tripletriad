@@ -1,4 +1,5 @@
 using cards;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,9 @@ using UnityEngine.EventSystems;
 
 public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+	public static event EventHandler<Card> OnDropCard;
+	public static event EventHandler<Card> OnAddCard;
+
 	[SerializeField]
 	private EnhancedCardView CardView;
 
@@ -14,11 +18,13 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 	private CardDrag cardDrag;
 	private Canvas canvas;
 	private Vector3 defaultPosition;
+	private bool isDragging;
 
 	private void Start()
 	{
 		canvas = FindAnyObjectByType<Canvas>();
 		StartCoroutine(GetPositionCoroutine());
+		isDragging = false;
 	}
 
 	private IEnumerator GetPositionCoroutine()
@@ -27,16 +33,21 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 		defaultPosition = transform.position;
 	}
 
-	public void AddCardData(Card card, int numUnits)
+	public void AddCardData(Card card)
 	{
 		this.card = card;
 
-		ResetCard();
+		//ResetCard();
 		CardView.Load(card, Color.blue);
+
+		OnAddCard?.Invoke(this, card);
 	}
 
 	public void ResetCard()
 	{
+		OnDropCard?.Invoke(this, card);
+		card = null;
+		CardView.ResetCard();
 	}
 
 	public Card GetCard() => card;
@@ -58,6 +69,7 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 
 	public void OnDrop(PointerEventData eventData)
 	{
+		isDragging = false;
 		if (eventData.pointerDrag == null)
 		{
 			return;
@@ -71,7 +83,7 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 
 	public void OnDrag(PointerEventData eventData)
 	{
-		if (card == null)
+		if (card == null || !isDragging)
 		{
 			return;
 		}
@@ -83,9 +95,11 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 	{
 		if (card == null)
 		{
+			isDragging = false;
 			return;
 		}
 
+		isDragging = true;
 		var cardDrag = GetCardDrag();
 		var rectTransform = cardDrag.GetComponentInChildren<RectTransform>();
 		float width = rectTransform.sizeDelta.x;
@@ -105,6 +119,8 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
+		isDragging = false;
+		
 		if (card == null)
 		{
 			return;
@@ -116,6 +132,13 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 	public void SetCardItem(EnhancedCardItem cardItem)
 	{
 		Debug.Log($"card item {cardItem.GetCard().name} dropped into hand item {name}");
-		// Implement bidirectional logic as needed
+
+		if (card != null || cardItem.GetLeftUnits() <= 0)
+		{
+			return;
+		}
+
+		cardItem.SubtractCard();
+		AddCardData(cardItem.GetCard());
 	}
 }

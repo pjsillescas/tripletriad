@@ -21,10 +21,12 @@ public class EnhancedCardItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 	private int leftUnits;
 	private Card card;
 	private Vector3 defaultPosition;
+	private bool isDragging;
 
 	private void Start()
 	{
 		canvas = FindAnyObjectByType<Canvas>();
+		isDragging = false;
 
 		StartCoroutine(GetPositionCoroutine());
 		ResetCard();
@@ -51,6 +53,11 @@ public class EnhancedCardItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 	public void ResetCard()
 	{
 		leftUnits = numUnits;
+		UpdateNumberText();
+	}
+
+	private void UpdateNumberText()
+	{
 		NumberText.text = $"x {leftUnits}";
 	}
 
@@ -61,7 +68,7 @@ public class EnhancedCardItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 	public void SetLeftUnits(int leftUnits)
 	{
 		this.leftUnits = leftUnits;
-		NumberText.text = leftUnits.ToString();
+		UpdateNumberText();
 	}
 
 	/*
@@ -129,13 +136,12 @@ public class EnhancedCardItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 
 	public void OnDrop(PointerEventData eventData)
 	{
-		Debug.Log("ondrop");
-
 		if (eventData.pointerDrag == null)
 		{
 			return;
 		}
 
+		isDragging = false;
 		if (eventData.pointerDrag.TryGetComponent<EnhancedHandItem>(out var handItem))
 		{
 			SetHandItem(handItem);
@@ -145,7 +151,7 @@ public class EnhancedCardItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 
 	public void OnDrag(PointerEventData eventData)
 	{
-		if (card == null)
+		if (card == null || !isDragging)
 		{
 			return;
 		}
@@ -155,11 +161,13 @@ public class EnhancedCardItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		if (card == null)
+		if (card == null || leftUnits <= 0)
 		{
+			isDragging = false;
 			return;
 		}
 
+		isDragging = true;
 		var cardDrag = GetCardDrag();
 		var rectTransform = cardDrag.GetComponentInChildren<RectTransform>();
 		float width = rectTransform.sizeDelta.x;
@@ -177,12 +185,32 @@ public class EnhancedCardItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 			return;
 		}
 
+		isDragging = false;
 		GetCardDrag().Deactivate();
 	}
 
 	public void SetHandItem(EnhancedHandItem item)
 	{
 		Debug.Log($"hand item {item.name} dropped into card item {name}");
-		// Implement bidirectional logic as needed
+
+		//var card = item.GetCard();
+		item.ResetCard();
+		//OnHandItemDropCard?.Invoke(this, card);
+	}
+
+	public void	AddCard()
+	{
+		if (leftUnits < numUnits)
+		{
+			SetLeftUnits(leftUnits + 1);
+		}
+	}
+
+	public void SubtractCard()
+	{
+		if (leftUnits > 0)
+		{
+			SetLeftUnits(leftUnits - 1);
+		}
 	}
 }

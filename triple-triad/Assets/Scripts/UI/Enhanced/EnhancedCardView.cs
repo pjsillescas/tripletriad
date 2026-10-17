@@ -8,6 +8,8 @@ public class EnhancedCardView : MonoBehaviour
 {
 	[SerializeField]
 	private Transform Side1;
+	[SerializeField]
+	private Texture2D DefaultCardImage;
 
 	[SerializeField]
 	private TextMeshProUGUI NorthText;
@@ -36,6 +38,8 @@ public class EnhancedCardView : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		//cardImage = Side1.GetComponent<Image>();
+		//elementImage = FrontElementPlane.GetComponent<Image>();
 		/*
 		Debug.Log("start cardview");
 		var imageLoaders = GetComponents<ImageLoader>();
@@ -49,6 +53,12 @@ public class EnhancedCardView : MonoBehaviour
 		*/
 	}
 
+	public void ResetCard()
+	{
+		Init();
+		NameText.text = "";
+		cardImage.sprite = TextureUtils.TextureToSprite(DefaultCardImage);
+	}
 
 	private void LoadElement(GameObject plane, string set, Card.Element element)
 	{
@@ -67,8 +77,11 @@ public class EnhancedCardView : MonoBehaviour
 
 	private void Init()
 	{
-		//gameObject.SetActive(true);
-		
+		if (cardImage != null)
+		{
+			return;
+		}
+
 		var imageLoaders = GetComponents<ImageLoader>();
 		imageLoaderFront = imageLoaders[0];
 		imageLoaderElementFront = imageLoaders[1];
@@ -76,15 +89,12 @@ public class EnhancedCardView : MonoBehaviour
 		cardImage = Side1.GetComponent<Image>();
 		elementImage = FrontElementPlane.GetComponent<Image>();
 
-		//Side1.gameObject.SetActive(false);
 		material = cardImage.material;
 	}
 
 	public void Load(Card card, Color backgroundColor)
 	{
 		Init();
-		Debug.Log($"load cardview {card.name}");
-		//Side1.gameObject.SetActive(true);
 
 		var cardName = card.name;
 		var element = card.elemental;
@@ -98,7 +108,6 @@ public class EnhancedCardView : MonoBehaviour
 		var image = ToFileName(cardName);
 		var cardFileName = string.Format(card.nameFormat, (set.Equals("Inmoba")) ? image.ToLower() : image);
 		var imageName = $"Sets/{set}/Images/{cardFileName}";
-		Debug.Log($"loading image '{imageName}'");
 		LoadImage(imageName, cardImage);
 
 		LoadElement(FrontElementPlane, set, element);
@@ -139,12 +148,8 @@ public class EnhancedCardView : MonoBehaviour
 
 	private void LoadImage(string filename, Image image)
 	{
-		Debug.Log($"active {gameObject.name} {gameObject.activeSelf} {gameObject.activeInHierarchy}");
 		imageLoaderFront.Load(filename, (texture) => {
-			Debug.Log($"image got {filename} '{texture.name}'");
-
 			image.sprite = TextureUtils.TextureToSprite(texture);
-			
 			image.SetMaterialDirty();
 		});
 	}

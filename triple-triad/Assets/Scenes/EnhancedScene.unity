@@ -5449,6 +5449,7 @@ RectTransform:
   - {fileID: 1127155159}
   - {fileID: 1456559034}
   - {fileID: 711632773}
+  - {fileID: 1132122294}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6867,7 +6868,6 @@ RectTransform:
   - {fileID: 157490023}
   - {fileID: 889715128}
   - {fileID: 1825393103}
-  - {fileID: 1132122294}
   m_Father: {fileID: 577602283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8426,9 +8426,9 @@ RectTransform:
   - {fileID: 1050734121}
   m_Father: {fileID: 577602283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 297.6, y: -60}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -60, y: -60}
   m_SizeDelta: {x: 70, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &942372290
@@ -10734,15 +10734,15 @@ RectTransform:
   m_GameObject: {fileID: 1132122293}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5000001, y: 1.5000001, z: 1.5000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 451316847}
-  m_Father: {fileID: 711632773}
+  m_Father: {fileID: 577602283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 640.00006, y: -232.3375}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1138520791
@@ -13472,9 +13472,9 @@ RectTransform:
   - {fileID: 1525411072}
   m_Father: {fileID: 577602283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: 350, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1479232363
@@ -19556,6 +19556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedCardView
   Side1: {fileID: 5485440155261270484}
+  DefaultCardImage: {fileID: 0}
   NorthText: {fileID: 3221368318594078304}
   EastText: {fileID: 6013917445373525623}
   SouthText: {fileID: 570652060522291739}

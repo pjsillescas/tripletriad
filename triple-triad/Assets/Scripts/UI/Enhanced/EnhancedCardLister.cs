@@ -31,6 +31,19 @@ public class EnhancedCardLister : MonoBehaviour
 		items?.Clear();
 	}
 
+	public void AddCard(Card card)
+	{
+		var item = items.First(it => it.GetCard().Equals(card));
+
+		if (item == null)
+		{
+			return;
+		}
+
+		//item.SetLeftUnits(item.GetLeftUnits() + 1);
+		item.AddCard();
+	}
+
 	public void LoadSet(List<Card> cardList)
 	{
 		CleanComponent();
@@ -82,8 +95,7 @@ public class EnhancedCardLister : MonoBehaviour
 		items?.ForEach(cardItem => cardItem.ResetCard());
 	}
 
-	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	void Start()
+	void Awake()
 	{
 		items = new();
 	}

@@ -1034,6 +1034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedCardView
   Side1: {fileID: 9006336673383506663}
+  DefaultCardImage: {fileID: 2800000, guid: dbd47afd428ae6e46acf14df8476e8db, type: 3}
   NorthText: {fileID: 2471746797617467272}
   EastText: {fileID: 3817922110451662210}
   SouthText: {fileID: 860152961262764213}
