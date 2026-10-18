@@ -23,6 +23,11 @@ public class EnhancedHandView : MonoBehaviour
 		return items.Select(item => item.GetCard()).Where(card => card != null).ToList();
 	}
 
+	public List<EnhancedHandItem> GetAvailableItems()
+	{
+		return items.Where(item => item.GetCard() == null).ToList();
+	}
+
 	public bool IsHandComplete()
 	{
 		return items.All(item => item.GetCard() != null);

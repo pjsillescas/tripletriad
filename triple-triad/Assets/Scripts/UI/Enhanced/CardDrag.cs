@@ -1,6 +1,5 @@
 using cards;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,6 +17,9 @@ public class CardDrag : MonoBehaviour
 
 	private void Awake()
 	{
+		UnitImage.enabled = false;
+		UnitImage.gameObject.SetActive(false);
+
 		rectTransform = GetComponent<RectTransform>();
 		canvasGroup = GetComponent<CanvasGroup>();
 

@@ -2,7 +2,6 @@ using cards;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +30,11 @@ public class EnhancedHandWidget : MonoBehaviour
 		SetLoader.OnSetLoaded += (sender, cardList) => SetLoaded(cardList);
 
 		StartButton.interactable = false;
+		StartButton.onClick.RemoveAllListeners();
 		StartButton.onClick.AddListener(StartButtonClick);
+
+		RandomHandButton.onClick.RemoveAllListeners();
+		RandomHandButton.onClick.AddListener(RandomHandButtonClick);
 
 		EnhancedHandItem.OnDropCard += HandItemDropCard;
 		EnhancedHandItem.OnAddCard += HandItemAddCard;
@@ -101,6 +104,25 @@ public class EnhancedHandWidget : MonoBehaviour
 
 		OnHandChosen?.Invoke(this, HandView.GetHand());
 		DeactivateWidget();
+	}
+
+	private void RandomHandButtonClick()
+	{
+		CompleteRandomHand();
+	}
+
+	private EnhancedCardItem SelectRandomAvailableCard()
+	{
+		var availableCardItems = CardLister.GetAvailableCardItems();
+		var randomIndex = UnityEngine.Random.Range(0, availableCardItems.Count);
+		return availableCardItems[randomIndex];
+	}
+	
+	private void CompleteRandomHand()
+	{
+		var availableItems = HandView.GetAvailableItems();
+
+		availableItems.ForEach(handItem => handItem.SetCardItem(SelectRandomAvailableCard()));
 	}
 
 	private void SetLoaded(List<Card> cards)

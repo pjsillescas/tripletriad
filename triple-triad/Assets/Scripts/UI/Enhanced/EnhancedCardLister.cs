@@ -31,6 +31,11 @@ public class EnhancedCardLister : MonoBehaviour
 		items?.Clear();
 	}
 
+	public List<EnhancedCardItem> GetAvailableCardItems()
+	{
+		return items?.Where(item => item.GetLeftUnits() > 0).ToList();
+	}
+
 	public void AddCard(Card card)
 	{
 		var item = items.First(it => it.GetCard().Equals(card));
