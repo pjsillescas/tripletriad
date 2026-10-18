@@ -20,13 +20,26 @@ Shader "Custom/PlaneOutlineSDFUI"
 
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Stencil
+        {
+            Ref [_Stencil]
+            Comp [_StencilComp]
+            Pass [_StencilOp]
+            ReadMask [_StencilReadMask]
+            WriteMask [_StencilWriteMask]
+        }
+        ColorMask [_ColorMask]
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
+            #pragma multi_compile_local _ UNITY_UI_CLIP_RECT
+            #include "UnityUI.cginc"
 
             struct appdata
             {
@@ -38,6 +51,7 @@ Shader "Custom/PlaneOutlineSDFUI"
             {
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                float4 worldPosition : TEXCOORD1;
             };
 
             sampler2D _MainTex;
@@ -46,16 +60,18 @@ Shader "Custom/PlaneOutlineSDFUI"
             float4 _OutlineColor;
             float _OutlineWidth;
             int _UseBackground;
+            float4 _ClipRect;
 
             v2f vert (appdata v)
             {
                 v2f o;
+                o.worldPosition = v.vertex; // object-space vertex, as in Unity's UI shader
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+                fixed4 frag (v2f i) : SV_Target
             {
                 // Calculate distance from the edge
                 float2 edgeDist = min(i.uv, 1.0 - i.uv);
@@ -68,22 +84,15 @@ Shader "Custom/PlaneOutlineSDFUI"
                 {
                     float alpha = length(i.uv);
                     col = (fixed4) lerp(_ColorBase, _Color, clamp(sqrt(alpha),0,1));
-                    /*
-                    if(_UseBackground > 0)
-                    {
-                        float alpha = length(i.uv);
-                        col = (fixed4) lerp(_ColorBase, _Color, clamp(sqrt(alpha),0,1));
-                    }
-                    else
-                    {
-                        col = fixed4(1,1,1,0);
-                    }
-                    */
                 }
                 
                 // Apply outline based on distance
                 float outlineFactor = 1 - smoothstep(_OutlineWidth, _OutlineWidth * 0.5, distance);
                 col.rgb = lerp(_OutlineColor.rgb, col.rgb, outlineFactor);
+
+                #ifdef UNITY_UI_CLIP_RECT
+                col.a *= UnityGet2DClipping(i.worldPosition.xy, _ClipRect);
+                #endif
 
                 return col;
             }
