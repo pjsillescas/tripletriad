@@ -18,6 +18,11 @@ public class EnhancedHandView : MonoBehaviour
 		ResetWidget();
 	}
 
+	public List<EnhancedHandItem> GetItems()
+	{
+		return items;
+	}
+
 	public List<Card> GetHand()
 	{
 		return items.Select(item => item.GetCard()).Where(card => card != null).ToList();

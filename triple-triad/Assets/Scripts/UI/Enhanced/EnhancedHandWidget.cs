@@ -20,6 +20,8 @@ public class EnhancedHandWidget : MonoBehaviour
 	private Button StartButton;
 	[SerializeField]
 	private Button RandomHandButton;
+	[SerializeField]
+	private Button ResetHandButton;
 
 	//private List<Card> cards;
 	//private Image backgroundImage;
@@ -35,6 +37,9 @@ public class EnhancedHandWidget : MonoBehaviour
 
 		RandomHandButton.onClick.RemoveAllListeners();
 		RandomHandButton.onClick.AddListener(RandomHandButtonClick);
+
+		ResetHandButton.onClick.RemoveAllListeners();
+		ResetHandButton.onClick.AddListener(ResetHandButtonClick);
 
 		EnhancedHandItem.OnDropCard += HandItemDropCard;
 		EnhancedHandItem.OnAddCard += HandItemAddCard;
@@ -109,6 +114,26 @@ public class EnhancedHandWidget : MonoBehaviour
 	private void RandomHandButtonClick()
 	{
 		CompleteRandomHand();
+	}
+
+	private void ResetHandButtonClick()
+	{
+		ResetHand();
+	}
+
+	private void ResetHand()
+	{
+		var items = HandView.GetItems();
+
+		foreach(var item in items)
+		{
+			var card = item.GetCard();
+			if (card != null)
+			{
+				item.ResetCard();
+				CardLister.AddCard(card);
+			}
+		}
 	}
 
 	private EnhancedCardItem SelectRandomAvailableCard()
