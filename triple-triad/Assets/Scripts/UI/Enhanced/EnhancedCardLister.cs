@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class EnhancedCardLister : MonoBehaviour
 {
@@ -38,7 +37,7 @@ public class EnhancedCardLister : MonoBehaviour
 
 	public void AddCard(Card card)
 	{
-		var item = items.First(it => it.GetCard().Equals(card));
+		var item = items.FirstOrDefault(it => it.GetCard().Equals(card));
 
 		if (item == null)
 		{
