@@ -58,6 +58,25 @@ public class EnhancedCardView : MonoBehaviour
 		Init();
 		NameText.text = "";
 		cardImage.sprite = TextureUtils.TextureToSprite(DefaultCardImage);
+		DisableElements();
+	}
+
+	private void DisableElements()
+	{
+		elementImage.gameObject.SetActive(false);
+		NorthText.gameObject.SetActive(false);
+		SouthText.gameObject.SetActive(false);
+		EastText.gameObject.SetActive(false);
+		WestText.gameObject.SetActive(false);
+	}
+
+	private void EnableElements()
+	{
+		elementImage.gameObject.SetActive(true);
+		NorthText.gameObject.SetActive(true);
+		SouthText.gameObject.SetActive(true);
+		EastText.gameObject.SetActive(true);
+		WestText.gameObject.SetActive(true);
 	}
 
 	private void LoadElement(GameObject plane, string set, Card.Element element)
@@ -95,6 +114,8 @@ public class EnhancedCardView : MonoBehaviour
 	public void Load(Card card, Color backgroundColor)
 	{
 		Init();
+
+		EnableElements();
 
 		var cardName = card.name;
 		var element = card.elemental;

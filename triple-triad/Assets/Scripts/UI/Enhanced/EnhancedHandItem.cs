@@ -17,7 +17,6 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 	private Card card;
 	private CardDrag cardDrag;
 	private Canvas canvas;
-	private Vector3 defaultPosition;
 	private bool isDragging;
 
 	private void Start()
@@ -30,7 +29,6 @@ public class EnhancedHandItem : MonoBehaviour, IDropHandler, IDragHandler, IBegi
 	private IEnumerator GetPositionCoroutine()
 	{
 		yield return new WaitForSeconds(0.1f);
-		defaultPosition = transform.position;
 	}
 
 	public void AddCardData(Card card)
