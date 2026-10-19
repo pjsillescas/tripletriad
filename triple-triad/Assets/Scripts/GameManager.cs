@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 using static HandSelector;
 
 [RequireComponent(typeof(TurnManager))]
@@ -250,7 +249,12 @@ public class GameManager : MonoBehaviour
 	private void OnPlayerHandChosen(List<Card> cards)
 	{
 		this.cards = cards;
-		// InitializeGame();
+
+		if (IsClassicManager())
+		{
+			InitializeGame();
+		}
+		
 		OnStartGame?.Invoke(this, EventArgs.Empty);
 	}
 

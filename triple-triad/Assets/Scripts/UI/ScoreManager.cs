@@ -1,25 +1,44 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI AdversaryScoreText;
+	[SerializeField]
+	private TextMeshProUGUI AdversaryScoreText;
 
 	[SerializeField]
 	private TextMeshProUGUI PlayerScoreText;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
-    {
+	{
 		var gameManager = GameManager.GetInstance();
 
 		gameManager.OnScoreChange += OnScoreChange;
-		gameManager.OnFinishGame += (sender, args) => DeactivateWidget();
-		gameManager.OnStartGame += (sender, args) => ActivateWidget();
+		gameManager.OnFinishGame += OnFinishGame;
+		gameManager.OnStartGame += OnStartGame;
 
 		DeactivateWidget();
-    }
+	}
+
+	private void OnDisable()
+	{
+		var gameManager = GameManager.GetInstance();
+		gameManager.OnScoreChange -= OnScoreChange;
+		gameManager.OnFinishGame -= OnFinishGame;
+		gameManager.OnStartGame -= OnStartGame;
+	}
+
+	private void OnStartGame(object sender, EventArgs args)
+	{
+		ActivateWidget();
+	}
+
+	private void OnFinishGame(object sender, EventArgs args)
+	{
+		DeactivateWidget();
+	}
 
 	public void ActivateWidget()
 	{
@@ -37,10 +56,5 @@ public class ScoreManager : MonoBehaviour
 	{
 		AdversaryScoreText.text = score.adversary.ToString();
 		PlayerScoreText.text = score.player.ToString();
-	}
-
-	public void Initialize()
-	{
-		ActivateWidget();
 	}
 }
