@@ -8,7 +8,7 @@ public class SetLoader : MonoBehaviour
 {
 	public static EventHandler<List<Card>> OnSetLoaded;
 
-	private static SetLoader instance = null;
+	private SetLoader instance = null;
 
 	public string Set;
 	private List<Card> cards;
@@ -20,7 +20,7 @@ public class SetLoader : MonoBehaviour
 	}
 
 	public List<Card> GetCards() => cards;
-	public static SetLoader GetInstance() => instance;
+	public SetLoader GetInstance() => instance;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()

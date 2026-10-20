@@ -29,7 +29,7 @@ public class EnhancedHandWidget : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		SetLoader.OnSetLoaded += (sender, cardList) => SetLoaded(cardList);
+		SetLoader.OnSetLoaded += OnSetLoaded;
 
 		StartButton.interactable = false;
 		StartButton.onClick.RemoveAllListeners();
@@ -47,6 +47,15 @@ public class EnhancedHandWidget : MonoBehaviour
 
 		DeactivateWidget();
 	}
+
+	private void OnDestroy()
+	{
+		SetLoader.OnSetLoaded -= OnSetLoaded;
+		EnhancedHandItem.OnDropCard -= HandItemDropCard;
+		EnhancedHandItem.OnAddCard -= HandItemAddCard;
+	}
+
+	private void OnSetLoaded(object sender, List<Card> cardList) => SetLoaded(cardList);
 
 	private void HandItemDropCard(object sender, Card card)
 	{

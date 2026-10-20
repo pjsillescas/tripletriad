@@ -27,7 +27,7 @@ public class BoardTile : MonoBehaviour
 
 	public void SetElement(Card.Element element)
 	{
-		var set = SetLoader.GetInstance().Set;
+		var set = FindAnyObjectByType<SetLoader>().Set;
 		Element = element;
 
 		if (Element != Card.Element.none)

@@ -26,13 +26,20 @@ public class ManualHandWidget : MonoBehaviour
 	void Start()
 	{
 		cards = new();
-		SetLoader.OnSetLoaded += (sender, cardList) => SetLoaded(cardList);
+		SetLoader.OnSetLoaded += OnSetLoaded;
 
 		StartButton.enabled = false;
 		StartButton.onClick.AddListener(StartButtonClick);
 
 		DeactivateWidget();
 	}
+
+	private void OnDestroy()
+	{
+		SetLoader.OnSetLoaded -= OnSetLoaded;
+	}
+
+	private void OnSetLoaded(object sender, List<Card> cardList) => SetLoaded(cardList);
 
 	public void ActivateWidget(Action<List<Card>> onHandChosen)
 	{

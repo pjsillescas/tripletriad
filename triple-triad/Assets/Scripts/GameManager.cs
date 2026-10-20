@@ -122,6 +122,13 @@ public class GameManager : MonoBehaviour
 		NewGame();
 	}
 
+	private void OnDestroy()
+	{
+		SetLoader.OnSetLoaded -= IsClassicManager() ? OnSetLoadedClassic : OnSetLoadedEnhanced;
+		EnhancedHandWidget.OnHandChosen -= OnEnhancedPlayerHandChosen;
+		CreateGameWidget.OnNewGame -= OnEnhancedNewGame;
+	}
+
 	public void NewGame()
 	{
 		gameState = GameState.INITIALIZATION;
@@ -200,7 +207,7 @@ public class GameManager : MonoBehaviour
 		rules = data.rules;
 		Board.GetInstance().Initialize();
 
-		SetLoader.GetInstance().LoadSet(data.set);
+		FindAnyObjectByType<SetLoader>().LoadSet(data.set);
 	}
 
 	private void OnClassicNewGame(string setName, HandSelectionType handSelectionType, List<IRuleVariation> rules)
@@ -209,7 +216,7 @@ public class GameManager : MonoBehaviour
 		this.rules = rules;
 		Board.GetInstance().Initialize();
 
-		SetLoader.GetInstance().LoadSet(setName);
+		FindAnyObjectByType<SetLoader>().LoadSet(setName);
 	}
 
 	private bool GetUseCardBackAdversary()

@@ -39,6 +39,11 @@ public class PlayerController : Controller
 		Initialize();
 	}
 
+	private void OnDestroy()
+	{
+		inputs.Disable();
+	}
+
 	private void SetSelectedHoveredCard(PlayingCard playingCard)
 	{
 		if (selectedHoveredCard != null)

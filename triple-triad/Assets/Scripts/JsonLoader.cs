@@ -8,7 +8,7 @@ public class JsonLoader : MonoBehaviour
 {
     private UnityWebRequest uwr;
 
-    public static string GetFileLocation(string path)
+    private string GetFileLocation(string path)
     {
         return Path.Combine(Application.streamingAssetsPath, path);
     }
