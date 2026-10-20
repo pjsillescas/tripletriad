@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class CameraManager : MonoBehaviour
 	private CinemachineCamera InitialCamera;
 	[SerializeField]
 	private CinemachineCamera GameCamera;
+	[SerializeField]
+	private float TravelingTimeout = 2f;
 
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,6 +34,13 @@ public class CameraManager : MonoBehaviour
 
 	private void OnFinishGame(object sender, EventArgs e)
 	{
+		StartCoroutine(DelayFinish());
+	}
+
+	private IEnumerator DelayFinish()
+	{
+		yield return new WaitForSeconds(TravelingTimeout);
+
 		InitialCamera.Priority = 10;
 		GameCamera.Priority = 0;
 	}

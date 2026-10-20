@@ -19,6 +19,8 @@ public class CreateGameWidget : MonoBehaviour
 	private Button CreateGameOnlineButton;
 	[SerializeField]
 	private RuleVariationWidget RuleVariationWidget;
+	[SerializeField]
+	private float FinishTimeout = 2.5f;
 
 	public class OnNewGameData
 	{
@@ -55,6 +57,13 @@ public class CreateGameWidget : MonoBehaviour
 
 	private void EnhancedFinishGame(object sender, GameManager.Score score)
 	{
+		StartCoroutine(DelayFinish(score));
+	}
+
+	private IEnumerator DelayFinish(GameManager.Score score)
+	{
+		yield return new WaitForSeconds(FinishTimeout);
+
 		SoundManager.GetInstance().StopBackground();
 
 		string winner;
@@ -75,6 +84,7 @@ public class CreateGameWidget : MonoBehaviour
 		}
 
 		ActivateWidget(winner);
+
 	}
 
 	public void ActivateWidget()
