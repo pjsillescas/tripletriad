@@ -10485,6 +10485,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireworksSpawner
   FireworksPrefab: {fileID: 8902191008494257288, guid: f92e1f8b778160e4484e7d93ce8a869d, type: 3}
+  NumberOfFireworks: 6
+  SpawningLapse: 0.4
 --- !u!4 &1095506756
 Transform:
   m_ObjectHideFlags: 0
@@ -10886,6 +10888,7 @@ MonoBehaviour:
   CreateGameSoloButton: {fileID: 1719048587}
   CreateGameOnlineButton: {fileID: 878685208}
   RuleVariationWidget: {fileID: 392702926}
+  FinishTimeout: 2.5
 --- !u!114 &1127155162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11283,6 +11286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   InitialCamera: {fileID: 372613296}
   GameCamera: {fileID: 102838732}
+  TravelingTimeout: 2
 --- !u!1 &1259739643
 GameObject:
   m_ObjectHideFlags: 0

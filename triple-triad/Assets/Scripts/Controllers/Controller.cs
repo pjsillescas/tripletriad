@@ -70,6 +70,15 @@ public abstract class Controller : MonoBehaviour
 
 	protected void PlayCard(PlayingCard playingCard, BoardTile boardTile)
 	{
+		var board = Board.GetInstance();
+		if (playingCard != null && boardTile != null && board.CanPlaceCard(boardTile))
+		{
+			DoPlayCard(playingCard, boardTile);
+		}
+	}
+
+	private void DoPlayCard(PlayingCard playingCard, BoardTile boardTile)
+	{
 		SoundManager.GetInstance().Click();
 
 		isFlipping = true;

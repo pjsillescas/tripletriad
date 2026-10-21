@@ -9,28 +9,24 @@ public class PlayerController : Controller
 	private Camera mainCamera;
 
 	private InputActions inputs;
-	private int cardLayer;
-	private int boardTileLayer;
 	private int layers;
 
 	private PlayingCard selectedPlayingCard;
 	private PlayingCard selectedHoveredCard;
-	private BoardTile selectedBoardTile;
 
 	private void Awake()
 	{
 		inputs = new InputActions();
 		inputs.Enable();
 
-		boardTileLayer = LayerMask.NameToLayer("BoardTile");
-		cardLayer = LayerMask.NameToLayer("Card");
+		var boardTileLayer = LayerMask.NameToLayer("BoardTile");
+		var cardLayer = LayerMask.NameToLayer("Card");
 		layers = (1 << cardLayer) | (1 << boardTileLayer);
 	}
 
 	protected override void OnTurnStart(object sender, Team teamTurn)
 	{
 		selectedPlayingCard = null;
-		selectedBoardTile = null;
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -107,13 +103,7 @@ public class PlayerController : Controller
 				SoundManager.GetInstance().Click();
 			}
 
-			selectedBoardTile = currentBoardTile;
-
-			var board = Board.GetInstance();
-			if (selectedPlayingCard != null && selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
-			{
-				PlayCard(selectedPlayingCard, selectedBoardTile);
-			}
+			PlayCard(selectedPlayingCard, currentBoardTile);
 		}
 	}
 }

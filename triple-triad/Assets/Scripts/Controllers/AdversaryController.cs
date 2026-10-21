@@ -1,11 +1,7 @@
 using Enums;
-using NUnit.Framework.Interfaces;
-using System;
-using UnityEngine;
 
 public class AdversaryController : Controller
 {
-
 	protected override void OnTurnStart(object sender, Team currentTeam)
 	{
 		;
@@ -25,17 +21,11 @@ public class AdversaryController : Controller
 			return;
 		}
 
-		// Debug.Log("Adversary turn start");
-
 		var selectedPlayingCard = SelectPlayingCard();
 
 		var selectedBoardTile = SelectTile();
 
-		var board = Board.GetInstance();
-		if (selectedPlayingCard != null && selectedBoardTile != null && board.CanPlaceCard(selectedBoardTile))
-		{
-			PlayCard(selectedPlayingCard, selectedBoardTile);
-		}
+		PlayCard(selectedPlayingCard, selectedBoardTile);
 	}
 
 	private PlayingCard SelectPlayingCard()
