@@ -1,13 +1,25 @@
 using cards;
+using Enums;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EnhancedHandWidget : MonoBehaviour
 {
-	public static event EventHandler<List<Card>> OnHandChosen;
+	public enum HandWidgetMode
+	{
+		SOLO, PLAYER_1, PLAYER_2,
+	}
+
+	public class HandConfigurationData
+	{
+		public List<Card> cards;
+		public Team team;
+		public ControllerType type;
+	}
+
+	public static event EventHandler<HandConfigurationData> OnHandChosen;
 
 	[SerializeField]
 	private EnhancedCardLister CardLister;
@@ -22,6 +34,10 @@ public class EnhancedHandWidget : MonoBehaviour
 	private Button RandomHandButton;
 	[SerializeField]
 	private Button ResetHandButton;
+
+	private List<Card> cards;
+	private Team team;
+	private HandWidgetMode mode;
 
 	//private List<Card> cards;
 	//private Image backgroundImage;
@@ -72,21 +88,16 @@ public class EnhancedHandWidget : MonoBehaviour
 		StartButton.interactable = HandView.IsHandComplete();
 	}
 
-	public void ActivateWidget()
+	public void ActivateWidget(Team team, HandWidgetMode mode)
 	{
+		this.mode = mode;
+		this.team = team;
 		CardLister.gameObject.SetActive(true);
 		HandView.gameObject.SetActive(true);
 		ButtonFiller.gameObject.SetActive(true);
 		//backgroundImage.gameObject.SetActive(true);
 		ResetWidget();
 		//StartCoroutine(DelayReset());
-	}
-
-	private IEnumerator DelayReset()
-	{
-		yield return new WaitForSeconds(1f);
-
-		ResetWidget();
 	}
 
 	public void ResetWidget()
@@ -116,8 +127,31 @@ public class EnhancedHandWidget : MonoBehaviour
 	{
 		SoundManager.GetInstance().Click();
 
-		OnHandChosen?.Invoke(this, HandView.GetHand());
+		Debug.Log("display hands");
+		OnHandChosen?.Invoke(this, new HandConfigurationData() { cards = HandView.GetHand(), team = team, type = ControllerType.PLAYER });
+
+		if (mode == HandWidgetMode.SOLO)
+		{
+			Debug.Log("display hands");
+			OnHandChosen?.Invoke(this, new HandConfigurationData() { cards = GetRandomHand(), team = GetOppositeTeam(team), type = ControllerType.IA });
+		}
+
 		DeactivateWidget();
+	}
+
+	private List<Card> GetRandomHand()
+	{
+		return HandUtils.GetRandomHand(cards, 5);
+	}
+
+	private Team GetOppositeTeam(Team team)
+	{
+		return team switch
+		{
+			Team.Blue => Team.Red,
+			Team.Red => Team.Blue,
+			_ => Team.None,
+		};
 	}
 
 	private void RandomHandButtonClick()
@@ -161,6 +195,7 @@ public class EnhancedHandWidget : MonoBehaviour
 
 	private void SetLoaded(List<Card> cards)
 	{
+		this.cards = cards;
 		var cardsClone = new List<Card>(cards);
 		cardsClone.Reverse();
 

@@ -4,6 +4,7 @@ using Enums;
 using cards;
 using System.Collections;
 using System;
+using System.Runtime.CompilerServices;
 
 public class Hand : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Hand : MonoBehaviour
 	private Transform AnimationInitialPosition;
 
 	private int numCardsToLoad;
+	private List<Card> cards;
+	private bool useCardBack;
 
 	public EventHandler<Hand> OnHandLoaded;
 
@@ -29,11 +32,55 @@ public class Hand : MonoBehaviour
 
 	public void Initialize(List<Card> cards, bool useCardBack)
 	{
+
+		Debug.Log("initialize hand " + gameObject.name);
+
+		this.cards = cards;
+		this.useCardBack = useCardBack;
+
+		Unload();
+		/*
 		const float deltaHeight = 0.5f;
 		const float offset = 1.25f;
 		const float offsetTime = 0.1f;
+		
+		numCardsToLoad = cards.Count;
+		var numCards = cards.Count;
 
-		Unload();
+		var i = 0;
+		cards.ForEach(card =>
+		{
+			var cardObject = Instantiate(CardPrefab);
+			var playingCard = cardObject.GetComponent<PlayingCard>();
+			//playingCard.Load(card, Team, useCardBack);
+			LoadWithDelay(playingCard, card, Team, useCardBack);
+
+			//playingCard.transform.position += transform.position + new Vector3(0, (numCards - 1 - i) * deltaHeight, i * offset);
+
+			if (useCardBack)
+			{
+				var rotation = playingCard.transform.rotation;
+				playingCard.transform.rotation = new Quaternion(rotation.x, rotation.y, 180.0f, rotation.w);
+			}
+			var endPosition = playingCard.transform.position + transform.position + new Vector3(0, (numCards - 1 - i) * deltaHeight, i * offset);
+
+			var cardAnimator = gameObject.AddComponent<HandCardAnimator>();
+			if (cardAnimator != null)
+			{
+				cardAnimator.StartAnimation(playingCard, AnimationInitialPosition.position, endPosition, offsetTime * (numCards - i), FinishLoadCard);
+			}
+
+			Cards.Add(playingCard);
+			i++;
+		});
+		*/
+	}
+
+	public void Display()
+	{
+		const float deltaHeight = 0.5f;
+		const float offset = 1.25f;
+		const float offsetTime = 0.1f;
 
 		numCardsToLoad = cards.Count;
 		var numCards = cards.Count;

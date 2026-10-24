@@ -108,6 +108,7 @@ public class PlayingCard : MonoBehaviour
 
 	private void RefreshTexts()
 	{
+		Debug.Log("refresh texts");
 		NorthText.gameObject.SetActive(!isBackShown);
 		EastText.gameObject.SetActive(!isBackShown);
 		SouthText.gameObject.SetActive(!isBackShown);
@@ -123,6 +124,7 @@ public class PlayingCard : MonoBehaviour
 
 	public void Flip(Action onEndFlip)
 	{
+		Debug.Log("flip");
 		FlipIsBackShown();
 		cardFlip.Flip(onEndFlip);
 	}
@@ -143,6 +145,8 @@ public class PlayingCard : MonoBehaviour
 
 	private void LoadElement(GameObject plane, string set, bool useFront, Color color)
 	{
+		Debug.Log($"load element usefront {useFront}");
+
 		var elementFileName = $"Sets/{set}/Icons/Tripletriad-{element}.png";
 		if (element.Equals(Card.Element.none))
 		{
@@ -156,10 +160,12 @@ public class PlayingCard : MonoBehaviour
 	}
 	public PlayingCard Load(Card card, Team team, bool useBackImage)
 	{
+		Debug.Log($"load card usebackimage {useBackImage}");
+
 		cardName = card.name;
 		element = card.elemental;
 
-		Debug.Log(card);
+		//Debug.Log(card);
 
 		var chars = card.values.ToCharArray();
 		var values = chars.Select(c => c == 'A' ? 10 : c - '0').ToList();
@@ -270,6 +276,8 @@ public class PlayingCard : MonoBehaviour
 
 	private void LoadImage(string filename, Material material, bool useFront)
 	{
+		Debug.Log($"load image {filename} front {useFront}");
+
 		((useFront) ? imageLoaderFront : imageLoaderBack).Load(filename, (texture) => material.mainTexture = texture);
 	}
 

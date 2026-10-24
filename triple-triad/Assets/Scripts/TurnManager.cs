@@ -22,6 +22,7 @@ public class TurnManager : MonoBehaviour
 
 	public Team ResetTurn()
 	{
+        Debug.LogWarning("reset turn");
         currentTeam = Team.None;
         return currentTeam;
 	}
@@ -41,7 +42,9 @@ public class TurnManager : MonoBehaviour
 
 	public void ChooseRandomTeam(Action<Team> OnSelectedTeam)
     {
-        currentTeam = (UnityEngine.Random.Range(0, 2) == 0) ? Team.Blue : Team.Red;
+        //currentTeam = (UnityEngine.Random.Range(0, 2) == 0) ? Team.Blue : Team.Red;
+        currentTeam = Team.Red;
+        Debug.Log($"selected team {currentTeam}");
         DoStartMovement(OnSelectedTeam);
 	}
 

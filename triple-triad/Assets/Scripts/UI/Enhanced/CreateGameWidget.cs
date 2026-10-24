@@ -1,9 +1,11 @@
+using Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static EnhancedHandWidget;
 
 public class CreateGameWidget : MonoBehaviour
 {
@@ -120,6 +122,22 @@ public class CreateGameWidget : MonoBehaviour
 
 	private void CreateGameSoloClick()
 	{
+		var team = Team.Blue;
+		GameManager.GetInstance().SetTeam(team);
+		GameManager.GetInstance().SetHandWidgetMode(HandWidgetMode.SOLO);
+		CreateGameSolo(team);
+	}
+
+	private void CreateGameOnlineClick()
+	{
+		var team = Team.Red;
+		GameManager.GetInstance().SetTeam(team);
+		GameManager.GetInstance().SetHandWidgetMode(HandWidgetMode.PLAYER_1);
+		CreateGameSolo(team);
+	}
+
+	private void CreateGameSolo(Team team)
+	{
 		SoundManager.GetInstance().Click();
 
 		var chosenSet = SetDropdown.options[SetDropdown.value].text;
@@ -138,8 +156,4 @@ public class CreateGameWidget : MonoBehaviour
 		OnNewGame?.Invoke(this, new() { set = chosenSet, rules = rules });
 	}
 
-	private void CreateGameOnlineClick()
-	{
-		CreateGameSoloClick();
-	}
 }
