@@ -7,6 +7,11 @@ public class HandUtils
 	{
 		var allCards = loader.GetCards();
 
+		return GetRandomHand(allCards, numCardsPerHand);
+	}
+
+	public static List<Card> GetRandomHand(List<Card> allCards, int numCardsPerHand)
+	{
 		var cards = new List<Card>();
 		for (int i = 0; i < numCardsPerHand; i++)
 		{
@@ -15,4 +20,5 @@ public class HandUtils
 
 		return cards;
 	}
+
 }

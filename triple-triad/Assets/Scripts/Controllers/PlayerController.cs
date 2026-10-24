@@ -5,14 +5,12 @@ public class PlayerController : Controller
 {
 	private const float MAX_RAYCAST_DISTANCE = 20;
 
-	[SerializeField]
-	private Camera mainCamera;
-
 	private InputActions inputs;
 	private int layers;
 
 	private PlayingCard selectedPlayingCard;
 	private PlayingCard selectedHoveredCard;
+	private Camera mainCamera;
 
 	private void Awake()
 	{
@@ -32,6 +30,7 @@ public class PlayerController : Controller
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		mainCamera = Camera.main;
 		Initialize();
 	}
 
@@ -70,10 +69,12 @@ public class PlayerController : Controller
 			return;
 		}
 
-		var mousePosition = inputs.UI.Point.ReadValue<Vector2>();
-		Ray ray = mainCamera.ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
 		BoardTile currentBoardTile = null;
 		PlayingCard playingCard = null;
+		
+		
+		var mousePosition = inputs.UI.Point.ReadValue<Vector2>();
+		Ray ray = mainCamera.ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
 		if (Physics.Raycast(ray, out RaycastHit hit, MAX_RAYCAST_DISTANCE, layers))
 		{
 			playingCard = hit.collider.gameObject.GetComponentInParent<PlayingCard>();

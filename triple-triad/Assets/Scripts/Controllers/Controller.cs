@@ -4,12 +4,16 @@ using UnityEngine;
 
 public abstract class Controller : MonoBehaviour
 {
+	protected abstract void OnTurnStart(object sender, Team currentTeam);
+	
 	[SerializeField]
 	protected Hand Hand;
 
 	[SerializeField]
 	private Transform MiddlePosition;
 
+	private int numCardsToFlip;
+	private bool isFlipping;
 	protected GameManager gameManager;
 	protected bool isControllerEnabled;
 
@@ -32,7 +36,6 @@ public abstract class Controller : MonoBehaviour
 		isFlipping = false;
 	}
 
-	protected abstract void OnTurnStart(object sender, Team currentTeam);
 	protected void OnFinishGame(object sender, EventArgs args)
 	{
 		isControllerEnabled = false;
@@ -43,8 +46,6 @@ public abstract class Controller : MonoBehaviour
 		gameManager.StartNextTurn();
 	}
 
-	private int numCardsToFlip;
-	private bool isFlipping;
 	private void OnEndFlip()
 	{
 		SoundManager.GetInstance().Drip();
