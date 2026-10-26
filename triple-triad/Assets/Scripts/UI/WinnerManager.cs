@@ -16,7 +16,7 @@ public class WinnerManager : MonoBehaviour
     void Start()
     {
         NewGameButton.onClick.AddListener(NewGameClick);
-        GameManager.GetInstance().OnFinishGame += OnFinishGame;
+        GameManager.GetInstance().OnEnhancedFinishGame += OnFinishGame;
         Initialize();
     }
 
@@ -25,10 +25,8 @@ public class WinnerManager : MonoBehaviour
 		Widget.gameObject.SetActive(false);
 	}
 
-	private void OnFinishGame(object sender, EventArgs e)
+	private void OnFinishGame(object sender, Score score)
 	{
-        var score = GameManager.GetInstance().GetScore();
-
         if (score.IsLocalWinner())
         {
             WinnerText.text = "You Won!";

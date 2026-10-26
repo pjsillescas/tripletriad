@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
 	private List<IRuleVariation> rules;
 
 	private Team localTeam;
+	private List<Card> cards;
+
 
 	private void Awake()
 	{
@@ -195,7 +197,7 @@ public class GameManager : MonoBehaviour
 		AdversaryController.ResetController();
 	}
 
-	public Score GetScore() => new() { blue = blueScore, red = redScore, localTeam = localTeam };
+	private Score GetScore() => new() { blue = blueScore, red = redScore, localTeam = localTeam };
 
 	private List<Card> GetRandomHand()
 	{
@@ -240,11 +242,16 @@ public class GameManager : MonoBehaviour
 		PlayerHand.Initialize(cards, false);
 		AdversaryHand.Initialize(GetRandomHand(), GetUseCardBackAdversary());
 
-		blueScore = 5;
-		redScore = 5;
+		ResetScore();
 		OnScoreChange?.Invoke(this, GetScore());
 
 		rules?.ForEach(rule => rule.Initialize());
+	}
+
+	private void ResetScore()
+	{
+		blueScore = 5;
+		redScore = 5;
 	}
 
 	public void FinalizeGame()
@@ -252,7 +259,6 @@ public class GameManager : MonoBehaviour
 		currentTeamTurn = turnManager.ResetTurn();
 	}
 
-	private List<Card> cards;
 	private void OnPlayerHandChosen(List<Card> cards)
 	{
 		this.cards = cards;

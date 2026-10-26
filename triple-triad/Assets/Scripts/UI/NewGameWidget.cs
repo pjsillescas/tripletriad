@@ -28,7 +28,7 @@ public class NewGameWidget : MonoBehaviour
 	void Start()
 	{
 		NewGameButton.onClick.AddListener(NewGameClick);
-		GameManager.GetInstance().OnFinishGame += FinishGame;
+		GameManager.GetInstance().OnEnhancedFinishGame += FinishGame;
 
 		RefreshCardSets();
 
@@ -47,10 +47,8 @@ public class NewGameWidget : MonoBehaviour
 #endif
 	}
 
-	private void FinishGame(object sender, EventArgs e)
+	private void FinishGame(object sender, Score score)
 	{
-		var score = GameManager.GetInstance().GetScore();
-
 		SoundManager.GetInstance().StopBackground();
 
 		string winner;
