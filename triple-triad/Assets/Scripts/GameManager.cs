@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour
 	private static GameManager Instance = null;
 
 	private Team currentTeamTurn;
-	private int playerScore;
-	private int adversaryScore;
+	private int blueScore;
+	private int redScore;
 
 	private GameState gameState;
 	private InitGameState initGameState;
@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour
 	public static GameManager GetInstance() => Instance;
 
 	public Team GetCurrentTeamTurn() => currentTeamTurn;
+
+	public Team GetLocalTeam() => localTeam;
 
 	private void OnSetLoadedClassic(object sender, List<Card> cards)
 	{
@@ -193,7 +195,7 @@ public class GameManager : MonoBehaviour
 		AdversaryController.ResetController();
 	}
 
-	public Score GetScore() => new() { blue = playerScore, red = adversaryScore, localTeam = localTeam };
+	public Score GetScore() => new() { blue = blueScore, red = redScore, localTeam = localTeam };
 
 	private List<Card> GetRandomHand()
 	{
@@ -238,8 +240,8 @@ public class GameManager : MonoBehaviour
 		PlayerHand.Initialize(cards, false);
 		AdversaryHand.Initialize(GetRandomHand(), GetUseCardBackAdversary());
 
-		playerScore = 5;
-		adversaryScore = 5;
+		blueScore = 5;
+		redScore = 5;
 		OnScoreChange?.Invoke(this, GetScore());
 
 		rules?.ForEach(rule => rule.Initialize());
@@ -302,13 +304,13 @@ public class GameManager : MonoBehaviour
 		{
 			if (playingCard.GetCurrentTeam().Equals(Team.Blue))
 			{
-				playerScore += flippedCards.Count;
-				adversaryScore -= flippedCards.Count;
+				blueScore += flippedCards.Count;
+				redScore -= flippedCards.Count;
 			}
 			else
 			{
-				playerScore -= flippedCards.Count;
-				adversaryScore += flippedCards.Count;
+				blueScore -= flippedCards.Count;
+				redScore += flippedCards.Count;
 			}
 
 			flippedCards.ForEach(card => card.SetCurrentTeam(playingCard.GetCurrentTeam()));

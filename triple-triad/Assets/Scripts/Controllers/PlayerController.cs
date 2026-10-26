@@ -30,6 +30,7 @@ public class PlayerController : Controller
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		controlledTeam = Team.Blue;
 		mainCamera = Camera.main;
 		Initialize();
 	}
@@ -64,7 +65,7 @@ public class PlayerController : Controller
 	// Update is called once per frame
 	void Update()
 	{
-		if (!IsTeamTurn(Team.Blue))
+		if (!IsTeamTurn(controlledTeam))
 		{
 			return;
 		}

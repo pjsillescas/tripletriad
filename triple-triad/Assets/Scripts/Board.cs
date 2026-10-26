@@ -203,7 +203,7 @@ public class Board : MonoBehaviour
 		{
 			var card = GetNeighbour(playingCard, direction);
 			var isFlipped = card != null &&
-				!card.GetCurrentTeam().Equals(playingCard.GetCurrentTeam()) &&
+				(card.GetCurrentTeam() != playingCard.GetCurrentTeam()) &&
 				WinsDirection(playingCard, card, direction, rules);
 			return (isFlipped) ? card : null;
 		}).Where(card => card != null).ToList();

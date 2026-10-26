@@ -1,7 +1,6 @@
 using Enums;
-using UnityEngine;
 
-public class Score : MonoBehaviour
+public class Score
 {
 	public int blue;
 	public int red;

@@ -12,6 +12,8 @@ public abstract class Controller : MonoBehaviour
 	[SerializeField]
 	private Transform MiddlePosition;
 
+	protected Team controlledTeam;
+
 	private int numCardsToFlip;
 	private bool isFlipping;
 	protected GameManager gameManager;

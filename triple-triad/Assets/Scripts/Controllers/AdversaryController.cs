@@ -10,13 +10,14 @@ public class AdversaryController : Controller
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		controlledTeam = Team.Red;
 		Initialize();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (!IsTeamTurn(Team.Red))
+		if (!IsTeamTurn(controlledTeam))
 		{
 			return;
 		}
