@@ -34,9 +34,9 @@ public class FireworksSpawner : MonoBehaviour
 		GameManager.GetInstance().OnEnhancedFinishGame -= OnFinishGame;
 	}
 
-	private void OnFinishGame(object sender, GameManager.Score score)
+	private void OnFinishGame(object sender, Score score)
 	{
-		if (score.player > score.adversary)
+		if (score.IsLocalWinner())
 		{
 			Spawn();
 		}
@@ -50,7 +50,7 @@ public class FireworksSpawner : MonoBehaviour
 	private IEnumerator SpawnFireworks()
 	{
 		int k = 0;
-		while(k < NumberOfFireworks)
+		while (k < NumberOfFireworks)
 		{
 			var position = RandomPointInBounds(box.bounds);
 			Instantiate(FireworksPrefab, position, Quaternion.identity);

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,12 +54,12 @@ public class NewGameWidget : MonoBehaviour
 		SoundManager.GetInstance().StopBackground();
 
 		string winner;
-		if (score.player < score.adversary)
+		if (score.IsLocalLoser())
 		{
 			SoundManager.GetInstance().PlaySadFanfare();
 			winner = "You Lost!";
 		}
-		else if(score.player > score.adversary)
+		else if(score.IsLocalWinner())
 		{
 			SoundManager.GetInstance().PlayFanfare();
 			winner = "You Won!";

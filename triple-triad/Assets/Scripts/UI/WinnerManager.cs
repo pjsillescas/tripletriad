@@ -29,11 +29,11 @@ public class WinnerManager : MonoBehaviour
 	{
         var score = GameManager.GetInstance().GetScore();
 
-        if (score.player > score.adversary)
+        if (score.IsLocalWinner())
         {
             WinnerText.text = "You Won!";
         }
-		else if (score.player < score.adversary)
+		else if (score.IsLocalLoser())
 		{
 			WinnerText.text = "You Lost!";
 		}

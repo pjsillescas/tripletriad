@@ -52,9 +52,9 @@ public class ScoreManager : MonoBehaviour
 		PlayerScoreText.gameObject.SetActive(false);
 	}
 
-	private void OnScoreChange(object sender, GameManager.Score score)
+	private void OnScoreChange(object sender, Score score)
 	{
-		AdversaryScoreText.text = score.adversary.ToString();
-		PlayerScoreText.text = score.player.ToString();
+		AdversaryScoreText.text = score.red.ToString();
+		PlayerScoreText.text = score.blue.ToString();
 	}
 }

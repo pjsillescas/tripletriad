@@ -37,12 +37,6 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private EnhancedHandWidget EnhancedHandWidget;
 
-	public class Score
-	{
-		public int player;
-		public int adversary;
-	};
-
 	public event EventHandler<Team> OnNewTurn;
 	public event EventHandler OnFinishGame;
 	public event EventHandler<Score> OnEnhancedFinishGame;
@@ -65,6 +59,8 @@ public class GameManager : MonoBehaviour
 
 	private List<IRuleVariation> rules;
 
+	private Team localTeam;
+
 	private void Awake()
 	{
 		if (Instance != null)
@@ -74,6 +70,8 @@ public class GameManager : MonoBehaviour
 
 		Instance = this;
 		currentTeamTurn = Team.None;
+
+		localTeam = Team.Blue;
 	}
 
 	private bool IsClassicManager() => ManagerType == GameManagerType.CLASSIC;
@@ -195,7 +193,7 @@ public class GameManager : MonoBehaviour
 		AdversaryController.ResetController();
 	}
 
-	public Score GetScore() => new() { player = playerScore, adversary = adversaryScore };
+	public Score GetScore() => new() { blue = playerScore, red = adversaryScore, localTeam = localTeam };
 
 	private List<Card> GetRandomHand()
 	{
@@ -261,7 +259,7 @@ public class GameManager : MonoBehaviour
 		{
 			InitializeGame();
 		}
-		
+
 		OnStartGame?.Invoke(this, EventArgs.Empty);
 	}
 

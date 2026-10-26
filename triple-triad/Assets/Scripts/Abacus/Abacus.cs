@@ -101,14 +101,14 @@ public class Abacus : MonoBehaviour
 		isGameStarted = false;
 	}
 
-	private void OnScoreChange(object sender, GameManager.Score score)
+	private void OnScoreChange(object sender, Score score)
 	{
 		if (!isGameStarted)
 		{
 			return;
 		}
 
-		var newRedScore = score.adversary;
+		var newRedScore = score.red;
 		var lastRedScore = lastRedIndex + 1;
 
 		var newPoints = newRedScore - lastRedScore;

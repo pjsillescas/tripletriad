@@ -55,24 +55,24 @@ public class CreateGameWidget : MonoBehaviour
 #endif
 	}
 
-	private void EnhancedFinishGame(object sender, GameManager.Score score)
+	private void EnhancedFinishGame(object sender, Score score)
 	{
 		StartCoroutine(DelayFinish(score));
 	}
 
-	private IEnumerator DelayFinish(GameManager.Score score)
+	private IEnumerator DelayFinish(Score score)
 	{
 		yield return new WaitForSeconds(FinishTimeout);
 
 		SoundManager.GetInstance().StopBackground();
 
 		string winner;
-		if (score.player < score.adversary)
+		if (score.IsLocalLoser())
 		{
 			SoundManager.GetInstance().PlaySadFanfare();
 			winner = "You Lost!";
 		}
-		else if (score.player > score.adversary)
+		else if (score.IsLocalWinner())
 		{
 			SoundManager.GetInstance().PlayFanfare();
 			winner = "You Won!";
