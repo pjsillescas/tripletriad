@@ -1,6 +1,5 @@
 using cards;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,9 +22,6 @@ public class EnhancedHandWidget : MonoBehaviour
 	[SerializeField]
 	private Button ResetHandButton;
 
-	//private List<Card> cards;
-	//private Image backgroundImage;
-
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
@@ -43,7 +39,6 @@ public class EnhancedHandWidget : MonoBehaviour
 
 		EnhancedHandItem.OnDropCard += HandItemDropCard;
 		EnhancedHandItem.OnAddCard += HandItemAddCard;
-		//backgroundImage = GetComponent<Image>();
 
 		DeactivateWidget();
 	}
@@ -77,31 +72,14 @@ public class EnhancedHandWidget : MonoBehaviour
 		CardLister.gameObject.SetActive(true);
 		HandView.gameObject.SetActive(true);
 		ButtonFiller.gameObject.SetActive(true);
-		//backgroundImage.gameObject.SetActive(true);
-		ResetWidget();
-		//StartCoroutine(DelayReset());
-	}
-
-	private IEnumerator DelayReset()
-	{
-		yield return new WaitForSeconds(1f);
-
 		ResetWidget();
 	}
 
 	public void ResetWidget()
 	{
-		/*
-		if (cards == null)
-		{
-			cards = new();
-		}
-
-		Debug.Log("reset");
-		cards.Clear();
-		*/
 		HandView.ResetWidget();
 		CardLister.ResetList();
+		StartButton.interactable = false;
 	}
 
 	public void DeactivateWidget()
@@ -109,7 +87,6 @@ public class EnhancedHandWidget : MonoBehaviour
 		CardLister.gameObject.SetActive(false);
 		HandView.gameObject.SetActive(false);
 		ButtonFiller.gameObject.SetActive(false);
-		//backgroundImage.gameObject.SetActive(false);
 	}
 
 	private void StartButtonClick()
@@ -166,30 +143,4 @@ public class EnhancedHandWidget : MonoBehaviour
 
 		CardLister.LoadSet(cardsClone);
 	}
-	/*
-	private bool RemoveCard(Card card)
-	{
-		cards.Remove(card);
-		HandView.Refresh(cards);
-
-		StartButton.enabled = false;
-
-		return true;
-	}
-
-	private bool AddCard(Card card)
-	{
-		if (cards.Count != 5)
-		{
-			cards.Add(card);
-			HandView.Refresh(cards);
-
-			StartButton.enabled = cards.Count == 5;
-
-			return true;
-		}
-
-		return false;
-	}
-	*/
 }
