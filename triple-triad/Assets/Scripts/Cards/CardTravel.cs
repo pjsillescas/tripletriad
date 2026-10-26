@@ -18,6 +18,7 @@ public class CardTravel : MonoBehaviour
 	{
 		if (!isTravelling)
 		{
+			Debug.Log($"traveling to {endPosition} middle {middlePosition}");
 			this.endPosition = endPosition;
 			this.middlePosition = middlePosition;
 			this.onEndTravel = onEndTravel;
@@ -37,11 +38,11 @@ public class CardTravel : MonoBehaviour
 			elapsedTime += Time.deltaTime * flipSpeed;
 			if (elapsedTime <= TRAVEL_TIME_HALF)
 			{
-				transform.position = Vector3.Lerp(startPosition, middlePosition, elapsedTime);
+				transform.position = Vector3.Lerp(startPosition, middlePosition, elapsedTime / TRAVEL_TIME_HALF);
 			}
 			else
 			{
-				transform.position = Vector3.Lerp(middlePosition, endPosition, elapsedTime);
+				transform.position = Vector3.Lerp(middlePosition, endPosition, elapsedTime / TRAVEL_TIME_HALF - 1);
 			}
 
 			yield return null;

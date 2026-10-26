@@ -108,8 +108,10 @@ public class Board : MonoBehaviour
 
 	public void AddCard(PlayingCard playingCard, BoardTile targetTile)
 	{
+		Debug.Log($"add card {playingCard.name}");
 		if (CanPlaceCard(targetTile))
 		{
+			Debug.Log($"can place card {playingCard.name} in ({targetTile.GetTileRow().x},{targetTile.GetTileRow().y})");
 			var index = GetTileIndex(targetTile);
 			cards[index] = playingCard;
 
@@ -119,6 +121,7 @@ public class Board : MonoBehaviour
 				playingCard.SetModifier(modifier);
 			}
 		}
+		else { Debug.Log($"cannot place card {playingCard.name}"); }
 	}
 
 	public int GetNumFreeTiles()

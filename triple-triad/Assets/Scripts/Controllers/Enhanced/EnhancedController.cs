@@ -88,10 +88,12 @@ public abstract class EnhancedController : MonoBehaviour
 		var board = Board.GetInstance();
 		if (playingCard != null && boardTile != null && board.CanPlaceCard(boardTile))
 		{
+			board.AddCard(playingCard, boardTile);
 			DoPlayCard(playingCard, boardTile);
 		}
 	}
 
+	bool placed = false;
 	private void DoPlayCard(PlayingCard playingCard, BoardTile boardTile)
 	{
 		SoundManager.GetInstance().Click();
@@ -103,6 +105,8 @@ public abstract class EnhancedController : MonoBehaviour
 			{
 				SoundManager.GetInstance().Drip();
 
+				playingCard.FlipIsBackShown();
+				placed = true;
 				isFlipping = false;
 				ProcessCard(playingCard, boardTile);
 			});
@@ -120,6 +124,14 @@ public abstract class EnhancedController : MonoBehaviour
 		else
 		{
 			EndTurn();
+		}
+	}
+
+	private void Update()
+	{
+		if (placed)
+		{
+			Debug.Log($"position {transform.position}");
 		}
 	}
 }
