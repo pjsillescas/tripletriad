@@ -1,6 +1,7 @@
 using Enums;
 using System;
 using UnityEngine;
+using static GameConfiguration;
 
 public abstract class Controller : MonoBehaviour
 {
@@ -29,7 +30,13 @@ public abstract class Controller : MonoBehaviour
 		//ResetController();
 		isControllerEnabled = false;
 		isFlipping = false;
+	}
 
+	public void Init(Team team, Hand hand, Transform middlePosition)
+	{
+		controlledTeam = team;
+		Hand = hand;
+		MiddlePosition = middlePosition;
 	}
 
 	public void ResetController()

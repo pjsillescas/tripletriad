@@ -8,7 +8,7 @@ public class CardSide : MonoBehaviour
 	public enum DisplayMode { FRONT, BACK, NONE }
 	private const float OUTLINE_WIDTH = 0.05f;
 
-	private readonly Color SELECTED_COLOR = Color.red;
+	private readonly Color SELECTED_COLOR = Color.purple;
 	private readonly Color HOVERED_COLOR = Color.cyan;
 
 	[SerializeField]

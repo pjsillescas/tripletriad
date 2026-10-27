@@ -2,6 +2,11 @@ using Enums;
 
 public class AdversaryController : Controller
 {
+	private void Awake()
+	{
+		controlledTeam = Team.Red;
+	}
+	
 	protected override void OnTurnStart(object sender, Team currentTeam)
 	{
 		;
@@ -10,7 +15,6 @@ public class AdversaryController : Controller
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		controlledTeam = Team.Red;
 		Initialize();
 	}
 

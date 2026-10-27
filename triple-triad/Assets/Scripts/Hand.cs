@@ -27,7 +27,7 @@ public class Hand : MonoBehaviour
 		Cards = new();
 	}
 
-	public void Initialize(List<Card> cards, bool useCardBack)
+	public void Initialize(List<Card> cards, bool useCardBack, bool isLocalTeam)
 	{
 		const float deltaHeight = 0.5f;
 		const float offset = 1.25f;
@@ -44,7 +44,7 @@ public class Hand : MonoBehaviour
 			var cardObject = Instantiate(CardPrefab);
 			var playingCard = cardObject.GetComponent<PlayingCard>();
 			//playingCard.Load(card, Team, useCardBack);
-			LoadWithDelay(playingCard, card, Team, useCardBack);
+			LoadWithDelay(playingCard, card, Team, useCardBack, isLocalTeam);
 
 			//playingCard.transform.position += transform.position + new Vector3(0, (numCards - 1 - i) * deltaHeight, i * offset);
 
@@ -66,15 +66,15 @@ public class Hand : MonoBehaviour
 		});
 	}
 
-	private void LoadWithDelay(PlayingCard playingCard, Card card, Team team, bool useCardBack)
+	private void LoadWithDelay(PlayingCard playingCard, Card card, Team team, bool useCardBack, bool isLocalTeam)
 	{
-		StartCoroutine(DoLoadWithDelay(playingCard, card, team, useCardBack));
+		StartCoroutine(DoLoadWithDelay(playingCard, card, team, useCardBack, isLocalTeam));
 	}
 
-	private IEnumerator DoLoadWithDelay(PlayingCard playingCard, Card card, Team team, bool useCardBack)
+	private IEnumerator DoLoadWithDelay(PlayingCard playingCard, Card card, Team team, bool useCardBack, bool isLocalTeam)
 	{
 		yield return new WaitForSeconds(0.1f);
-		playingCard.Load(card, Team, useCardBack);
+		playingCard.Load(card, Team, useCardBack, isLocalTeam);
 	}
 
 	private void FinishLoadCard()

@@ -131,6 +131,52 @@ public class GameManager : MonoBehaviour
 		CreateGameWidget.OnNewGame -= OnEnhancedNewGame;
 	}
 
+	private Controller CreateController(Team team, GameConfiguration.TeamConfiguration teamConfiguration)
+	{
+		Controller controller = null;
+		switch(teamConfiguration.controllerType)
+		{
+			case GameConfiguration.ControllerType.LOCAL_PLAYER:
+				controller = new GameObject("local player controller").AddComponent<PlayerController>();
+				break;
+			case GameConfiguration.ControllerType.REMOTE_PLAYER:
+				controller = new GameObject("remote player controller").AddComponent<PlayerController>();
+				break;
+			case GameConfiguration.ControllerType.IA:
+				controller = new GameObject("ia controller").AddComponent<AdversaryController>();
+				break;
+		}
+
+		controller.Init(team, teamConfiguration.hand, teamConfiguration.middlePosition);
+
+		return controller;
+	}
+
+	private void InitializeControllers()
+	{
+		var gameConfiguration = FindAnyObjectByType<GameConfiguration>();
+
+		if (gameConfiguration == null)
+		{
+			return;
+		}
+
+		var blueConfiguration = gameConfiguration.GetBlueConfiguration();
+		var redConfiguration = gameConfiguration.GetRedConfiguration();
+
+		if (blueConfiguration.controllerType == GameConfiguration.ControllerType.LOCAL_PLAYER)
+		{
+			localTeam = Team.Blue;
+		}
+		else
+		{
+			localTeam = Team.Red;
+		}
+
+		BlueController = CreateController(Team.Blue, blueConfiguration);
+		RedController = CreateController(Team.Red, redConfiguration);
+	}
+
 	public void NewGame()
 	{
 		gameState = GameState.INITIALIZATION;
@@ -206,6 +252,7 @@ public class GameManager : MonoBehaviour
 
 	private void OnEnhancedNewGame(object sender, CreateGameWidget.OnNewGameData data)
 	{
+		InitializeControllers();
 		rules = data.rules;
 		Board.GetInstance().Initialize();
 
@@ -221,7 +268,7 @@ public class GameManager : MonoBehaviour
 		FindAnyObjectByType<SetLoader>().LoadSet(setName);
 	}
 
-	private bool GetUseCardBackAdversary()
+	private bool GetUseCardBack()
 	{
 		if (rules?.Count > 0)
 		{
@@ -231,6 +278,10 @@ public class GameManager : MonoBehaviour
 		return true;
 	}
 
+	public bool ControllerUsesCardBack(Controller controller)
+	{
+		return (controller is PlayerController) ? false : GetUseCardBack();
+	}
 
 	public void InitializeGame()
 	{
@@ -239,8 +290,19 @@ public class GameManager : MonoBehaviour
 		gameState = GameState.INITIALIZATION;
 		initGameState = InitGameState.NONE;
 
-		PlayerHand.Initialize(cards, false);
-		AdversaryHand.Initialize(GetRandomHand(), GetUseCardBackAdversary());
+		//var blueUseCardback = (BlueController is PlayerController) ? false : GetUseCardBack();
+		//var redUseCardback = (RedController is PlayerController) ? false : GetUseCardBack();
+		var blueUseCardback = ControllerUsesCardBack(BlueController);
+		var redUseCardback = ControllerUsesCardBack(RedController);
+
+		var blueIsPlayer = BlueController is PlayerController;
+
+		var iaCards = GetRandomHand();
+		var blueCards = blueIsPlayer ? cards : iaCards;
+		var redCards = !blueIsPlayer ? cards : iaCards;
+
+		PlayerHand.Initialize(blueCards, blueUseCardback, blueIsPlayer);
+		AdversaryHand.Initialize(redCards, redUseCardback, RedController is PlayerController);
 
 		ResetScore();
 		OnScoreChange?.Invoke(this, GetScore());

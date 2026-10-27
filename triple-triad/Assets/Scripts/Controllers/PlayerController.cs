@@ -14,6 +14,8 @@ public class PlayerController : Controller
 
 	private void Awake()
 	{
+		controlledTeam = Team.Blue;
+		
 		inputs = new InputActions();
 		inputs.Enable();
 
@@ -30,7 +32,6 @@ public class PlayerController : Controller
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		controlledTeam = Team.Blue;
 		mainCamera = Camera.main;
 		Initialize();
 	}

@@ -27,6 +27,7 @@ public class PlayingCard : MonoBehaviour
 	private CardTravel cardTravel;
 	private bool isBackShown;
 	private bool isSelected;
+	private bool isLocalTeam;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -48,8 +49,9 @@ public class PlayingCard : MonoBehaviour
 		cardTravel.Travel(endPosition, middlePosition, onEndTravel);
 	}
 
-	public PlayingCard Load(Card card, Team team, bool useBackImage)
+	public PlayingCard Load(Card card, Team team, bool useBackImage, bool isLocalTeam)
 	{
+		this.isLocalTeam = isLocalTeam;
 		element = card.elemental;
 
 		var chars = card.values.ToCharArray();
@@ -59,19 +61,30 @@ public class PlayingCard : MonoBehaviour
 		south = values[2];
 		west = values[3];
 
+		if (useBackImage)
+		{
+			CardSideFront.Load(card, (team == Team.Blue) ? RED_BACKGROUND_COLOR : BLUE_BACKGROUND_COLOR);
+			CardSideFront.Display(CardSide.DisplayMode.FRONT);
+
+			CardSideBack.Load(card, (team == Team.Blue) ? BLUE_BACKGROUND_COLOR : RED_BACKGROUND_COLOR);
+			CardSideBack.Display(useBackImage ? CardSide.DisplayMode.BACK : CardSide.DisplayMode.FRONT);
+		}
+		else
+		{
+			CardSideFront.Load(card, (team == Team.Blue) ? BLUE_BACKGROUND_COLOR : RED_BACKGROUND_COLOR);
+			CardSideFront.Display(CardSide.DisplayMode.FRONT);
+
+			CardSideBack.Load(card, (team == Team.Blue) ? RED_BACKGROUND_COLOR : BLUE_BACKGROUND_COLOR);
+			CardSideBack.Display(useBackImage ? CardSide.DisplayMode.BACK : CardSide.DisplayMode.FRONT);
+		}
+
 		/*
-		CardSideFront.Load(card, (team == Team.Blue) ? BLUE_BACKGROUND_COLOR : RED_BACKGROUND_COLOR);
-		CardSideFront.Display(CardSide.DisplayMode.FRONT);
-
-		CardSideBack.Load(card, (team == Team.Blue) ? RED_BACKGROUND_COLOR : BLUE_BACKGROUND_COLOR);
-		CardSideBack.Display(useBackImage ? CardSide.DisplayMode.BACK : CardSide.DisplayMode.FRONT);
-		*/
-
 		CardSideFront.Load(card, BLUE_BACKGROUND_COLOR);
 		CardSideFront.Display(CardSide.DisplayMode.FRONT);
 
 		CardSideBack.Load(card, RED_BACKGROUND_COLOR);
 		CardSideBack.Display(useBackImage ? CardSide.DisplayMode.BACK : CardSide.DisplayMode.FRONT);
+		*/
 
 		this.team = team;
 		SetCurrentTeam(team);
@@ -128,6 +141,6 @@ public class PlayingCard : MonoBehaviour
 
 	private bool CanBeHovered()
 	{
-		return !isBackShown && !isSelected && team.Equals(Team.Blue);
+		return !isBackShown && !isSelected && isLocalTeam;
 	}
 }
