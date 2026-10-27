@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class PlayingCard : MonoBehaviour
 {
-	private readonly Color PLAYER_BACKGROUND_COLOR = Color.blue;
-	private readonly Color ADVERSARY_BACKGROUND_COLOR = Color.red;
+	private readonly Color BLUE_BACKGROUND_COLOR = Color.blue;
+	private readonly Color RED_BACKGROUND_COLOR = Color.red;
 
 	[SerializeField]
 	private CardSide CardSideFront;
@@ -59,10 +59,18 @@ public class PlayingCard : MonoBehaviour
 		south = values[2];
 		west = values[3];
 
-		CardSideFront.Load(card, PLAYER_BACKGROUND_COLOR);
+		/*
+		CardSideFront.Load(card, (team == Team.Blue) ? BLUE_BACKGROUND_COLOR : RED_BACKGROUND_COLOR);
 		CardSideFront.Display(CardSide.DisplayMode.FRONT);
 
-		CardSideBack.Load(card, ADVERSARY_BACKGROUND_COLOR);
+		CardSideBack.Load(card, (team == Team.Blue) ? RED_BACKGROUND_COLOR : BLUE_BACKGROUND_COLOR);
+		CardSideBack.Display(useBackImage ? CardSide.DisplayMode.BACK : CardSide.DisplayMode.FRONT);
+		*/
+
+		CardSideFront.Load(card, BLUE_BACKGROUND_COLOR);
+		CardSideFront.Display(CardSide.DisplayMode.FRONT);
+
+		CardSideBack.Load(card, RED_BACKGROUND_COLOR);
 		CardSideBack.Display(useBackImage ? CardSide.DisplayMode.BACK : CardSide.DisplayMode.FRONT);
 
 		this.team = team;

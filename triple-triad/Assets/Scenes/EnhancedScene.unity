@@ -785,8 +785,8 @@ MonoBehaviour:
   NumCardsPerHand: 5
   PlayerHand: {fileID: 1776719044}
   AdversaryHand: {fileID: 152946591}
-  PlayerController: {fileID: 1934206706}
-  AdversaryController: {fileID: 1638911176}
+  BlueController: {fileID: 1934206706}
+  RedController: {fileID: 1638911176}
   ManualHandWidget: {fileID: 1641466622}
   NewGameWidget: {fileID: 0}
   CreateGameWidget: {fileID: 1127155161}

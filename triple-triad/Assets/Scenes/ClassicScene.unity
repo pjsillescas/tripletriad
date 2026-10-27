@@ -817,8 +817,8 @@ MonoBehaviour:
   NumCardsPerHand: 5
   PlayerHand: {fileID: 1776719044}
   AdversaryHand: {fileID: 152946591}
-  PlayerController: {fileID: 1934206706}
-  AdversaryController: {fileID: 1638911176}
+  BlueController: {fileID: 1934206706}
+  RedController: {fileID: 1638911176}
   ManualHandWidget: {fileID: 1641466622}
   NewGameWidget: {fileID: 1250252225}
   CreateGameWidget: {fileID: 0}
@@ -13946,7 +13946,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hand: {fileID: 1776719044}
   MiddlePosition: {fileID: 566831735}
-  mainCamera: {fileID: 330585545}
 --- !u!4 &1934206707
 Transform:
   m_ObjectHideFlags: 0

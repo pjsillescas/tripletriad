@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private Hand AdversaryHand;
 	[SerializeField]
-	private PlayerController PlayerController;
+	private Controller BlueController;
 	[SerializeField]
-	private AdversaryController AdversaryController;
+	private Controller RedController;
 	[SerializeField]
 	private ManualHandWidget ManualHandWidget;
 	[SerializeField]
@@ -193,8 +193,8 @@ public class GameManager : MonoBehaviour
 		turnManager.ChooseRandomTeam(team => { currentTeamTurn = team; });
 
 		// Controllers
-		PlayerController.ResetController();
-		AdversaryController.ResetController();
+		BlueController.ResetController();
+		RedController.ResetController();
 	}
 
 	private Score GetScore() => new() { blue = blueScore, red = redScore, localTeam = localTeam };
