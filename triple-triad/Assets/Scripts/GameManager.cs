@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static GameConfiguration;
 using static HandSelector;
 
 [RequireComponent(typeof(TurnManager))]
@@ -61,6 +62,9 @@ public class GameManager : MonoBehaviour
 
 	private Team localTeam;
 	private List<Card> cards;
+	private GameType gameType;
+	private EnhancedHandWidget.HandChosenData blueData;
+	private EnhancedHandWidget.HandChosenData redData;
 
 
 	private void Awake()
@@ -74,6 +78,14 @@ public class GameManager : MonoBehaviour
 		currentTeamTurn = Team.None;
 
 		localTeam = Team.Blue;
+		ResetEnhancedData();
+	}
+
+	private void ResetEnhancedData()
+	{
+		blueData = null;
+		redData = null;
+
 	}
 
 	private bool IsClassicManager() => ManagerType == GameManagerType.CLASSIC;
@@ -100,7 +112,7 @@ public class GameManager : MonoBehaviour
 
 	private void OnSetLoadedEnhanced(object sender, List<Card> cards)
 	{
-		EnhancedHandWidget.ActivateWidget();
+		EnhancedHandWidget.ActivateWidget(gameType);
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -134,7 +146,7 @@ public class GameManager : MonoBehaviour
 	private Controller CreateController(Team team, GameConfiguration.TeamConfiguration teamConfiguration)
 	{
 		Controller controller = null;
-		switch(teamConfiguration.controllerType)
+		switch (teamConfiguration.controllerType)
 		{
 			case GameConfiguration.ControllerType.LOCAL_PLAYER:
 				controller = new GameObject("local player controller").AddComponent<PlayerController>();
@@ -245,7 +257,7 @@ public class GameManager : MonoBehaviour
 
 	private Score GetScore() => new() { blue = blueScore, red = redScore, localTeam = localTeam };
 
-	private List<Card> GetRandomHand()
+	public List<Card> GetRandomHand()
 	{
 		return HandUtils.GetRandomHand(Loader, NumCardsPerHand);
 	}
@@ -253,6 +265,7 @@ public class GameManager : MonoBehaviour
 	private void OnEnhancedNewGame(object sender, CreateGameWidget.OnNewGameData data)
 	{
 		InitializeControllers();
+		gameType = data.gameType;
 		rules = data.rules;
 		Board.GetInstance().Initialize();
 
@@ -283,7 +296,13 @@ public class GameManager : MonoBehaviour
 		return (controller is PlayerController) ? false : GetUseCardBack();
 	}
 
-	public void InitializeGame()
+	public void InitializeClassicHand(List<Card> cards)
+	{
+		this.cards = cards;
+		InitializeClassicGame();
+	}
+
+	public void InitializeClassicGame()
 	{
 		currentTeamTurn = turnManager.ResetTurn();
 
@@ -310,6 +329,18 @@ public class GameManager : MonoBehaviour
 		rules?.ForEach(rule => rule.Initialize());
 	}
 
+	public void InitializeGame()
+	{
+		if (IsClassicManager())
+		{
+			InitializeClassicGame();
+		}
+		else
+		{
+			InitializeEnhancedGame();
+		}
+	}
+
 	private void ResetScore()
 	{
 		blueScore = 5;
@@ -323,19 +354,84 @@ public class GameManager : MonoBehaviour
 
 	private void OnPlayerHandChosen(List<Card> cards)
 	{
-		this.cards = cards;
-
 		if (IsClassicManager())
 		{
-			InitializeGame();
+			InitializeClassicHand(cards);
 		}
 
 		OnStartGame?.Invoke(this, EventArgs.Empty);
 	}
 
-	private void OnEnhancedPlayerHandChosen(object sender, List<Card> cards)
+	private void InitializeEnhancedHand(EnhancedHandWidget.HandChosenData data)
 	{
-		OnPlayerHandChosen(cards);
+		if (data.team == Team.Blue)
+		{
+			blueData = data;
+		}
+		else
+		{
+			redData = data;
+		}
+	}
+
+	private void InitializeEnhancedGame()
+	{
+		var gameConfiguration = FindAnyObjectByType<GameConfiguration>();
+
+		if (gameConfiguration == null)
+		{
+			return;
+		}
+
+		var blueConfiguration = gameConfiguration.GetBlueConfiguration();
+		var redConfiguration = gameConfiguration.GetRedConfiguration();
+
+		if (blueData.controllerType == ControllerType.LOCAL_PLAYER)
+		{
+			localTeam = Team.Blue;
+		}
+		else
+		{
+			localTeam = Team.Red;
+		}
+
+		BlueController = CreateController(Team.Blue, new TeamConfiguration() {
+			controllerType = blueData.controllerType,
+			middlePosition = blueConfiguration.middlePosition,
+			hand = blueConfiguration.hand,
+		});
+		RedController = CreateController(Team.Red, new TeamConfiguration()
+		{
+			controllerType = redData.controllerType,
+			middlePosition = redConfiguration.middlePosition,
+			hand = redConfiguration.hand,
+		});
+
+		currentTeamTurn = turnManager.ResetTurn();
+
+		gameState = GameState.INITIALIZATION;
+		initGameState = InitGameState.NONE;
+		
+		var blueUseCardback = ControllerUsesCardBack(BlueController);
+		var redUseCardback = ControllerUsesCardBack(RedController);
+
+		PlayerHand.Initialize(blueData.cards, blueUseCardback, BlueController is PlayerController);
+		AdversaryHand.Initialize(redData.cards, redUseCardback, RedController is PlayerController);
+
+		ResetScore();
+		OnScoreChange?.Invoke(this, GetScore());
+
+		rules?.ForEach(rule => rule.Initialize());
+	}
+
+	private void OnEnhancedPlayerHandChosen(object sender, EnhancedHandWidget.HandChosenData data)
+	{
+		InitializeEnhancedHand(data);
+
+		if (redData != null && blueData != null)
+		{
+			OnStartGame?.Invoke(this, EventArgs.Empty);
+		}
 	}
 
 	public void StartNextTurn()
@@ -388,6 +484,7 @@ public class GameManager : MonoBehaviour
 		if (board.GetNumFreeTiles() == 0)
 		{
 			gameState = GameState.FINISH_GAME;
+			ResetEnhancedData();
 			OnFinishGame?.Invoke(this, EventArgs.Empty);
 			OnEnhancedFinishGame?.Invoke(this, GetScore());
 		}

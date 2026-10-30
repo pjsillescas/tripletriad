@@ -3,10 +3,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Enums;
 
 public class EnhancedHandWidget : MonoBehaviour
 {
-	public static event EventHandler<List<Card>> OnHandChosen;
+	public class HandChosenData
+	{
+		public List<Card> cards;
+		public Team team;
+		public GameConfiguration.ControllerType controllerType;
+	}
+	public static event EventHandler<HandChosenData> OnHandChosen;
 
 	[SerializeField]
 	private EnhancedCardLister CardLister;
@@ -21,6 +28,8 @@ public class EnhancedHandWidget : MonoBehaviour
 	private Button RandomHandButton;
 	[SerializeField]
 	private Button ResetHandButton;
+
+	private GameType gameType;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -67,8 +76,10 @@ public class EnhancedHandWidget : MonoBehaviour
 		StartButton.interactable = HandView.IsHandComplete();
 	}
 
-	public void ActivateWidget()
+	public void ActivateWidget(GameType gameType)
 	{
+		this.gameType = gameType;
+
 		CardLister.gameObject.SetActive(true);
 		HandView.gameObject.SetActive(true);
 		ButtonFiller.gameObject.SetActive(true);
@@ -89,11 +100,30 @@ public class EnhancedHandWidget : MonoBehaviour
 		ButtonFiller.gameObject.SetActive(false);
 	}
 
+	private List<Card> GetRandomHand()
+	{
+		return GameManager.GetInstance().GetRandomHand();
+	}
+
 	private void StartButtonClick()
 	{
 		SoundManager.GetInstance().Click();
 
-		OnHandChosen?.Invoke(this, HandView.GetHand());
+		switch(gameType)
+		{
+			case GameType.GAME_HOST:
+				OnHandChosen?.Invoke(this, new HandChosenData() { team = Team.Blue, controllerType = GameConfiguration.ControllerType.LOCAL_PLAYER, cards = HandView.GetHand() });
+				break;
+			case GameType.GAME_GUEST:
+				OnHandChosen?.Invoke(this, new HandChosenData() { team = Team.Red, controllerType = GameConfiguration.ControllerType.LOCAL_PLAYER, cards = HandView.GetHand() });
+				break;
+			case GameType.GAME_SOLO:
+			default:
+				OnHandChosen?.Invoke(this, new HandChosenData() { team = Team.Blue, controllerType = GameConfiguration.ControllerType.LOCAL_PLAYER, cards = HandView.GetHand() });
+				
+				OnHandChosen?.Invoke(this, new HandChosenData() { team = Team.Red, controllerType = GameConfiguration.ControllerType.IA, cards = GetRandomHand() });
+				break;
+		}
 		DeactivateWidget();
 	}
 

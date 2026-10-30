@@ -26,6 +26,8 @@ public class CreateGameWidget : MonoBehaviour
 	{
 		public string set;
 		public List<IRuleVariation> rules;
+
+		public GameType gameType;
 	}
 
 	public static event EventHandler<OnNewGameData> OnNewGame;
@@ -135,7 +137,7 @@ public class CreateGameWidget : MonoBehaviour
 		SoundManager.GetInstance().StopFanfare();
 		SoundManager.GetInstance().PlayBackground();
 
-		OnNewGame?.Invoke(this, new() { set = chosenSet, rules = rules });
+		OnNewGame?.Invoke(this, new() { set = chosenSet, rules = rules, gameType = GameType.GAME_SOLO });
 	}
 
 	private void CreateGameOnlineClick()
