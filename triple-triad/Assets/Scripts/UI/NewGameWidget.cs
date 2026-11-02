@@ -22,6 +22,8 @@ public class NewGameWidget : MonoBehaviour
 	[SerializeField]
 	private Button NewGameButton;
 	[SerializeField]
+	private Button QuitButton;
+	[SerializeField]
 	private RuleVariationWidget RuleVariationWidget;
 
 	private Action<string, HandSelector.HandSelectionType, List<IRuleVariation>> onNewGame;
@@ -29,12 +31,27 @@ public class NewGameWidget : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		bool showQuitButton = false;
+#if !UNITY_WEBGL
+		showQuitButton = true;
+#endif
+
+		if (!showQuitButton)
+		{
+			QuitButton.gameObject.SetActive(false);
+		}
 		NewGameButton.onClick.AddListener(NewGameClick);
+		QuitButton.onClick.AddListener(QuitButtonClick);
 		GameManager.GetInstance().OnEnhancedFinishGame += FinishGame;
 
 		RefreshCardSets();
 
 		SetDropdown.onValueChanged.AddListener((_val) => SoundManager.GetInstance().Click());
+	}
+
+	private void QuitButtonClick()
+	{
+		Application.Quit();
 	}
 
 	private void RefreshCardSets()

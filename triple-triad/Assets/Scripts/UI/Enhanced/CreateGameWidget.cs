@@ -20,6 +20,8 @@ public class CreateGameWidget : MonoBehaviour
 	[SerializeField]
 	private Button CreateGameOnlineButton;
 	[SerializeField]
+	private Button QuitButton;
+	[SerializeField]
 	private RuleVariationWidget RuleVariationWidget;
 	[SerializeField]
 	private float FinishTimeout = 2.5f;
@@ -38,6 +40,17 @@ public class CreateGameWidget : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		bool showQuitButton = false;
+#if !UNITY_WEBGL
+		showQuitButton = true;
+#endif
+
+		if (!showQuitButton)
+		{
+			QuitButton.gameObject.SetActive(false);
+		}
+		QuitButton.onClick.AddListener(QuitButtonClick);
+
 		CreateGameSoloButton.onClick.AddListener(CreateGameSoloClick);
 		CreateGameOnlineButton.onClick.AddListener(CreateGameOnlineClick);
 		GameManager.GetInstance().OnEnhancedFinishGame += EnhancedFinishGame;
@@ -45,6 +58,11 @@ public class CreateGameWidget : MonoBehaviour
 		RefreshCardSets();
 
 		SetDropdown.onValueChanged.AddListener((_val) => SoundManager.GetInstance().Click());
+	}
+
+	private void QuitButtonClick()
+	{
+		Application.Quit();
 	}
 
 	private void RefreshCardSets()
