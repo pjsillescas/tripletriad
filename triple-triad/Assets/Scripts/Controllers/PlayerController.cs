@@ -1,16 +1,12 @@
 using Enums;
-using UnityEngine;
 
 public class PlayerController : Controller
 {
-	private const float MAX_RAYCAST_DISTANCE = 20;
-
 	private InputActions inputs;
-	private int layers;
 
 	private PlayingCard selectedPlayingCard;
 	private PlayingCard selectedHoveredCard;
-	private Camera mainCamera;
+	private SelectionManager selectionManager;
 
 	private void Awake()
 	{
@@ -18,10 +14,6 @@ public class PlayerController : Controller
 		
 		inputs = new InputActions();
 		inputs.Enable();
-
-		var boardTileLayer = LayerMask.NameToLayer("BoardTile");
-		var cardLayer = LayerMask.NameToLayer("Card");
-		layers = (1 << cardLayer) | (1 << boardTileLayer);
 	}
 
 	protected override void OnTurnStart(object sender, Team teamTurn)
@@ -32,8 +24,9 @@ public class PlayerController : Controller
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		mainCamera = Camera.main;
 		Initialize();
+
+		selectionManager = FindAnyObjectByType<SelectionManager>();
 	}
 
 	private void OnDestroy()
@@ -71,26 +64,14 @@ public class PlayerController : Controller
 			return;
 		}
 
-		BoardTile currentBoardTile = null;
-		PlayingCard playingCard = null;
-		
-		
-		var mousePosition = inputs.UI.Point.ReadValue<Vector2>();
-		Ray ray = mainCamera.ScreenPointToRay(new Vector3(mousePosition.x, mousePosition.y, 0));
-		if (Physics.Raycast(ray, out RaycastHit hit, MAX_RAYCAST_DISTANCE, layers))
-		{
-			playingCard = hit.collider.gameObject.GetComponentInParent<PlayingCard>();
-			if (playingCard != null && selectedHoveredCard != playingCard)
-			{
-				SetSelectedHoveredCard(playingCard);
-			}
+		var playingCard = selectionManager.GetHoveredPlayingCard();
+		var currentBoardTile = selectionManager.GetHoveredBoardTile();
 
-			if (hit.collider.gameObject.TryGetComponent<BoardTile>(out var boardTile))
-			{
-				currentBoardTile = boardTile;
-			}
+		if (playingCard != null && selectedHoveredCard != playingCard)
+		{
+			SetSelectedHoveredCard(playingCard);
 		}
-		
+
 		if (playingCard == null && selectedHoveredCard != null)
 		{
 			selectedHoveredCard.SetIsHovered(false);

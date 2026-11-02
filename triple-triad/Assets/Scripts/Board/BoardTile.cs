@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class BoardTile : MonoBehaviour
 {
+	private readonly Color HOVER_COLOR = new(0, 0, 0, 0.5f);
+	private readonly Color UNHOVER_COLOR = new(0, 0, 0, 0);
+
 	[SerializeField]
 	private int Row;
 	[SerializeField]
@@ -16,8 +19,54 @@ public class BoardTile : MonoBehaviour
 	public Vector2 GetTileRow() => new(Row, Col);
 	public Vector3 GetTile() => transform.position;
 
+	private Material material;
+
+	private void OnEnable()
+	{
+		SelectionManager.OnTileHovered += OnTileHovered;
+		SelectionManager.OnTileUnhovered += OnTileUnhovered;
+	}
+
+	private void OnDisable()
+	{
+		SelectionManager.OnTileHovered += OnTileHovered;
+		SelectionManager.OnTileUnhovered += OnTileUnhovered;
+	}
+
+	private void OnTileHovered(object sender, BoardTile boardTile)
+	{
+		if (!Equals(this, boardTile))
+		{
+			return;
+		}
+		Hover();
+	}
+
+	private void OnTileUnhovered(object sender, BoardTile boardTile)
+	{
+		if (!Equals(this, boardTile))
+		{
+			return;
+		}
+		
+		Unhover();
+	}
+
+	private void Hover()
+	{
+		material.SetColor("_BaseColor", HOVER_COLOR);
+	}
+
+	private void Unhover()
+	{
+		material.SetColor("_BaseColor", UNHOVER_COLOR);
+	}
+
 	private void Start()
 	{
+		material = GetComponent<MeshRenderer>().material;
+
+		Unhover();
 		imageLoader = GetComponent<ImageLoader>();
 		if(Element == Card.Element.none)
 		{

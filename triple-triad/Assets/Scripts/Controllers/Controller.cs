@@ -1,12 +1,13 @@
 using Enums;
 using System;
 using UnityEngine;
-using static GameConfiguration;
 
 public abstract class Controller : MonoBehaviour
 {
+	private readonly Vector3 CARD_SEPARATION = new (0, 0.03f, 0);
+
 	protected abstract void OnTurnStart(object sender, Team currentTeam);
-	
+
 	[SerializeField]
 	protected Hand Hand;
 
@@ -22,7 +23,7 @@ public abstract class Controller : MonoBehaviour
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	protected void Initialize()
-    {
+	{
 		gameManager = GameManager.GetInstance();
 		gameManager.OnNewTurn += OnTurnStart;
 		gameManager.OnFinishGame += OnFinishGame;
@@ -58,7 +59,7 @@ public abstract class Controller : MonoBehaviour
 	private void OnEndFlip()
 	{
 		SoundManager.GetInstance().Drip();
-		
+
 		numCardsToFlip--;
 
 		if (numCardsToFlip == 0)
@@ -93,7 +94,7 @@ public abstract class Controller : MonoBehaviour
 
 		isFlipping = true;
 		//playingCard.transform.position = boardTile.transform.position;
-		playingCard.Travel(boardTile.transform.position, MiddlePosition.position,
+		playingCard.Travel(boardTile.transform.position + CARD_SEPARATION, MiddlePosition.position,
 			() =>
 			{
 				SoundManager.GetInstance().Drip();
