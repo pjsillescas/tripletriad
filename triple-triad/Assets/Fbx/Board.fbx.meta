@@ -1,29 +1,9 @@
 fileFormatVersion: 2
-guid: d146b96153f7ed448b2a7bba17185189
+guid: 86b5e90db4447d048bc3c53d2a4c530b
 ModelImporter:
   serializedVersion: 24600
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MDarkWood
-    second: {fileID: 2100000, guid: f3299f1fb17d11c49bbce6769f9992b6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MLightWood
-    second: {fileID: 2100000, guid: 48986240a31ace2458b281bfd9f4d61d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MMetal
-    second: {fileID: 2100000, guid: d7f8f2184d9db8b40af30c1b89f37d78, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MVelvet
-    second: {fileID: 2100000, guid: f34cac47c129ed54faee8ae522c03520, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
